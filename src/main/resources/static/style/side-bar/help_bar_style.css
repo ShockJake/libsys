@@ -1,0 +1,67 @@
+.help-list-item {
+    background-color: transparent;
+    line-height: 1.7;
+    transition: background-color 0.2s;
+}
+
+.help-list-item:hover {
+    background-color: #015958;
+    border-radius: 5px;
+}
+
+#help_bar {
+    background-color: rgb(12, 171, 168, 90%);
+    width: 100%;
+    margin-top: 2%;
+}
+
+#help_bar_header {
+    color: white;
+    background-color: rgb(1, 89, 88, 0.6);
+    font-family: Inconsolata, monospace;
+    text-align: center;
+
+    padding-top: 2%;
+    padding-bottom: 2%;
+    border-radius: 5px;
+    margin-bottom: 0;
+}
+
+#help_bar_list {
+    color: white;
+    font-family: Ubuntu Mono, monospace;
+    font-size: 20px;
+    list-style-type: none;
+    padding-inline-start: 0;
+    text-align: center;
+    margin: 0;
+}
+
+#ask_librarian_href {
+    color: white;
+    text-decoration: none;
+}
+
+#ask_librarian_href:visited {
+    color: white;
+    text-decoration: none;
+}
+
+#inst_icon {
+    filter: invert(100%) sepia(0%) saturate(0%) hue-rotate(12deg) brightness(106%) contrast(101%);
+}
+
+#facebook_icon {
+    position: relative;
+    display: inline;
+    filter: invert(100%) sepia(0%) saturate(0%) hue-rotate(12deg) brightness(106%) contrast(101%);
+}
+
+#inst_text {
+    position: relative;
+}
+
+#facebook_text {
+    display: inline;
+    position: relative;
+}

@@ -1,0 +1,51 @@
+.navigation-list-item {
+    background-color: transparent;
+    line-height: 1.7;
+    transition: background-color 0.2s;
+}
+
+.navigation-list-item:hover {
+    background-color: #015958;
+    border-radius: 5px;
+    text-decoration: underline;
+}
+
+.navigation-list-href {
+    text-decoration: none;
+    color: white;
+}
+
+#navigation_bar {
+    background-color: rgb(12, 171, 168, 90%);
+    width: 100%;
+    border-radius: 5px;
+    filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+}
+
+#help_bar {
+    border-radius: 5px;
+    filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+}
+
+#navigation_bar_header {
+    color: white;
+    background-color: rgb(1, 89, 88, 0.6);
+    font-family: Inconsolata, monospace;
+    text-align: center;
+
+    padding-top: 2%;
+    padding-bottom: 2%;
+    border-radius: 5px;
+    margin: 0;
+}
+
+#navigation_bar_list {
+    color: white;
+    list-style-type: none;
+    font-family: Ubuntu Mono, monospace;
+    font-size: 20px;
+    text-align: center;
+    padding-inline-start: 0;
+    margin-top: 0;
+    margin-bottom: 0;
+}

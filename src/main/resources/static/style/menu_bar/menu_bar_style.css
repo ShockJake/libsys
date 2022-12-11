@@ -1,0 +1,60 @@
+.menu-bar-class {
+    vertical-align: top;
+    position: relative;
+}
+
+#menu_bar {
+    background-color: #015958;
+    width: 100%;
+    height: 70px;
+    left: 0;
+    top: 0;
+    filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+}
+
+@media (max-width: 768px) {
+    #menu_bar {
+        height: 140px;
+    }
+}
+
+#lib_icon {
+    /*filter: invert(99%) sepia(0%) saturate(1%) hue-rotate(290deg) brightness(108%) contrast(101%) drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));*/
+    width: 50px;
+    height: 50px;
+    left: 10px;
+    top: 10px;
+}
+
+#to_index_background {
+    fill: #025151;
+    position: absolute;
+}
+
+#system_name {
+    color: white;
+    top: 4px;
+    left: 10px;
+    right: 10px;
+    width: 160px;
+    height: 70px;
+    font-family: Inconsolata, monospace;
+    font-size: 48px;
+    filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+}
+
+#library_search_button {
+    left: 26px;
+}
+
+#book_search_button {
+    left: 26px;
+}
+
+#selections_search_button {
+    left: 26px;
+}
+
+#to_index_link {
+    text-decoration: none;
+}

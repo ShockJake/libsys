@@ -1,0 +1,12 @@
+@media all and (min-width: 768px) {
+    #tablet_bar_container {
+        display: none;
+    }
+}
+
+@media all and (max-width: 768px) {
+    #tablet_bar_container {
+        width: 100%;
+        display: inline;
+    }
+}

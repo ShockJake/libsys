@@ -1,0 +1,21 @@
+#footer {
+    display: inline-block;
+    position: relative;
+    background-color: #015958;
+    height: 50px;
+    width: 100%;
+    text-align: left;
+}
+
+#footer_text_container {
+    position: relative;
+    margin-top: 15px;
+    margin-left: 10px;
+}
+
+#footer_text {
+    position: relative;
+    color: white;
+    font-family: Ubuntu Mono, monospace;
+    font-size: 18px;
+}

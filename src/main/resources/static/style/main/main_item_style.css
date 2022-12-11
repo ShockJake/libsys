@@ -1,0 +1,62 @@
+.main-item-container {
+    position: relative;
+    background-color: rgb(1, 89, 88, 0.6);
+    width: 95%;
+    border-radius: 5px;
+    margin-left: 2.5%;
+    margin-top: 2%;
+    filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+    transition: background-color 0.35s ease-out;
+}
+
+.main-item-container:hover {
+    background-color: rgb(1, 89, 88);
+}
+
+.main-item-header {
+    font-family: Inconsolata, monospace;
+    font-size: 25px;
+    color: white;
+    padding-left: 1%;
+    margin-top: 1%;
+    margin-bottom: 0;
+}
+
+.main-item-separator {
+    height: 2px;
+    background-color: white;
+    border-radius: 5px;
+    margin-top: 1%;
+    margin-bottom: 1%;
+}
+
+.main-item-text {
+    font-family: Ubuntu Mono, monospace;
+    font-size: 18px;
+    color: white;
+    margin-top: 0;
+    padding-bottom: 1%;
+    padding-left: 1%;
+    padding-right: 1%;
+}
+
+.main-item-image {
+    position: relative;
+    /*width: 70%;*/
+    /*margin-left: 15%;*/
+    width: 98%;
+    height: 400px;
+    object-fit: cover;
+    margin-left: 1%;
+    margin-top: 1%;
+    margin-bottom: 0.5%;
+    border-radius: 5px;
+    z-index: -1;
+}
+
+.main-item-image-container {
+    margin: 0;
+    background-image: radial-gradient(circle, rgba(0, 0, 0, 0%) 60%, #015958);
+    border-radius: 5px;
+    cursor: pointer;
+}
