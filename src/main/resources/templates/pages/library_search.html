@@ -2,37 +2,67 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>About</title>
+    <title>Library Search</title>
+    <link rel="icon" href="/svg/page_icon_new.svg">
 </head>
 <body>
-<link rel="stylesheet" href="../style/body_style.css">
+<link rel="stylesheet" href="/style/body_style.css">
 
 <div id="menu_bar" class="menu-bar-class">
     <link rel="stylesheet" href="/style/menu_bar/menu_bar_style.css">
-    <a id="to_index_link" href="/index.html" class="index_link">
+    <a id="to_index_link" href="/" class="index-link">
         <svg id="to_index_background" width="240" height="70">
             <rect height="70" width="240"/>
         </svg>
         <img id="lib_icon" class="menu-bar-class" src="/svg/page-icon.svg" alt="Main page"/>
         <span id="system_name" class="menu-bar-class">LibSys</span>
     </a>
-    <a id="library_search" href="/pages/library_search.html">
+    <a id="library_search" href="/libraries">
         <button id="library_search_button" class="button">
             <link rel="stylesheet" href="/style/menu_bar/menu_bar_button_style.css">
             Library Search
         </button>
     </a>
-    <a id="book_search" href="/pages/book_search.html">
+    <a id="book_search" href="/books">
         <button id="book_search_button" class="button">
             <link rel="stylesheet" href="/style/menu_bar/menu_bar_button_style.css">
             Book Search
         </button>
     </a>
+
+    <div id="tablet_bar_container">
+        <link rel="stylesheet" href="/style/menu_bar/menu_bar_tablet_style.css">
+        <a id="selections_search" href="/selections">
+            <button id="selections_search_button" class="button">
+                <link rel="stylesheet" href="/style/menu_bar/menu_bar_button_style.css">
+                Selections
+            </button>
+        </a>
+        <a id="about_menu_bar" href="/about">
+            <button id="about_button" class="button">
+                <link rel="stylesheet" href="/style/menu_bar/menu_bar_button_style.css">
+                About
+            </button>
+        </a>
+    </div>
+
+    <br> <!-- Menu-bar buttons for tablet mode section -->
+
+
 </div>
 <div id="main">
     <link rel="stylesheet" href="/style/main/main_style.css">
-    <div id="container">
+    <div class="main-container" style="margin-bottom: 26%">
         <link rel="stylesheet" href="/style/main/main_container_style.css">
+        <div class="main-header-container">
+            <h1 class="main-header">Libraries</h1>
+        </div>
+        <div class="main-item-container">
+            <link rel="stylesheet" href="/style/main/main_item_style.css">
+            <div class="main-item-image-container">
+                <img src="/photo/libraries_map.png" class="main-item-image" alt="Libraries">
+            </div>
+        </div>
     </div>
 </div>
 
@@ -43,19 +73,19 @@
         <h1 id="navigation_bar_header">Navigation</h1>
         <ul id="navigation_bar_list">
             <li class="navigation-list-item">
-                <a href="/index.html" class="navigation-list-href">Main page</a>
+                <a href="/" class="navigation-list-href">Main page</a>
             </li>
             <li class="navigation-list-item">
-                <a href="/pages/library_search.html" class="navigation-list-href">Libraries</a>
+                <a href="/libraries" class="navigation-list-href">Libraries</a>
             </li>
             <li class="navigation-list-item">
-                <a href="/pages/book_search.html" class="navigation-list-href">Books</a>
+                <a href="/books" class="navigation-list-href">Books</a>
             </li>
             <li class="navigation-list-item">
-                <a href="/pages/book_selections.html" class="navigation-list-href">Book Selections</a>
+                <a href="/selections" class="navigation-list-href">Book Selections</a>
             </li>
             <li class="navigation-list-item">
-                <a href="/pages/about.html" class="navigation-list-href">About</a>
+                <a href="/about" class="navigation-list-href">About</a>
             </li>
         </ul>
     </div>
@@ -63,11 +93,6 @@
         <link rel="stylesheet" href="/style/side-bar/help_bar_style.css">
         <h1 id="help_bar_header">Help</h1>
         <ul id="help_bar_list">
-            <li id="ask_librarian_item" class="help-list-item">
-                <a id="ask_librarian_href" href="/pages/ask_librarian_page.html">
-                    <b>Ask librarian</b>
-                </a>
-            </li>
             <li class="help-list-item">Phone: <b>+48001112233</b></li>
             <li class="help-list-item">E-mail: <b>libsys@mail.com</b></li>
             <li class="help-list-item">

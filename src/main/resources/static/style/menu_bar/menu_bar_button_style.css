@@ -20,6 +20,13 @@
     background-color: #025151;
 }
 
+@media (max-width: 426px) {
+    .button {
+        width: 100px;
+
+    }
+}
+
 .button:hover {
     color: #025151;
     background-color: white;

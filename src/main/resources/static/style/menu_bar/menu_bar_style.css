@@ -14,7 +14,7 @@
 
 @media (max-width: 768px) {
     #menu_bar {
-        height: 140px;
+        height: 142px;
     }
 }
 
@@ -53,6 +53,17 @@
 
 #selections_search_button {
     left: 26px;
+}
+
+@media (max-width: 744px) {
+    #selections_search_button {
+        top: 2px;
+    }
+}
+
+#about_button {
+    left: 26px;
+    top: 2px;
 }
 
 #to_index_link {
