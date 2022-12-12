@@ -1,14 +1,17 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
     <meta charset="UTF-8">
-    <title>Book search</title>
-    <link rel="icon" href="/svg/page_icon_new.svg">
+    <title>Login</title>
+    <meta name="keywords" content="Library">
+    <meta name="author" content="Stanislav Lysunenko">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <link rel="stylesheet" href="/style/scrollbar_style.css">
+    <link rel="icon" href="/svg/page_icon_new.svg">
 </head>
 <body>
 <link rel="stylesheet" href="/style/body_style.css">
-
 <div id="menu_bar" class="menu-bar-class">
     <link rel="stylesheet" href="/style/menu_bar/menu_bar_style.css">
     <a id="to_index_link" href="/" class="index-link">
@@ -46,43 +49,57 @@
             </button>
         </a>
     </div>
-
-    <br> <!-- Menu-bar buttons for tablet mode section -->
-
-
 </div>
-<div id="main">
+
+<!-- Main -->
+
+<div id="thin_main">
     <link rel="stylesheet" href="/style/main/main_style.css">
-    <div class="main-container" style="margin-bottom: 20%">
+    <div class="main-container" style="margin-bottom: 79%">
         <link rel="stylesheet" href="/style/main/main_container_style.css">
         <div class="main-header-container">
-            <h1 class="main-header">Books</h1>
+            <h1 class="main-header">LOGIN</h1>
+        </div>
+        <!-- Login form -->
+
+        <div id="login_form">
+            <link rel="stylesheet" href="/style/login/login_form_style.css">
+            <form th:action="@{/login}" method="post">
+
+                <div class="input-group" id="login_input_container">
+                    <input type="text" class="b-input" name="username"/>
+                    <label class="b-label">Login</label>
+                </div>
+
+                <div class="input-group" id="password_input_container">
+                    <input type="password" class="b-input" name="password"/>
+                    <label class="b-label">Password</label>
+                </div>
+
+                <input id="submit_login_button" type="submit" value="Sign In"/>
+
+                <div class="negative-message" th:if="${param.error}">
+                    Invalid username and password.
+                </div>
+                <div class="normal-message" th:if="${param.logout}">
+                    You have been logged out.
+                </div>
+            </form>
         </div>
 
-        <!-- Books -->
-        <div class="main-item-container">
-            <link rel="stylesheet" href="/style/main/main_item_style.css">
-            <div class="main-item-image-container">
-                <img src="/photo/the-a-b-c-murders.jpg" class="main-item-image" alt="a-b-c murders photo">
-            </div>
-            <h2 class="main-item-header">The A-B-C Murders by Agata Christie</h2>
-            <hr class="main-item-separator">
-            <p class="main-item-text">The A.B.C. Murders is a work of detective fiction by British writer Agatha
-                Christie, featuring her characters Hercule Poirot, Arthur Hastings and Chief Inspector Japp, as they
-                contend with a series of killings by a mysterious murderer known only as "A.B.C."
-            </p>
-        </div>
+        <!--        <div id="create_account_form">-->
 
-        <div class="main-item-container">
-            <link rel="stylesheet" href="/style/main/main_item_style.css">
-            <h2 class="main-item-header">New books will be soon</h2>
-        </div>
+        <!--        </div>-->
+
     </div>
+
 </div>
 
-<div id="sidebar" class="side_bar_class">
+<!-- Sidebar -->
+<div id="sidebar">
     <link rel="stylesheet" href="/style/side-bar/side_bar_style.css">
-    <div id="navigation_bar" class="nav_bar_class">
+    <!-- Navigation bar -->
+    <div id="navigation_bar" class="nav-bar-class">
         <link rel="stylesheet" href="/style/side-bar/navigation_bar_style.css">
         <h1 id="navigation_bar_header">Navigation</h1>
         <ul id="navigation_bar_list">
@@ -93,7 +110,7 @@
                 <a href="/libraries" class="navigation-list-href">Libraries</a>
             </li>
             <li class="navigation-list-item">
-                <a href="/book_search" class="navigation-list-href">Books</a>
+                <a href="/books" class="navigation-list-href">Books</a>
             </li>
             <li class="navigation-list-item">
                 <a href="/selections" class="navigation-list-href">Book Selections</a>
@@ -103,23 +120,27 @@
             </li>
         </ul>
     </div>
-    <div id="help_bar" class="help_bar_class">
+
+    <!-- Help bar -->
+    <div id="help_bar" class="help-bar-class">
         <link rel="stylesheet" href="/style/side-bar/help_bar_style.css">
         <h1 id="help_bar_header">Help</h1>
         <ul id="help_bar_list">
-            <li class="help-list-item">Phone: <b>+48001112233</b></li>
-            <li class="help-list-item">E-mail: <b>libsys@mail.com</b></li>
+            <li class="help-list-item"><b>+48001112233</b></li>
+            <li class="help-list-item"><b>libsys@mail.com</b></li>
             <li class="help-list-item">
-                <img id="inst_icon" src="/svg/icons8-instagram.svg" alt="inst">
+                <img id="inst_icon" src="/svg/icons8-instagram.svg" alt="instagram">
                 <b id="inst_text"> @libsys </b>
             </li>
             <li class="help-list-item">
-                <img id="facebook_icon" src="/svg/icons8-facebook.svg" alt="inst">
+                <img id="facebook_icon" src="/svg/icons8-facebook.svg" alt="facebook">
                 <b id="facebook_text"> libsys-fb </b>
             </li>
         </ul>
     </div>
 </div>
+
+<!-- Footer -->
 <div id="footer">
     <link rel="stylesheet" href="/style/footer/footer_style.css">
     <div id="footer_text_container">

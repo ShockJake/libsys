@@ -30,4 +30,9 @@ public class WebController {
     public String aboutPage() {
         return "pages/about";
     }
+
+    @RequestMapping("/login")
+    public String loginPage() {
+        return "login";
+    }
 }
