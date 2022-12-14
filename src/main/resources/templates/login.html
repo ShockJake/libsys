@@ -9,9 +9,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <link rel="stylesheet" href="/style/scrollbar_style.css">
     <link rel="icon" href="/svg/page_icon_new.svg">
+    <script src="/scripts/menuSidebarAnimator.js"></script>
 </head>
 <body>
 <link rel="stylesheet" href="/style/body_style.css">
+
 <div id="menu_bar" class="menu-bar-class">
     <link rel="stylesheet" href="/style/menu_bar/menu_bar_style.css">
     <link rel="stylesheet" href="/style/menu_bar/menu_bar_button_style.css">
@@ -30,19 +32,24 @@
         <button id="book_search_button" class="button">Book Search</button>
     </a>
 
-    <div id="tablet_bar_container">
-        <link rel="stylesheet" href="/style/menu_bar/menu_bar_tablet_style.css">
-        <a id="selections_search" href="/selections">
-            <button id="selections_search_button" class="button">Selections</button>
-        </a>
-        <a id="about_menu_bar" href="/about">
-            <button id="about_button" class="button">About</button>
-        </a>
+    <button id="menu_sidebar_button" class="button" onclick="openNav()" style="width: 50px">&#9776;</button>
+
+    <div id="menu_sidebar">
+        <link rel="stylesheet" href="/style/menu_bar/menu_sidebar_style.css">
+        <a id="close_menu_sidebar_button" href="javascript:void(0)" class="button" onclick="closeNav()">&times;</a>
+        <div id="tablet_bar_container">
+            <link rel="stylesheet" href="/style/menu_bar/menu_bar_tablet_style.css">
+            <a id="selections_search" href="/selections">
+                <button id="selections_search_button" class="button">Selections</button>
+            </a>
+            <a id="about_menu_bar" href="/about">
+                <button id="about_button" class="button">About</button>
+            </a>
+        </div>
     </div>
 </div>
 
 <!-- Main -->
-
 <div id="thin_main">
     <link rel="stylesheet" href="/style/main/main_style.css">
     <div class="main-container" style="margin-bottom: 79%">
