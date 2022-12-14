@@ -14,6 +14,8 @@
 <link rel="stylesheet" href="/style/body_style.css">
 <div id="menu_bar" class="menu-bar-class">
     <link rel="stylesheet" href="/style/menu_bar/menu_bar_style.css">
+    <link rel="stylesheet" href="/style/menu_bar/menu_bar_button_style.css">
+
     <a id="to_index_link" href="/" class="index-link">
         <svg id="to_index_background" width="240" height="70">
             <rect height="70" width="240"/>
@@ -22,31 +24,19 @@
         <span id="system_name" class="menu-bar-class">LibSys</span>
     </a>
     <a id="library_search" href="/libraries">
-        <button id="library_search_button" class="button">
-            <link rel="stylesheet" href="/style/menu_bar/menu_bar_button_style.css">
-            Library Search
-        </button>
+        <button id="library_search_button" class="button">Library Search</button>
     </a>
     <a id="book_search" href="/books">
-        <button id="book_search_button" class="button">
-            <link rel="stylesheet" href="/style/menu_bar/menu_bar_button_style.css">
-            Book Search
-        </button>
+        <button id="book_search_button" class="button">Book Search</button>
     </a>
 
     <div id="tablet_bar_container">
         <link rel="stylesheet" href="/style/menu_bar/menu_bar_tablet_style.css">
         <a id="selections_search" href="/selections">
-            <button id="selections_search_button" class="button">
-                <link rel="stylesheet" href="/style/menu_bar/menu_bar_button_style.css">
-                Selections
-            </button>
+            <button id="selections_search_button" class="button">Selections</button>
         </a>
         <a id="about_menu_bar" href="/about">
-            <button id="about_button" class="button">
-                <link rel="stylesheet" href="/style/menu_bar/menu_bar_button_style.css">
-                About
-            </button>
+            <button id="about_button" class="button">About</button>
         </a>
     </div>
 </div>
@@ -67,19 +57,19 @@
             <form th:action="@{/login}" method="post">
 
                 <div class="input-group" id="login_input_container">
-                    <input type="text" class="b-input" name="username"/>
-                    <label class="b-label">Login</label>
+                    <input type="text" class="b-input" id="login_input" name="username"/>
+                    <label for="login_input" class="b-label">Login</label>
                 </div>
 
                 <div class="input-group" id="password_input_container">
-                    <input type="password" class="b-input" name="password"/>
-                    <label class="b-label">Password</label>
+                    <input type="password" class="b-input" id="password_input" name="password"/>
+                    <label for="password_input" class="b-label">Password</label>
                 </div>
 
                 <input id="submit_login_button" type="submit" value="Sign In"/>
 
                 <div class="negative-message" th:if="${param.error}">
-                    Invalid username and password.
+                    Invalid username or password.
                 </div>
                 <div class="normal-message" th:if="${param.logout}">
                     You have been logged out.

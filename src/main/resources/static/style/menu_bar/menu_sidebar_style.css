@@ -1,0 +1,27 @@
+#menu_sidebar {
+    width: 0;
+    position: fixed;
+    z-index: 2;
+    top: 0;
+    right: 0;
+    background-color: #015958;
+    overflow-x: hidden;
+    transition-duration: 0.5s;
+}
+
+#menu_sidebar a form {
+    text-decoration: none;
+    display: block;
+    transition-duration: 0.3s;
+}
+
+#menu_sidebar .button {
+    top: 0;
+    font-size: 50px;
+    margin-bottom: 2%;
+}
+
+#menu_sidebar #logout_button {
+    font-size: 18px;
+}
+

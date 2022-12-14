@@ -9,12 +9,17 @@
     <title>Library System</title>
     <link rel="icon" href="/svg/page_icon_new.svg">
     <link rel="stylesheet" href="/style/scrollbar_style.css">
+    <script src="/scripts/createLogoutButton.js"></script>
+    <script src="/scripts/menuSidebarAnimator.js"></script>
 </head>
-<body>
+
+<body onload="insertLogoutButton()">
 <link rel="stylesheet" href="/style/body_style.css">
 
 <div id="menu_bar" class="menu-bar-class">
     <link rel="stylesheet" href="/style/menu_bar/menu_bar_style.css">
+    <link rel="stylesheet" href="/style/menu_bar/menu_bar_button_style.css">
+
     <a id="to_index_link" href="/" class="index-link">
         <svg id="to_index_background" width="240" height="70">
             <rect height="70" width="240"/>
@@ -23,32 +28,30 @@
         <span id="system_name" class="menu-bar-class">LibSys</span>
     </a>
     <a id="library_search" href="/libraries">
-        <button id="library_search_button" class="button">
-            <link rel="stylesheet" href="/style/menu_bar/menu_bar_button_style.css">
-            Library Search
-        </button>
+        <button id="library_search_button" class="button">Library Search</button>
     </a>
     <a id="book_search" href="/books">
-        <button id="book_search_button" class="button">
-            <link rel="stylesheet" href="/style/menu_bar/menu_bar_button_style.css">
-            Book Search
-        </button>
+        <button id="book_search_button" class="button">Book Search</button>
     </a>
 
-    <div id="tablet_bar_container">
-        <link rel="stylesheet" href="/style/menu_bar/menu_bar_tablet_style.css">
-        <a id="selections_search" href="/selections">
-            <button id="selections_search_button" class="button">
-                <link rel="stylesheet" href="/style/menu_bar/menu_bar_button_style.css">
-                Selections
-            </button>
-        </a>
-        <a id="about_menu_bar" href="/about">
-            <button id="about_button" class="button">
-                <link rel="stylesheet" href="/style/menu_bar/menu_bar_button_style.css">
-                About
-            </button>
-        </a>
+    <button id="menu_sidebar_button" class="button" onclick="openNav()" style="width: 50px">&#9776;</button>
+
+    <div id="menu_sidebar">
+        <link rel="stylesheet" href="/style/menu_bar/menu_sidebar_style.css">
+        <a href="javascript:void(0)" class="button" onclick="closeNav()">&times;</a>
+        <form id="logout_form" th:action="@{/logout}" method="post">
+            <input id="logout_button" type="submit" class="button" value="Logout">
+        </form>
+
+        <div id="tablet_bar_container">
+            <link rel="stylesheet" href="/style/menu_bar/menu_bar_tablet_style.css">
+            <a id="selections_search" href="/selections">
+                <button id="selections_search_button" class="button">Selections</button>
+            </a>
+            <a id="about_menu_bar" href="/about">
+                <button id="about_button" class="button">About</button>
+            </a>
+        </div>
     </div>
 </div>
 

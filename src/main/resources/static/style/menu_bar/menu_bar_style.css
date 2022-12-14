@@ -51,6 +51,11 @@
     left: 26px;
 }
 
+#menu_sidebar_button {
+    font-size: 30px;
+    float: right;
+}
+
 #selections_search_button {
     left: 26px;
 }
@@ -68,4 +73,8 @@
 
 #to_index_link {
     text-decoration: none;
+}
+
+#logout_form {
+    display: inline;
 }
