@@ -1,7 +1,7 @@
 #menu_sidebar {
     width: 0;
     position: fixed;
-    z-index: 2;
+    z-index: 1;
     top: 0;
     right: 0;
     background-color: #015958;
@@ -15,13 +15,14 @@
     transition-duration: 0.3s;
 }
 
-#menu_sidebar .button {
+#menu_sidebar #close_menu_sidebar_button {
     top: 0;
     font-size: 50px;
     margin-bottom: 2%;
 }
 
-#menu_sidebar #logout_button {
-    font-size: 18px;
+#menu_sidebar .button {
+    margin-left: 0;
+    margin-top: 2%;
 }
 

@@ -1,9 +1,10 @@
-@media (min-width: 1024px){
+@media (min-width: 1024px) {
     #main {
         position: relative;
         float: left;
         width: 50%;
         margin: 2% 0 2% 15.7%;
+        z-index: 0;
     }
 }
 
@@ -12,20 +13,22 @@
         position: relative;
         float: left;
         width: 60%;
+        z-index: 0;
         margin: 2% 0 2% 5%;
     }
 }
 
-@media (max-width: 768px){
+@media (max-width: 768px) {
     #main {
         position: relative;
         float: unset;
+        z-index: 0;
         width: 90%;
         margin: 2% 0 2% 5%;
     }
 }
 
-@media (min-width: 1024px){
+@media (min-width: 1024px) {
     #thin_main {
         position: relative;
         float: left;
@@ -43,7 +46,7 @@
     }
 }
 
-@media (max-width: 768px){
+@media (max-width: 768px) {
     #thin_main {
         position: relative;
         float: unset;
