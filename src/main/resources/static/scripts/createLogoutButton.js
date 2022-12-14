@@ -1,13 +1,16 @@
 async function checkAuthentication() {
     let isAuthenticated = false;
     await fetch('http://localhost:8080/auth')
-        .then(response => isAuthenticated = resolveAuthenticationStatus(response));
-    console.log('Fetched authentication status - ' + isAuthenticated);
+        .then(async response => isAuthenticated = await resolveAuthenticationStatus(response));
     return isAuthenticated;
 }
 
-function resolveAuthenticationStatus(response) {
-    return response.headers.get("Content-Type") === 'application/json';
+async function resolveAuthenticationStatus(response) {
+    if (response.headers.get("Content-Type") === 'application/json') {
+        const body = await response.text();
+        return body === 'true';
+    }
+    return false
 }
 
 function createLogoutButton(isAuthenticated) {
@@ -15,10 +18,8 @@ function createLogoutButton(isAuthenticated) {
     const logoutButton = document.getElementById("logout_button");
     if (isAuthenticated === true) {
         logoutButton.setAttribute("style", "display: inline;");
-        console.log("Changed logout button attribute to inline display")
     } else {
         logoutButton.setAttribute("style", "display: none;");
-        console.log("Changed logout button attribute to none display")
     }
 }
 
