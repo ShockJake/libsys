@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.userdetails.User;
@@ -24,8 +25,8 @@ import java.util.List;
 public class WebSecurityConfig {
 
     private final UserRepository userRepository;
-    private final String[] publicPages = new String[]{"/", "/about", "/style/**", "/svg/**",
-            "/photo/**", "/login**", "/scripts/**"};
+    private final String[] publicPages = new String[]{"/", "/about", "/createAccount", "/style/**",
+            "/svg/**", "/photo/**", "/login**", "/scripts/**"};
     private final Logger log = LoggerFactory.getLogger(WebSecurityConfig.class);
 
     @Autowired
@@ -38,6 +39,7 @@ public class WebSecurityConfig {
         http.antMatcher("/**")
                 .authorizeHttpRequests()
                 .antMatchers(publicPages).permitAll()
+                .antMatchers(HttpMethod.POST, "/createAccount").permitAll()
                 .anyRequest().authenticated()
                 .and().formLogin((form) -> form.loginPage("/login")
                         .permitAll())
@@ -45,7 +47,7 @@ public class WebSecurityConfig {
                         .logoutUrl("/logout")
                         .logoutSuccessUrl("/login?logout")
                         .invalidateHttpSession(true)
-                        .deleteCookies("JSESSIONID"));
+                        .deleteCookies("JSESSIONID")).cors().and().csrf().disable();
         return http.build();
     }
 
