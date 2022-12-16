@@ -53,19 +53,17 @@
 </div>
 
 <!-- Main -->
-<div id="thin_main">
+<div id="thin_main" style="margin-bottom: 13%">
     <link rel="stylesheet" href="/style/main/main_style.css">
     <div class="main-container">
         <link rel="stylesheet" href="/style/main/main_container_style.css">
+        <link rel="stylesheet" href="/style/login/login_form_style.css">
         <div class="main-header-container">
             <h1 class="main-header">My Account</h1>
         </div>
 
         <!-- Create Account Form -->
-        <div class="main-item-container">
-            <link rel="stylesheet" href="/style/main/main_item_style.css">
-            <link rel="stylesheet" href="/style/login/login_form_style.css">
-
+        <div class="input-form">
             <form th:object="${user}" th:action="@{/createAccount}" method="post">
                 <div class="input-group" id="login_input_container">
                     <input type="text" class="b-input" id="login_input" th:field="*{login}" name="username"/>
@@ -80,9 +78,11 @@
 
                 <div class="input-group" id="name_input_container">
                     <input type="text" class="b-input" id="name_input" th:field="*{name}" name="password"/>
-                    <label for="name_input" class="b-label">Password</label>
+                    <label for="name_input" class="b-label" id="name_input_label">Name</label>
                 </div>
-                <button id="submit_login_button" type="submit">Sign Up</button>
+                <button class="login_form_button" id="signup_button" type="submit">Sign Up</button>
+
+                <div class="negative-message" th:if="${error} != null" th:text="${error}"></div>
             </form>
         </div>
     </div>

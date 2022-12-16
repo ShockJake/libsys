@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="https://www.thymeleaf.org"
-      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Login</title>
@@ -57,9 +56,9 @@
         <div class="main-header-container">
             <h1 class="main-header">LOGIN</h1>
         </div>
-        <!-- Login form -->
 
-        <div id="login_form">
+        <!-- Login form -->
+        <div class="input-form">
             <link rel="stylesheet" href="/style/login/login_form_style.css">
             <form th:action="@{/login}" method="post">
 
@@ -73,7 +72,8 @@
                     <label for="password_input" class="b-label">Password</label>
                 </div>
 
-                <input id="submit_login_button" type="submit" value="Sign In"/>
+                <input id="submit_login_button" class="login_form_button" type="submit" value="Sign In"/>
+                <a id="create_account_button" class="login_form_button" href="/createAccount">Create account</a>
 
                 <div class="negative-message" th:if="${param.error}">
                     Invalid username or password.

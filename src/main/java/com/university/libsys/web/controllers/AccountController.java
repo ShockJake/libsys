@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.validation.Valid;
+import javax.validation.ValidationException;
 import java.util.List;
 
 @Controller
@@ -45,16 +47,21 @@ public class AccountController {
     }
 
     @PostMapping("/createAccount")
-    public String saveUser(User user, Model model) throws AlreadyExistingUserException {
-//        System.out.println(user);
-        final User addedUser = userService.saveNewUser(user);
-        final List<String> messages = List.of(
-                String.format("Login: %s", addedUser.getLogin()),
-                String.format("Name: %s", addedUser.getName()),
-                String.format("Your role: %s", addedUser.getUserRole().name())
-        );
-        model.addAttribute("infoHeader", "Account is created successfully");
-        model.addAttribute("infoMessages", messages);
-        return "infoPage";
+    public String saveUser(@Valid User user, Model model) {
+        try {
+            userService.validateUser(user);
+            final User addedUser = userService.saveNewUser(user);
+            final List<String> messages = List.of(
+                    String.format("Login: %s", addedUser.getLogin()),
+                    String.format("Name: %s", addedUser.getName()),
+                    String.format("Your role: %s", addedUser.getUserRole().name())
+            );
+            model.addAttribute("infoHeader", "Account is created successfully");
+            model.addAttribute("infoMessages", messages);
+            return "redirect:/infoPage";
+        } catch (AlreadyExistingUserException | ValidationException e) {
+            model.addAttribute("error", e.getMessage());
+            return "/createAccount";
+        }
     }
 }

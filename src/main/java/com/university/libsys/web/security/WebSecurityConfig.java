@@ -12,8 +12,8 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 public class WebSecurityConfig {
 
-    private final String[] publicPages = new String[]{"/", "/about", "/createAccount", "/style/**",
-            "/svg/**", "/photo/**", "/login**", "/scripts/**"};
+    private final String[] publicPages = new String[]{"/", "/about", "/createAccount", "/infoPage",
+            "/style/**", "/svg/**", "/photo/**", "/login**", "/scripts/**"};
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {

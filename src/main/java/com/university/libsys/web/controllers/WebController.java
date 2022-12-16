@@ -1,6 +1,7 @@
 package com.university.libsys.web.controllers;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
@@ -36,4 +37,8 @@ public class WebController {
         return "login";
     }
 
+    @RequestMapping("/infoPage")
+    public String infoPage(Model model) {
+        return "/infoPage";
+    }
 }
