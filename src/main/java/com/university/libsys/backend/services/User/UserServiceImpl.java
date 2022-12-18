@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.thymeleaf.util.StringUtils;
 
 import javax.validation.ValidationException;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Optional;
 
@@ -46,8 +47,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void validateUser(@NotNull User user) throws ValidationException {
-        Map<String, String> userFields =
-                Map.of("login", user.getLogin(), "name", user.getName(), "password", user.getPassword());
+        Map<String, String> userFields = new LinkedHashMap<>();
+        userFields.put("login", user.getLogin());
+        userFields.put("password", user.getPassword());
+        userFields.put("name", user.getName());
+
         userFields.entrySet().stream()
                 .map(entry -> {
                     String value = Optional.ofNullable(entry.getValue()).orElseThrow(() ->

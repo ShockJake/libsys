@@ -2,6 +2,7 @@ package com.university.libsys.web.controllers;
 
 import com.university.libsys.backend.entities.User;
 import com.university.libsys.backend.exceptions.AlreadyExistingUserException;
+import com.university.libsys.backend.exceptions.UserNotFoundException;
 import com.university.libsys.backend.services.User.UserService;
 import com.university.libsys.utils.UserRole;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,8 +34,9 @@ public class AccountController {
     }
 
     @GetMapping("/account")
-    public String accountPage(Model model, Authentication authentication) {
-        model.addAttribute("userName", authentication.getName());
+    public String accountPage(Model model, Authentication authentication) throws UserNotFoundException {
+        final User user = userService.getUserByLogin(authentication.getName());
+        model.addAttribute("userName", user.getName());
         return "pages/account";
     }
 

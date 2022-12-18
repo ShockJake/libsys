@@ -20,9 +20,13 @@
     background-color: #025151;
 }
 
-@media (max-width: 426px) {
-    .button {
-        width: 100px;
+@media (max-width: 768px) {
+    #library_search {
+        display: none;
+    }
+
+    #book_search {
+        display: none;
     }
 }
 

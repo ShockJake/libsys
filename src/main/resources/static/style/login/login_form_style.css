@@ -90,12 +90,10 @@
 
 #submit_login_button {
     padding: 3% 5%;
-    margin-bottom: 5%;
 }
 
 #create_account_button {
     padding: 3% 2%;
-    margin-bottom: 5%;
 }
 
 #signup_button {
@@ -116,4 +114,5 @@
     padding-bottom: 2%;
     padding-top: 2%;
     border-radius: 5px;
+    margin-top: 4%;
 }

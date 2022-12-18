@@ -9,6 +9,10 @@
     transition-duration: 0.5s;
 }
 
+#book_search_sidebar #selections_search #about_menu_bar {
+    display: none;
+}
+
 #menu_sidebar a form {
     text-decoration: none;
     display: block;
@@ -26,3 +30,16 @@
     margin-top: 2%;
 }
 
+@media (max-width: 768px) {
+    #book_search_sidebar {
+        display: block;
+    }
+
+    #selections_search {
+        display: block;
+    }
+
+    #about_menu_bar {
+        display: block;
+    }
+}

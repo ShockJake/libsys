@@ -49,6 +49,7 @@
 #menu_sidebar_button {
     font-size: 30px;
     float: right;
+    width: 70px;
 }
 
 #to_index_link {
