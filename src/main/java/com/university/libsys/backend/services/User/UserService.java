@@ -15,5 +15,7 @@ public interface UserService {
 
     User saveNewUser(@NotNull User user) throws AlreadyExistingUserException;
 
+    User deleteUser(@NotNull User user) throws UserNotFoundException;
+
     void validateUser(@NotNull User user) throws ValidationException;
 }

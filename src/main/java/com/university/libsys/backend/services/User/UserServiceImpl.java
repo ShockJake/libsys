@@ -6,7 +6,6 @@ import com.university.libsys.backend.exceptions.UserNotFoundException;
 import com.university.libsys.backend.repositories.UserRepository;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.util.StringUtils;
 
@@ -37,17 +36,25 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User saveNewUser(@NotNull User user) throws AlreadyExistingUserException {
-        Example<User> userExample = Example.of(user);
-        if (userRepository.exists(userExample)) {
-            throw new AlreadyExistingUserException(user.getLogin());
+    public User saveNewUser(@NotNull User userToSave) throws AlreadyExistingUserException {
+        final User user = userRepository.findUserByLogin(userToSave.getLogin());
+        if (user != null) {
+            throw new AlreadyExistingUserException(userToSave.getLogin());
         }
-        return userRepository.save(user);
+        return userRepository.save(userToSave);
+    }
+
+    @Override
+    public User deleteUser(@NotNull User userToDelete) throws UserNotFoundException {
+        Optional.ofNullable(userRepository.findUserByLogin(userToDelete.getLogin()))
+                .orElseThrow(() -> new UserNotFoundException(userToDelete.getLogin()));
+        userRepository.deleteById(userToDelete.getUserID());
+        return userToDelete;
     }
 
     @Override
     public void validateUser(@NotNull User user) throws ValidationException {
-        Map<String, String> userFields = new LinkedHashMap<>();
+        final Map<String, String> userFields = new LinkedHashMap<>();
         userFields.put("login", user.getLogin());
         userFields.put("password", user.getPassword());
         userFields.put("name", user.getName());

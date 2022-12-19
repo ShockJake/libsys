@@ -28,11 +28,6 @@ public class AccountController {
         this.userService = userService;
     }
 
-    @RequestMapping("/createAccount")
-    public String createAccountPage() {
-        return "createAccount";
-    }
-
     @GetMapping("/account")
     public String accountPage(Model model, Authentication authentication) throws UserNotFoundException {
         final User user = userService.getUserByLogin(authentication.getName());
@@ -48,6 +43,11 @@ public class AccountController {
         return user;
     }
 
+    @RequestMapping("/createAccount")
+    public String createAccountPage() {
+        return "createAccount";
+    }
+
     @PostMapping("/createAccount")
     public String saveUser(@Valid User user, Model model) {
         try {
@@ -56,8 +56,8 @@ public class AccountController {
             final List<String> messages = List.of(
                     String.format("Login: %s", addedUser.getLogin()),
                     String.format("Name: %s", addedUser.getName()),
-                    String.format("Your role: %s", addedUser.getUserRole().name())
-            );
+                    String.format("Your role: %s", addedUser.getUserRole().name()),
+                    "Please now login into your account");
             model.addAttribute("infoHeader", "Account is created successfully");
             model.addAttribute("infoMessages", messages);
             return "redirect:/infoPage";
