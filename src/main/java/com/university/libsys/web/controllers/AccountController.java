@@ -32,6 +32,8 @@ public class AccountController {
     public String accountPage(Model model, Authentication authentication) throws UserNotFoundException {
         final User user = userService.getUserByLogin(authentication.getName());
         model.addAttribute("userName", user.getName());
+        model.addAttribute("userRole", user.getUserRole().name());
+        model.addAttribute("userLogin", user.getLogin());
         return "pages/account";
     }
 

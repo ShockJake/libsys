@@ -6,12 +6,15 @@ import com.university.libsys.backend.exceptions.UserNotFoundException;
 import org.jetbrains.annotations.NotNull;
 
 import javax.validation.ValidationException;
+import java.util.List;
 
 public interface UserService {
 
     User getUserById(@NotNull Long id) throws UserNotFoundException;
 
     User getUserByLogin(@NotNull String login) throws UserNotFoundException;
+
+    List<User> getAllUsers();
 
     User saveNewUser(@NotNull User user) throws AlreadyExistingUserException;
 

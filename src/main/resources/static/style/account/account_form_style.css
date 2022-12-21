@@ -1,0 +1,31 @@
+.account-form-text {
+    color: white;
+
+    font-size: 24px;
+    font-family: Ubuntu, monospace;
+}
+
+#account_custom_panel {
+    display: grid;
+    grid-template-columns: auto auto auto;
+    margin-top: 5%;
+    margin-bottom: 2%;
+}
+
+.panel-item .login_form_button {
+    text-align: center;
+    padding: 3% 5%;
+}
+
+@media (max-width: 1170px) and (min-width: 1024px) {
+    .panel-item .login_form_button {
+        font-size: 18px;
+        padding: 1% 3%;
+    }
+}
+
+@media (max-width: 950px) and (min-width: 768px) {
+    .panel-item .login_form_button {
+        font-size: 16px;
+    }
+}

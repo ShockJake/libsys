@@ -1,4 +1,5 @@
 #footer {
+    float: bottom;
     display: inline-block;
     position: relative;
     background-color: #015958;

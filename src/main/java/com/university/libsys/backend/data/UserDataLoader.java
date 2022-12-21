@@ -28,9 +28,9 @@ public class UserDataLoader implements ApplicationRunner {
             // save functional users only if they are not present in database
             log.warn("Inserting functional users to database as it's empty");
             List<User> users = List.of(
-                    new User(null, "admin", "admin", "SuperAdmin", UserRole.ADMIN),
-                    new User(null, "writer", "1234", "Writer007", UserRole.WRITER),
-                    new User(null, "reader", "1111", "ReaderMan", UserRole.READER)
+                    new User(null, "admin", "admin", "SuperAdmin", UserRole.ADMIN, 0),
+                    new User(null, "writer", "1234", "Writer007", UserRole.WRITER, 0),
+                    new User(null, "reader", "1111", "ReaderMan", UserRole.READER, 0)
             );
             userRepository.saveAll(users);
         }

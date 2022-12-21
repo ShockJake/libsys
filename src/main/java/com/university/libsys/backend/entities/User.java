@@ -29,4 +29,5 @@ public class User {
     private String name;
     @NotBlank(message = "User role cannot be empty")
     private UserRole userRole;
+    private Integer postsNumber;
 }

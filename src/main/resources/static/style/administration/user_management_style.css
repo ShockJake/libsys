@@ -1,0 +1,62 @@
+#user_management_table {
+    font-family: Ubuntu, monospace;
+    font-size: 20px;
+    width: 100%;
+
+    color: #025151;
+    background-color: rgb(255, 255, 255, 80%);
+
+    border-radius: 5px;
+}
+
+#user_management_table th {
+    color: white;
+    background-color: #025151;
+    border-radius: 5px;
+}
+
+#user_management_table td {
+    text-align: center;
+}
+
+#user_management_table .button {
+    position: relative;
+    display: inline-block;
+    border-radius: 5px;
+
+    height: 2rem;
+}
+
+.drop-up-container {
+    position: relative;
+    display: inline-block;
+}
+
+.drop-up-content {
+    display: none;
+    position: absolute;
+    background-color: #f1f1f1;
+    min-width: 160px;
+    bottom: 25px;
+    z-index: 1;
+}
+
+.drop-up-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.drop-up-content a:hover {
+    background-color: #ccc;
+}
+
+.drop-up-container:hover .drop-up-content {
+    display: block;
+}
+
+.drop-up-container:hover .button {
+    background-color: white;
+    color: #025151;
+}

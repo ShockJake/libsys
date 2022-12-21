@@ -11,6 +11,7 @@ import org.thymeleaf.util.StringUtils;
 
 import javax.validation.ValidationException;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -33,6 +34,11 @@ public class UserServiceImpl implements UserService {
     public User getUserByLogin(@NotNull String login) throws UserNotFoundException {
         return Optional.ofNullable(userRepository.findUserByLogin(login))
                 .orElseThrow(() -> new UserNotFoundException(login));
+    }
+
+    @Override
+    public List<User> getAllUsers() {
+        return userRepository.findAll();
     }
 
     @Override

@@ -1,6 +1,7 @@
 package com.university.libsys.backend.services.User;
 
 import com.university.libsys.backend.entities.User;
+import com.university.libsys.backend.exceptions.AlreadyExistingUserException;
 import com.university.libsys.backend.exceptions.UserNotFoundException;
 import com.university.libsys.backend.repositories.UserRepository;
 import com.university.libsys.utils.UserRole;
@@ -10,11 +11,13 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import javax.validation.ValidationException;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicReference;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.doNothing;
 
 @ExtendWith(MockitoExtension.class)
 class UserServiceTest {
@@ -53,7 +56,7 @@ class UserServiceTest {
     }
 
     @Test
-    void getUserByLogin() {
+    void shouldGetUserByLogin() {
         // given
         final String login = "testLogin";
         given(userRepository.findUserByLogin(login)).willReturn(getTestUser());
@@ -77,18 +80,78 @@ class UserServiceTest {
     }
 
     @Test
-    void saveNewUser() {
+    void shouldSaveNewUser() {
+        // given
+        final User userToSave = getTestUser();
+        given(userRepository.save(userToSave)).willReturn(getTestUser());
+        given(userRepository.findUserByLogin(userToSave.getLogin())).willReturn(null);
+
+        // when
+        AtomicReference<User> user = new AtomicReference<>();
+        assertDoesNotThrow(() -> user.set(userService.saveNewUser(userToSave)));
+
+        // then
+        assertEquals(userToSave, user.get());
     }
 
     @Test
-    void deleteUser() {
+    void shouldNotSaveNewUserAsItIsAlreadyExists() {
+        // given
+        final User alreadyExistingUser = getTestUser();
+        given(userRepository.findUserByLogin(alreadyExistingUser.getLogin())).willReturn(getTestUser());
+        given(userRepository.save(alreadyExistingUser)).willReturn(getTestUser());
+
+        // when & then
+        assertThrows(AlreadyExistingUserException.class, () -> userService.saveNewUser(alreadyExistingUser));
     }
 
     @Test
-    void validateUser() {
+    void shouldDeleteUser() {
+        // given
+        final User userToDelete = getTestUser();
+        given(userRepository.findUserByLogin(userToDelete.getLogin())).willReturn(getTestUser());
+        doNothing().when(userRepository).deleteById(userToDelete.getUserID());
+
+        // when
+        AtomicReference<User> user = new AtomicReference<>();
+        assertDoesNotThrow(() -> user.set(userService.deleteUser(userToDelete)));
+
+        // then
+        assertEquals(userToDelete, user.get());
+    }
+
+    @Test
+    void shouldNotDeleteUserAsItIsNotExists() {
+        // given
+        final User userToDelete = getTestUser();
+        given(userRepository.findUserByLogin(userToDelete.getLogin())).willReturn(null);
+        doNothing().when(userRepository).deleteById(userToDelete.getUserID());
+
+        // when & then
+        assertThrows(UserNotFoundException.class, () -> userService.deleteUser(userToDelete));
+    }
+
+    @Test
+    void shouldValidateUser() {
+        // given
+        final User userToValidate = getTestUser();
+
+        // when & then
+        assertDoesNotThrow(() -> userService.validateUser(userToValidate));
+    }
+
+    @Test
+    void shouldNotValidateUser() {
+        // given
+        final User userToValidate1 = new User();
+        final User userToValidate2 = new User(null, "", "", "", UserRole.READER, 0);
+
+        // when & then
+        assertThrows(ValidationException.class, () -> userService.validateUser(userToValidate1));
+        assertThrows(ValidationException.class, () -> userService.validateUser(userToValidate2));
     }
 
     private User getTestUser() {
-        return new User(1L, "testLogin", "dummyPassword", "TEST", UserRole.READER);
+        return new User(1L, "testLogin", "dummyPassword", "TEST", UserRole.READER, 0);
     }
 }
