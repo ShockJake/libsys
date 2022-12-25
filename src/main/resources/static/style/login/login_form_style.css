@@ -61,7 +61,7 @@
     bottom: 90%;
 }
 
-.login_form_button {
+.login-form-button {
     color: white;
     background-color: #025151;
 
@@ -100,7 +100,7 @@
     margin-top: 3%;
 }
 
-.login_form_button:hover {
+.login-form-button:hover {
     color: #025151;
     background-color: white;
 }

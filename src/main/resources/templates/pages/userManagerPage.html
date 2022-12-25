@@ -8,11 +8,12 @@
     <title>User Manager</title>
     <link rel="icon" href="/svg/page_icon_new.svg">
     <link rel="stylesheet" href="/style/scrollbar_style.css">
-    <script src="/scripts/createLogoutButton.js"></script>
     <script src="/scripts/menuSidebarAnimator.js"></script>
+    <script src="/scripts/userManagementService.js"></script>
+    <script src="/scripts/commonInitializer.js" type="module"></script>
 </head>
 
-<body onload="insertLogoutButton()">
+<body>
 <link rel="stylesheet" href="/style/body_style.css">
 
 <div id="menu_bar" class="menu-bar-class">
@@ -58,11 +59,13 @@
 </div>
 
 <!-- Main -->
-<div id="main">
+<div id="main" style="margin-bottom: 25%">
     <link rel="stylesheet" href="/style/main/main_style.css">
     <link rel="stylesheet" href="/style/main/main_container_style.css">
     <link rel="stylesheet" href="/style/main/main_item_style.css">
     <link rel="stylesheet" href="/style/administration/user_management_style.css">
+    <link rel="stylesheet" href="/style/administration/user_management_update_style.css">
+    <link rel="stylesheet" href="/style/login/login_form_style.css">
 
     <div class="main-container">
         <div class="main-header-container">
@@ -83,17 +86,18 @@
                     <th>Action</th>
                 </tr>
                 <tr th:each="user : ${users}">
-                    <td th:text="${user.userID}"></td>
-                    <td th:text="${user.login}"></td>
-                    <td th:text="${user.name}"></td>
-                    <td th:text="${user.userRole.name()}"></td>
-                    <td th:text="${user.postsNumber}"></td>
+                    <td th:id="'id-' + ${user.userID}" th:text="${user.userID}"></td>
+                    <td th:id="'login-' + ${user.userID}" th:text="${user.login}"></td>
+                    <td th:id="'name-' + ${user.userID}" th:text="${user.name}"></td>
+                    <td th:id="'userRole-' + ${user.userID}" th:text="${user.userRole.name()}"></td>
+                    <td th:id="'postsNumber-' + ${user.userID}" th:text="${user.postsNumber}"></td>
                     <td>
                         <span class="drop-up-container">
-                            <span class="button">action</span>
+                            <span class="button">manage</span>
                             <span class="drop-up-content">
-                                <a href="#">Update</a>
-                                <a href="#">Delete</a>
+                                <a href="javascript:void(0)" th:id="'button_id-'+ ${user.userID}" class="update-button">Update</a>
+                                <a href="javascript:void(0)" th:id="'delete_button_id-'+ ${user.userID}"
+                                   class="delete-button">Delete</a>
                             </span>
                         </span>
                     </td>
@@ -101,6 +105,35 @@
                 </tbody>
             </table>
         </div>
+    </div>
+
+    <div id="user_management_update_form" class="modal">
+        <form class="model-content">
+            <div id="input_container">
+                <span onclick="document.getElementById('user_management_update_form').style.display='none'"
+                      class="close"
+                      title="Close">&times;</span>
+                <br>
+                <label for="user_management_update_id_input">User ID</label>
+                <input id="user_management_update_id_input" type="text" placeholder="id" contenteditable="false">
+
+                <label for="user_management_update_name_input">User Name</label>
+                <input id="user_management_update_name_input" type="text" placeholder="name" required>
+
+                <label for="user_management_update_login_input">User Login</label>
+                <input id="user_management_update_login_input" type="text" placeholder="login" required>
+
+                <label for="user_management_update_role_input">User Role</label>
+                <select id="user_management_update_role_input" required>
+                    <option value="ADMIN">Admin</option>
+                    <option value="WRITER">Writer</option>
+                    <option value="READER">Reader</option>
+                </select>
+
+                <button id="save_button" class="login-form-button" onclick="updateUserRole()" type="button">Save
+                </button>
+            </div>
+        </form>
     </div>
 </div>
 
@@ -156,5 +189,12 @@
         <span id="footer_text">&copy; Stanislav Lysunenko; Jagiellonian University</span>
     </div>
 </div>
+
+<script>
+    manageModal();
+    setDeleteEventListeners();
+    setUpdateEventListeners();
+</script>
+
 </body>
 </html>

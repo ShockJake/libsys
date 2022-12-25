@@ -5,6 +5,8 @@ import com.university.libsys.backend.exceptions.AlreadyExistingUserException;
 import com.university.libsys.backend.exceptions.UserNotFoundException;
 import com.university.libsys.backend.repositories.UserRepository;
 import org.jetbrains.annotations.NotNull;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.util.StringUtils;
@@ -19,6 +21,7 @@ import java.util.Optional;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
+    private final Logger log = LoggerFactory.getLogger(UserServiceImpl.class);
 
     @Autowired
     UserServiceImpl(UserRepository userRepository) {
@@ -47,6 +50,7 @@ public class UserServiceImpl implements UserService {
         if (user != null) {
             throw new AlreadyExistingUserException(userToSave.getLogin());
         }
+        log.debug(String.format("Inserter new user - %s", userToSave.getLogin()));
         return userRepository.save(userToSave);
     }
 
@@ -55,7 +59,21 @@ public class UserServiceImpl implements UserService {
         Optional.ofNullable(userRepository.findUserByLogin(userToDelete.getLogin()))
                 .orElseThrow(() -> new UserNotFoundException(userToDelete.getLogin()));
         userRepository.deleteById(userToDelete.getUserID());
+        log.debug(String.format("Deleted user - %s", userToDelete.getLogin()));
         return userToDelete;
+    }
+
+    @Override
+    public User updateUser(@NotNull Long id, @NotNull User userToUpdate) throws UserNotFoundException {
+        final User user = userRepository.findById(id)
+                .orElseThrow(() -> new UserNotFoundException(id));
+        log.debug(String.format("Updating user %s", user.getLogin()));
+        log.debug(String.format("Old values: %s, %s, %s",
+                user.getLogin(), user.getName(), user.getUserRole().name()));
+        log.debug(String.format("New values: %s, %s, %s",
+                userToUpdate.getLogin(), userToUpdate.getName(), userToUpdate.getUserRole().name()));
+        updateUser(userToUpdate, user);
+        return userRepository.save(user);
     }
 
     @Override
@@ -76,5 +94,17 @@ public class UserServiceImpl implements UserService {
                         throw new ValidationException(String.format("Field (%s) cannot be blank", entry.getKey()));
                     }
                 });
+    }
+
+    private void updateUser(User userToUpdate, User userToSave) {
+        if (!userToSave.getLogin().equals(userToUpdate.getLogin())) {
+            userToSave.setLogin(userToUpdate.getLogin());
+        }
+        if (!userToSave.getUserRole().equals(userToUpdate.getUserRole())) {
+            userToSave.setUserRole(userToUpdate.getUserRole());
+        }
+        if (!userToSave.getName().equals(userToUpdate.getName())) {
+            userToSave.setName(userToUpdate.getName());
+        }
     }
 }

@@ -20,5 +20,7 @@ public interface UserService {
 
     User deleteUser(@NotNull User user) throws UserNotFoundException;
 
+    User updateUser(@NotNull Long id, @NotNull User userToUpdate) throws UserNotFoundException;
+
     void validateUser(@NotNull User user) throws ValidationException;
 }

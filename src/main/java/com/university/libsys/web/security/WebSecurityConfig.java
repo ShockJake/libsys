@@ -14,6 +14,7 @@ public class WebSecurityConfig {
 
     private final String[] publicPages = new String[]{"/", "/about", "/createAccount", "/infoPage",
             "/style/**", "/svg/**", "/photo/**", "/login**", "/scripts/**"};
+    private final String[] ignoreCSRF = new String[]{"/createAccount", "/user_management/**"};
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -28,7 +29,7 @@ public class WebSecurityConfig {
                         .logoutSuccessUrl("/login?logout")
                         .invalidateHttpSession(true)
                         .deleteCookies("JSESSIONID"))
-                .cors().and().csrf().ignoringAntMatchers(publicPages);
+                .cors().and().csrf().ignoringAntMatchers(ignoreCSRF);
 
         return http.build();
     }

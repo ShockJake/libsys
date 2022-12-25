@@ -37,7 +37,7 @@ class UserServiceTest {
         given(userRepository.findById(id)).willReturn(Optional.of(getTestUser()));
 
         // when
-        AtomicReference<User> user = new AtomicReference<>();
+        final AtomicReference<User> user = new AtomicReference<>();
         assertDoesNotThrow(() -> user.set(userService.getUserById(id)));
 
         // then
@@ -62,7 +62,7 @@ class UserServiceTest {
         given(userRepository.findUserByLogin(login)).willReturn(getTestUser());
 
         // when
-        AtomicReference<User> user = new AtomicReference<>();
+        final AtomicReference<User> user = new AtomicReference<>();
         assertDoesNotThrow(() -> user.set(userService.getUserByLogin(login)));
 
         // then
@@ -87,7 +87,7 @@ class UserServiceTest {
         given(userRepository.findUserByLogin(userToSave.getLogin())).willReturn(null);
 
         // when
-        AtomicReference<User> user = new AtomicReference<>();
+        final AtomicReference<User> user = new AtomicReference<>();
         assertDoesNotThrow(() -> user.set(userService.saveNewUser(userToSave)));
 
         // then
@@ -113,7 +113,7 @@ class UserServiceTest {
         doNothing().when(userRepository).deleteById(userToDelete.getUserID());
 
         // when
-        AtomicReference<User> user = new AtomicReference<>();
+        final AtomicReference<User> user = new AtomicReference<>();
         assertDoesNotThrow(() -> user.set(userService.deleteUser(userToDelete)));
 
         // then
@@ -149,6 +149,24 @@ class UserServiceTest {
         // when & then
         assertThrows(ValidationException.class, () -> userService.validateUser(userToValidate1));
         assertThrows(ValidationException.class, () -> userService.validateUser(userToValidate2));
+    }
+
+    @Test
+    void shouldUpdateUserRole() {
+        // given
+        final Long id = getTestUser().getUserID();
+        final UserRole newUserRole = UserRole.ADMIN;
+        final User updatedUser = getTestUser();
+        updatedUser.setUserRole(newUserRole);
+        given(userRepository.findById(id)).willReturn(Optional.of(getTestUser()));
+        given(userRepository.save(updatedUser)).willReturn(updatedUser);
+
+        // when
+        final AtomicReference<User> user = new AtomicReference<>();
+        assertDoesNotThrow(() -> user.set(userService.updateUser(id, updatedUser)));
+
+        // then
+        assertEquals(updatedUser, user.get());
     }
 
     private User getTestUser() {

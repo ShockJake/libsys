@@ -21,6 +21,11 @@ public class AdministrationController {
     public String userManagerPage(Model model) {
 
         model.addAttribute("users", userService.getAllUsers());
-        return "pages/userManaging";
+        return "pages/userManagerPage";
+    }
+
+    @RequestMapping("/posts")
+    public String postsManagerPage(Model model) {
+        return "index";
     }
 }

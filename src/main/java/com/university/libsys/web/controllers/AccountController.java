@@ -42,6 +42,7 @@ public class AccountController {
         final User user = new User();
         user.setUserID(null);
         user.setUserRole(UserRole.READER);
+        user.setPostsNumber(0);
         return user;
     }
 
@@ -62,7 +63,7 @@ public class AccountController {
                     "Please now login into your account");
             model.addAttribute("infoHeader", "Account is created successfully");
             model.addAttribute("infoMessages", messages);
-            return "redirect:/infoPage";
+            return "/infoPage";
         } catch (AlreadyExistingUserException | ValidationException e) {
             model.addAttribute("error", e.getMessage());
             return "/createAccount";

@@ -77,16 +77,16 @@
 
             <div id="account_custom_panel">
                 <div class="panel-item" th:if="${userRole} == 'ADMIN'">
-                    <a class="login_form_button" href="/administration/users">Manage users</a>
+                    <a class="login-form-button" href="/administration/users">Manage users</a>
                 </div>
                 <div class="panel-item" th:if="${userRole} == 'ADMIN'">
-                    <a class="login_form_button" href="/administration/posts">Manage posts</a>
+                    <a class="login-form-button" href="/administration/posts">Manage posts</a>
                 </div>
                 <div class="panel-item" th:if="${userRole} == 'WRITER'">
-                    <a class="login_form_button" href="/createPost">Create post</a>
+                    <a class="login-form-button" href="/createPost">Create post</a>
                 </div>
                 <div class="panel-item">
-                    <a class="login_form_button" href="/likedPosts">Liked posts</a>
+                    <a class="login-form-button" href="/likedPosts">Liked posts</a>
                 </div>
             </div>
         </div>

@@ -23,7 +23,7 @@ function createLogoutButton(isAuthenticated) {
     }
 }
 
-function insertLogoutButton() {
+export function insertLogoutButton() {
     checkAuthentication()
         .then(result => createLogoutButton(result))
         .catch(err => console.log(err))
