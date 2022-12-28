@@ -2,13 +2,14 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="description" content="System for local library">
     <meta name="keywords" content="Library">
     <meta name="author" content="Stanislav Lysunenko">
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Ask form</title>
     <link rel="icon" href="/svg/page-icon.svg">
     <link rel="stylesheet" href="/style/scrollbar_style.css">
+    <script src="/scripts/menuSidebarAnimator.js"></script>
+    <script src="/scripts/commonInitializer.js" type="module"></script>
 </head>
 <body>
 <link rel="stylesheet" href="/style/body_style.css">
@@ -35,19 +36,28 @@
         </button>
     </a>
 
-    <div id="tablet_bar_container">
-        <link rel="stylesheet" href="/style/menu_bar/menu_bar_tablet_style.css">
-        <a id="selections_search" href="/selections">
-            <button id="selections_search_button" class="button">
-                <link rel="stylesheet" href="/style/menu_bar/menu_bar_button_style.css">
-                Selections
-            </button>
+    <button id="menu_sidebar_button" class="button" onclick="openNav()">&#9776;</button>
+    <div id="menu_sidebar">
+        <link rel="stylesheet" href="/style/menu_bar/menu_sidebar_style.css">
+        <a id="close_menu_sidebar_button" href="javascript:void(0)" class="button" onclick="closeNav()">&times;</a>
+
+        <a href="/account">
+            <button class="button">Account</button>
         </a>
+        <form id="logout_form" th:action="@{/logout}" method="post">
+            <input id="logout_button" type="submit" class="button" value="Logout">
+        </form>
+
+        <div id="tablet_bar_container">
+            <link rel="stylesheet" href="/style/menu_bar/menu_bar_tablet_style.css">
+            <a href="/selections">
+                <button class="button">Selections</button>
+            </a>
+            <a href="/about">
+                <button class="button">About</button>
+            </a>
+        </div>
     </div>
-
-    <br> <!-- Menu-bar buttons for tablet mode section -->
-
-
 </div>
 
 <div id="main">

@@ -13,13 +13,13 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 @Service
-public class LibsysUserDetailsManager implements UserDetailsService {
+public class LibsysUserDetailsService implements UserDetailsService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(8);
 
     @Autowired
-    public LibsysUserDetailsManager(UserRepository userRepository) {
+    public LibsysUserDetailsService(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
