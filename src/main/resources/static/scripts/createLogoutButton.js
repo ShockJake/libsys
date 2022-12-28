@@ -14,7 +14,6 @@ async function resolveAuthenticationStatus(response) {
 }
 
 function createLogoutButton(isAuthenticated) {
-    console.log(isAuthenticated)
     const logoutButton = document.getElementById("logout_button");
     if (isAuthenticated === true) {
         logoutButton.setAttribute("style", "display: inline;");

@@ -61,7 +61,7 @@ function setDeleteEventListeners() {
         const buttonId = e.target.id;
         const userId = buttonId.split("-")[1];
         const user = getUserDetailsFromRow(userId);
-        deleteUser(user).then(r => window.location.reload());
+        deleteUser(user).then(() => window.location.reload());
     }
 
     for (let button of buttons) {
@@ -78,15 +78,28 @@ async function updateUserRole() {
             'ContentType': 'application/json'
         }
     });
-    const updatedUser = JSON.parse(await response.text());
-    document.getElementById('user_management_update_form').style.display = 'none'
-    alert(`User ${updatedUser.login} was updated successfully`);
-    window.location.reload();
+    if (!await handleError(response)) {
+        const updatedUser = JSON.parse(await response.text());
+        document.getElementById('user_management_update_form').style.display = 'none'
+        alert(`User ${updatedUser.login} was updated successfully`);
+        window.location.reload();
+    }
 }
 
 async function deleteUser(user) {
     const url = `http://localhost:8080/user_management/${user.userid}`;
     const response = await fetch(url, {method: 'DELETE'});
-    const deletedUser = JSON.parse(await response.text())
-    alert(`User ${deletedUser.login} was deleted successfully`);
+    if (!await handleError(response)) {
+        const deletedUser = JSON.parse(await response.text())
+        alert(`User ${deletedUser.login} was deleted successfully`);
+    }
+}
+
+async function handleError(response) {
+    if (response.status !== 200) {
+        const text = await response.text();
+        alert('Failure: ' + text);
+        return true;
+    }
+    return false;
 }
