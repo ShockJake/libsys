@@ -4,12 +4,12 @@ import com.university.libsys.backend.entities.User;
 import com.university.libsys.backend.exceptions.AlreadyExistingUserException;
 import com.university.libsys.backend.exceptions.UserNotFoundException;
 import com.university.libsys.backend.repositories.UserRepository;
+import com.university.libsys.utils.ValidationUtil;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.thymeleaf.util.StringUtils;
 
 import javax.validation.ValidationException;
 import java.util.LinkedHashMap;
@@ -24,7 +24,7 @@ public class UserServiceImpl implements UserService {
     private final Logger log = LoggerFactory.getLogger(UserServiceImpl.class);
 
     @Autowired
-    UserServiceImpl(UserRepository userRepository) {
+    public UserServiceImpl(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
@@ -82,18 +82,7 @@ public class UserServiceImpl implements UserService {
         userFields.put("login", user.getLogin());
         userFields.put("password", user.getPassword());
         userFields.put("name", user.getName());
-
-        userFields.entrySet().stream()
-                .map(entry -> {
-                    String value = Optional.ofNullable(entry.getValue()).orElseThrow(() ->
-                            new ValidationException(String.format("Field (%s) cannot be null", entry.getKey())));
-                    return Map.entry(entry.getKey(), value);
-                })
-                .forEach(entry -> {
-                    if (StringUtils.isEmptyOrWhitespace(entry.getValue())) {
-                        throw new ValidationException(String.format("Field (%s) cannot be blank", entry.getKey()));
-                    }
-                });
+        ValidationUtil.validateFields(userFields);
     }
 
     private void updateUser(User userToUpdate, User userToSave) {
