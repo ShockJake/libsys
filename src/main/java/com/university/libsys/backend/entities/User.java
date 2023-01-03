@@ -1,6 +1,6 @@
 package com.university.libsys.backend.entities;
 
-import com.university.libsys.utils.UserRole;
+import com.university.libsys.backend.utils.UserRole;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

@@ -1,9 +1,9 @@
-package com.university.libsys.web.controllers;
+package com.university.libsys.web.controllers.management;
 
 import com.university.libsys.backend.entities.User;
 import com.university.libsys.backend.exceptions.UserNotFoundException;
 import com.university.libsys.backend.services.User.UserService;
-import com.university.libsys.utils.UserRole;
+import com.university.libsys.backend.utils.UserRole;
 import org.springframework.web.bind.annotation.*;
 
 @RestController

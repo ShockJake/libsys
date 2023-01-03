@@ -4,7 +4,8 @@ import com.university.libsys.backend.entities.User;
 import com.university.libsys.backend.exceptions.AlreadyExistingUserException;
 import com.university.libsys.backend.exceptions.UserNotFoundException;
 import com.university.libsys.backend.services.User.UserService;
-import com.university.libsys.utils.UserRole;
+import com.university.libsys.backend.utils.UserRole;
+import com.university.libsys.web.util.ModelUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -62,9 +63,8 @@ public class AccountController {
                     String.format("Name: %s", addedUser.getName()),
                     String.format("Your role: %s", addedUser.getUserRole().name()),
                     "Please now login into your account");
+            ModelUtil.fillInfoModelWithArguments(model, "Account is created successfully", messages);
 
-            model.addAttribute("infoHeader", "Account is created successfully");
-            model.addAttribute("infoMessages", messages);
             return "/infoPage";
         } catch (AlreadyExistingUserException | ValidationException e) {
             model.addAttribute("error", e.getMessage());
