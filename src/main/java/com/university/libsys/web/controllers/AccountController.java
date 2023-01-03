@@ -56,11 +56,13 @@ public class AccountController {
         try {
             userService.validateUser(user);
             final User addedUser = userService.saveNewUser(user);
+
             final List<String> messages = List.of(
                     String.format("Login: %s", addedUser.getLogin()),
                     String.format("Name: %s", addedUser.getName()),
                     String.format("Your role: %s", addedUser.getUserRole().name()),
                     "Please now login into your account");
+
             model.addAttribute("infoHeader", "Account is created successfully");
             model.addAttribute("infoMessages", messages);
             return "/infoPage";
