@@ -1,4 +1,4 @@
-package com.university.libsys.web.controllers;
+package com.university.libsys.web.controllers.management;
 
 import com.university.libsys.backend.entities.Post;
 import com.university.libsys.backend.exceptions.PostNotFoundException;

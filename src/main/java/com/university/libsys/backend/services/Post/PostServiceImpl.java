@@ -6,7 +6,7 @@ import com.university.libsys.backend.exceptions.PostNotFoundException;
 import com.university.libsys.backend.exceptions.UserNotFoundException;
 import com.university.libsys.backend.repositories.PostsRepository;
 import com.university.libsys.backend.services.User.UserService;
-import com.university.libsys.utils.ValidationUtil;
+import com.university.libsys.backend.utils.ValidationUtil;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,9 +41,9 @@ public class PostServiceImpl implements PostService {
     public List<Post> getPostsByUserId(@NotNull Long id) throws PostNotFoundException, UserNotFoundException {
         final User writer = userService.getUserById(id);
         List<Post> result = postsRepository.findPostsByWriterID(writer.getUserID());
-        if (result.size() == 0) {
+        if (result.size() == 0)
             throw new PostNotFoundException(id);
-        }
+
         return result;
     }
 
@@ -83,25 +83,22 @@ public class PostServiceImpl implements PostService {
     @Override
     public void validatePost(@NotNull Post post) throws ValidationException {
         final Map<String, String> postFields = new LinkedHashMap<>();
-        postFields.put("postText", post.getPostText());
         postFields.put("postHeader", post.getPostHeader());
+        postFields.put("postText", post.getPostText());
         postFields.put("postPhotoPath", post.getPostPhotoPath());
 
-        if (post.getWriterID() == null || post.getPostID().equals(0L)) {
+        if (post.getWriterID() == null || post.getWriterID().equals(0L))
             throw new ValidationException("Field (writerID) cannot be null or blank");
-        }
+
         ValidationUtil.validateFields(postFields);
     }
 
     private void updatePost(Post postToUpdate, Post postToSave) {
-        if (!postToSave.getPostHeader().equals(postToUpdate.getPostHeader())) {
+        if (!postToSave.getPostHeader().equals(postToUpdate.getPostHeader()))
             postToSave.setPostHeader(postToUpdate.getPostHeader());
-        }
-        if (!postToSave.getPostText().equals(postToUpdate.getPostText())) {
+        if (!postToSave.getPostText().equals(postToUpdate.getPostText()))
             postToSave.setPostText(postToUpdate.getPostText());
-        }
-        if (!postToSave.getPostPhotoPath().equals(postToUpdate.getPostPhotoPath())) {
+        if (!postToSave.getPostPhotoPath().equals(postToUpdate.getPostPhotoPath()))
             postToSave.setPostPhotoPath(postToUpdate.getPostPhotoPath());
-        }
     }
 }
