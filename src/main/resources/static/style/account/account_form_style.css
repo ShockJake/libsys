@@ -12,6 +12,22 @@
     margin-bottom: 2%;
 }
 
+@media (max-width: 600px) {
+    #account_custom_panel {
+        grid-template-columns: auto auto;
+    }
+}
+
+@media (max-width: 400px) {
+    #account_custom_panel {
+        grid-template-columns: auto;
+    }
+}
+
+.panel-item {
+    padding: 5% 0;
+}
+
 .panel-item .login-form-button {
     text-align: center;
     padding: 3% 5%;

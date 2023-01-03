@@ -2,7 +2,7 @@ package com.university.libsys.backend.data;
 
 import com.university.libsys.backend.entities.User;
 import com.university.libsys.backend.repositories.UserRepository;
-import com.university.libsys.utils.UserRole;
+import com.university.libsys.backend.utils.UserRole;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
