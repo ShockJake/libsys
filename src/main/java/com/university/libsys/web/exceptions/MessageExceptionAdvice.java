@@ -1,6 +1,6 @@
 package com.university.libsys.web.exceptions;
 
-import com.university.libsys.backend.exceptions.PostNotFoundException;
+import com.university.libsys.backend.exceptions.MessageNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -8,12 +8,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ControllerAdvice
-public class PostExceptionAdvice {
+public class MessageExceptionAdvice {
 
     @ResponseBody
-    @ExceptionHandler(PostNotFoundException.class)
+    @ExceptionHandler(MessageNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public String userNotFoundHandler(PostNotFoundException e) {
-        return e.getMessage();
+    public MessageNotFoundException messageNotFoundHandler(MessageNotFoundException e) {
+        return e;
     }
 }

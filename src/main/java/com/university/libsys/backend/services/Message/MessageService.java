@@ -19,7 +19,7 @@ public interface MessageService {
 
     Message saveNewMessage(@NotNull Message message);
 
-    Message deleteMessage(@NotNull Message message) throws MessageNotFoundException;
+    Message deleteMessage(@NotNull Long id) throws MessageNotFoundException;
 
     Message updateMessageStatus(@NotNull Long id, @NotNull MessageStatus messageStatus) throws MessageNotFoundException;
 }

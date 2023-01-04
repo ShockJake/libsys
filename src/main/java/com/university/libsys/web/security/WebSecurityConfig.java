@@ -14,7 +14,8 @@ public class WebSecurityConfig {
 
     private final String[] publicPages = new String[]{"/", "/about", "/createAccount", "/infoPage", "/style/**",
             "/svg/**", "/photo/**", "/login**", "/scripts/**", "/books/**", "/libraries/**", "/selections/**"};
-    private final String[] ignoreCSRF = new String[]{"/createAccount", "/user_management/**"};
+    private final String[] ignoreCSRF = new String[]{"/createAccount", "/user_management/**",
+            "/messages_manager/**"};
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {

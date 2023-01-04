@@ -2,14 +2,17 @@
 <html lang="en" xmlns:th="https://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Login</title>
     <meta name="keywords" content="Library">
     <meta name="author" content="Stanislav Lysunenko">
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <link rel="stylesheet" href="/style/scrollbar_style.css">
+    <title>Messages</title>
     <link rel="icon" href="/svg/page_icon_new.svg">
+    <link rel="stylesheet" href="/style/scrollbar_style.css">
     <script src="/scripts/animations_and_objects/menuSidebarAnimator.js"></script>
+    <script src="/scripts/initializers/messageManagementInitializer.js" type="module"></script>
+    <script src="/scripts/commonInitializer.js" type="module"></script>
 </head>
+
 <body>
 <link rel="stylesheet" href="/style/body_style.css">
 
@@ -32,56 +35,72 @@
     </a>
 
     <button id="menu_sidebar_button" class="button" onclick="openNav()">&#9776;</button>
-
     <div id="menu_sidebar">
         <link rel="stylesheet" href="/style/menu_bar/menu_sidebar_style.css">
         <a id="close_menu_sidebar_button" href="javascript:void(0)" class="button" onclick="closeNav()">&times;</a>
+
+        <a href="/account">
+            <button class="button">Account</button>
+        </a>
+        <form id="logout_form" th:action="@{/logout}" method="post">
+            <input id="logout_button" type="submit" class="button" value="Logout">
+        </form>
+
         <div id="tablet_bar_container">
             <link rel="stylesheet" href="/style/menu_bar/menu_bar_tablet_style.css">
-            <a id="selections_search" href="/selections">
-                <button id="selections_search_button" class="button">Selections</button>
+            <a href="/selections">
+                <button class="button">Selections</button>
             </a>
-            <a id="about_menu_bar" href="/about">
-                <button id="about_button" class="button">About</button>
+            <a href="/about">
+                <button class="button">About</button>
             </a>
         </div>
     </div>
 </div>
 
 <!-- Main -->
-<div id="thin_main">
+<div id="main" style="margin-bottom: 25%">
     <link rel="stylesheet" href="/style/main/main_style.css">
-    <div class="main-container" style="margin-bottom: 79%">
-        <link rel="stylesheet" href="/style/main/main_container_style.css">
+    <link rel="stylesheet" href="/style/main/main_container_style.css">
+    <link rel="stylesheet" href="/style/main/main_item_style.css">
+    <link rel="stylesheet" href="/style/administration/user_management_style.css">
+    <link rel="stylesheet" href="/style/administration/user_management_update_style.css">
+    <link rel="stylesheet" href="/style/login/login_form_style.css">
+
+    <div class="main-container">
         <div class="main-header-container">
-            <h1 class="main-header">LOGIN</h1>
+            <h1 class="main-header">My Messages</h1>
         </div>
 
-        <!-- Login form -->
-        <div class="input-form">
-            <link rel="stylesheet" href="/style/login/login_form_style.css">
-            <form th:action="@{/login}" method="post">
-
-                <div class="input-group" id="login_input_container">
-                    <input type="text" class="b-input" id="login_input" name="username"/>
-                    <label for="login_input" class="b-label">Login</label>
-                </div>
-
-                <div class="input-group" id="password_input_container">
-                    <input type="password" class="b-input" id="password_input" name="password"/>
-                    <label for="password_input" class="b-label">Password</label>
-                </div>
-
-                <input id="submit_login_button" class="login-form-button" type="submit" value="Sign In"/>
-                <a id="create_account_button" class="login-form-button" href="/createAccount">Create account</a>
-
-                <div class="negative-message" th:if="${param.error}">
-                    Invalid username or password.
-                </div>
-                <div class="normal-message" th:if="${param.logout}">
-                    You have been logged out.
-                </div>
-            </form>
+        <div class="main-item-container">
+            <h2 class="main-item-header">Received Messages:</h2>
+            <hr class="main-item-separator">
+            <table id="user_management_table">
+                <tbody>
+                <tr>
+                    <th>Text</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+                <tr th:each="message : ${messages}">
+                    <td th:id="'text-' + ${message.id}" th:text="${message.text}"></td>
+                    <td th:id="'status-' + ${message.id}" th:text="${message.status.name()}"></td>
+                    <td>
+                        <span class="drop-up-container">
+                            <span class="button">manage</span>
+                            <span class="drop-up-content">
+                                <a href="javascript:void(0)" th:id="'read_id-'+ ${message.id}"
+                                   class="mark-read-button"><strong>Read</strong></a>
+                                <a href="javascript:void(0)" th:id="'unread_id-'+ ${message.id}"
+                                   class="mark-unread-button"><strong>Unread</strong></a>
+                                <a href="javascript:void(0)" th:id="'delete_id-' + ${message.id}"
+                                   class="delete-message-button">Delete</a>
+                            </span>
+                        </span>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
         </div>
     </div>
 </div>

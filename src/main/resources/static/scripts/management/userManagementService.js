@@ -1,4 +1,6 @@
-function manageModal() {
+import {handleError} from "../util/utils.js";
+
+export function manageModal() {
     const modal = document.getElementById('user_management_update_form');
 
     window.onclick = function (event) {
@@ -39,7 +41,7 @@ function getUserDetailsFromRow(userId) {
     return createUser(userId, userName, userLogin, userRole);
 }
 
-function setUpdateEventListeners() {
+export function setUpdateEventListeners() {
     const buttons = document.getElementsByClassName("update-button");
     const buttonPressedListener = e => {
         const buttonId = e.target.id;
@@ -54,7 +56,7 @@ function setUpdateEventListeners() {
     }
 }
 
-function setDeleteEventListeners() {
+export function setDeleteEventListeners() {
     const buttons = document.getElementsByClassName("delete-button");
 
     const buttonPressedListener = e => {
@@ -69,7 +71,7 @@ function setDeleteEventListeners() {
     }
 }
 
-async function updateUserRole() {
+export async function updateUserRole() {
     const user = retrieveUserDetailsFromForm();
     const url = `http://localhost:8080/user_management/${user.userid}?name=${user.name}&login=${user.login}&userRole=${user.userRole}`;
 
@@ -93,13 +95,4 @@ async function deleteUser(user) {
         const deletedUser = JSON.parse(await response.text())
         alert(`User ${deletedUser.login} was deleted successfully`);
     }
-}
-
-async function handleError(response) {
-    if (response.status !== 200) {
-        const text = await response.text();
-        alert('Failure: ' + text);
-        return true;
-    }
-    return false;
 }

@@ -14,14 +14,14 @@ public class UserExceptionAdvice {
     @ResponseBody
     @ExceptionHandler(AlreadyExistingUserException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public String userAlreadyExistsHandle(AlreadyExistingUserException e) {
-        return e.getMessage();
+    public AlreadyExistingUserException userAlreadyExistsHandle(AlreadyExistingUserException e) {
+        return e;
     }
 
     @ResponseBody
     @ExceptionHandler(UserNotFoundException.class)
     @ResponseStatus(HttpStatus.FORBIDDEN)
-    public String userNotFoundHandler(UserNotFoundException e) {
-        return e.getMessage();
+    public UserNotFoundException userNotFoundHandler(UserNotFoundException e) {
+        return e;
     }
 }

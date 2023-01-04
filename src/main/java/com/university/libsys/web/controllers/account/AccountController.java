@@ -1,8 +1,10 @@
-package com.university.libsys.web.controllers;
+package com.university.libsys.web.controllers.account;
 
+import com.university.libsys.backend.entities.Message;
 import com.university.libsys.backend.entities.User;
 import com.university.libsys.backend.exceptions.AlreadyExistingUserException;
 import com.university.libsys.backend.exceptions.UserNotFoundException;
+import com.university.libsys.backend.services.Message.MessageService;
 import com.university.libsys.backend.services.User.UserService;
 import com.university.libsys.backend.utils.UserRole;
 import com.university.libsys.web.util.ModelUtil;
@@ -23,10 +25,12 @@ import java.util.List;
 public class AccountController {
 
     private final UserService userService;
+    private final MessageService messageService;
 
     @Autowired
-    AccountController(UserService userService) {
+    AccountController(UserService userService, MessageService messageService) {
         this.userService = userService;
+        this.messageService = messageService;
     }
 
     @GetMapping("/account")
@@ -70,5 +74,14 @@ public class AccountController {
             model.addAttribute("error", e.getMessage());
             return "/createAccount";
         }
+    }
+
+    @GetMapping("/messages")
+    public String messagesPage(Model model, Authentication authentication) throws UserNotFoundException {
+        final User user = userService.getUserByLogin(authentication.getName());
+        final List<Message> messages = messageService.getMessagesByReceiverID(user.getUserID());
+
+        model.addAttribute("messages", messages);
+        return "pages/messages/messagesPage";
     }
 }

@@ -49,9 +49,9 @@ public class MessageServiceImpl implements MessageService {
     }
 
     @Override
-    public Message deleteMessage(@NotNull Message message) throws MessageNotFoundException {
-        final Message messageToDelete = messagesRepository.findById(message.getId())
-                .orElseThrow(() -> new MessageNotFoundException(message.getId()));
+    public Message deleteMessage(@NotNull Long id) throws MessageNotFoundException {
+        final Message messageToDelete = messagesRepository.findById(id)
+                .orElseThrow(() -> new MessageNotFoundException(id));
 
         log.debug(String.format("Deleting message id = %s", messageToDelete.getId()));
 
