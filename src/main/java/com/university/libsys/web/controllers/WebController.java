@@ -14,22 +14,22 @@ public class WebController {
 
     @RequestMapping("/libraries")
     public String librariesPage() {
-        return "pages/library_search";
+        return "pages/public_pages/library_search";
     }
 
     @RequestMapping("/books")
     public String booksPage() {
-        return "pages/book_search";
+        return "pages/public_pages/book_search";
     }
 
     @RequestMapping("/selections")
     public String selectionsPage() {
-        return "pages/book_selections";
+        return "pages/public_pages/book_selections";
     }
 
     @RequestMapping("/about")
     public String aboutPage() {
-        return "pages/about";
+        return "pages/public_pages/about";
     }
 
     @RequestMapping("/login")

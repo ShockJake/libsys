@@ -1,4 +1,4 @@
-import {handleError} from "../util/utils.js";
+import {handleError, serverURL} from "../util/utils.js";
 
 export function manageModal() {
     const modal = document.getElementById('user_management_update_form');
@@ -73,7 +73,7 @@ export function setDeleteEventListeners() {
 
 export async function updateUserRole() {
     const user = retrieveUserDetailsFromForm();
-    const url = `http://localhost:8080/user_management/${user.userid}?name=${user.name}&login=${user.login}&userRole=${user.userRole}`;
+    const url = `${serverURL}/user_management/${user.userid}?name=${user.name}&login=${user.login}&userRole=${user.userRole}`;
 
     const response = await fetch(url, {
         method: 'PATCH', body: JSON.stringify(user), headers: {
@@ -89,7 +89,7 @@ export async function updateUserRole() {
 }
 
 async function deleteUser(user) {
-    const url = `http://localhost:8080/user_management/${user.userid}`;
+    const url = `${serverURL}/user_management/${user.userid}`;
     const response = await fetch(url, {method: 'DELETE'});
     if (!await handleError(response)) {
         const deletedUser = JSON.parse(await response.text())
