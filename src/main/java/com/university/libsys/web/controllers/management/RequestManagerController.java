@@ -1,6 +1,7 @@
 package com.university.libsys.web.controllers.management;
 
 import com.university.libsys.backend.entities.LibsysRequest;
+import com.university.libsys.backend.exceptions.AlreadyProcessedRequestException;
 import com.university.libsys.backend.exceptions.RequestNotFoundException;
 import com.university.libsys.backend.exceptions.UserNotFoundException;
 import com.university.libsys.backend.services.Request.LibsysRequestService;
@@ -8,7 +9,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/request_management")
+@RequestMapping("/request_manager")
 public class RequestManagerController {
 
     private final String APPROVE_ACTION = "APPROVE";
@@ -31,7 +32,7 @@ public class RequestManagerController {
     }
 
     @PatchMapping("/{id}")
-    public LibsysRequest manageRequest(@PathVariable Long id, @RequestParam String action) throws RequestNotFoundException {
+    public LibsysRequest manageRequest(@PathVariable Long id, @RequestParam String action) throws RequestNotFoundException, UserNotFoundException, AlreadyProcessedRequestException {
         if (APPROVE_ACTION.equals(action)) {
             return requestService.approveRequest(id);
         } else if (REJECT_ACTION.equals(action)) {

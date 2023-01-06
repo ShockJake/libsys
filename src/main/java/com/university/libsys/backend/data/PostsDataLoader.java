@@ -26,7 +26,7 @@ public class PostsDataLoader implements ApplicationRunner {
         if (postsRepository.count() == 0) {
             log.warn("Inserting test post as there is no posts in Database");
             final Post post = new Post(null, 2L, "Super text, but not so long",
-                    "My lovely header", "/1.png");
+                    "My lovely header", "1.png");
             postsRepository.save(post);
         }
     }

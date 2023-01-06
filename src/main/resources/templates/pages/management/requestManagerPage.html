@@ -9,7 +9,7 @@
     <link rel="icon" href="/svg/page_icon_new.svg">
     <link rel="stylesheet" href="/style/scrollbar_style.css">
     <script src="/scripts/animations_and_objects/menuSidebarAnimator.js"></script>
-    <script src="/scripts/management/userManagementService.js"></script>
+    <script src="/scripts/initializers/requestManagementInitializer.js" type="module"></script>
     <script src="/scripts/commonInitializer.js" type="module"></script>
 </head>
 
@@ -94,9 +94,9 @@
                             <span class="button">manage</span>
                             <span class="drop-up-content">
                                 <a href="javascript:void(0)" th:id="'accept_button_id-'+ ${request.id}"
-                                   class="accept-button">Update</a>
+                                   class="accept-button">Accept</a>
                                 <a href="javascript:void(0)" th:id="'reject_button_id-'+ ${request.id}"
-                                   class="reject-button">Delete</a>
+                                   class="reject-button">Reject</a>
                             </span>
                         </span>
                     </td>

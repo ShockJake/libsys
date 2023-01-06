@@ -9,6 +9,7 @@
     <link rel="icon" href="/svg/page_icon_new.svg">
     <link rel="stylesheet" href="/style/scrollbar_style.css">
     <script src="/scripts/commonInitializer.js" type="module"></script>
+    <script th:if="${userRole} == 'READER'" src="/scripts/initializers/requesterInitializer.js" type="module"></script>
     <script src="/scripts/animations_and_objects/menuSidebarAnimator.js"></script>
 </head>
 
@@ -95,8 +96,8 @@
                     <a class="login-form-button" href="/messages">Messages</a>
                 </div>
                 <div class="panel-item" th:if="${userRole} == 'READER'">
-                    <a class="login-form-button" href="javascript:void(0)" onclick="requestWriterRole()">Request Writer
-                        Role</a>
+                    <a class="login-form-button" id="request_writer_role_button" href="javascript:void(0)">
+                        Request Writer Role</a>
                 </div>
             </div>
         </div>

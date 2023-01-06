@@ -1,6 +1,7 @@
 package com.university.libsys.backend.services.Request;
 
 import com.university.libsys.backend.entities.LibsysRequest;
+import com.university.libsys.backend.exceptions.AlreadyProcessedRequestException;
 import com.university.libsys.backend.exceptions.RequestNotFoundException;
 import com.university.libsys.backend.exceptions.UserNotFoundException;
 import org.jetbrains.annotations.NotNull;
@@ -15,9 +16,9 @@ public interface LibsysRequestService {
 
     List<LibsysRequest> getRequestsForUser(@NotNull Long id);
 
-    LibsysRequest approveRequest(@NotNull Long id) throws RequestNotFoundException;
+    LibsysRequest approveRequest(@NotNull Long id) throws RequestNotFoundException, UserNotFoundException, AlreadyProcessedRequestException;
 
-    LibsysRequest rejectRequest(@NotNull Long id) throws RequestNotFoundException;
+    LibsysRequest rejectRequest(@NotNull Long id) throws RequestNotFoundException, UserNotFoundException, AlreadyProcessedRequestException;
 
     LibsysRequest deleteRequest(@NotNull Long id) throws RequestNotFoundException;
 
