@@ -2,6 +2,7 @@ package com.university.libsys.backend.data;
 
 import com.university.libsys.backend.entities.Post;
 import com.university.libsys.backend.repositories.PostsRepository;
+import com.university.libsys.web.util.MessageUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +26,7 @@ public class PostsDataLoader implements ApplicationRunner {
     public void run(ApplicationArguments args) throws Exception {
         if (postsRepository.count() == 0) {
             log.warn("Inserting test post as there is no posts in Database");
-            final Post post = new Post(null, 2L, "Super text, but not so long",
+            final Post post = new Post(null, MessageUtil.ADMINISTRATION_ID, "Super text, but not so long",
                     "My lovely header", "1.png");
             postsRepository.save(post);
         }

@@ -24,7 +24,7 @@ export function setEventListeners() {
 }
 
 async function approveRequest(id) {
-    const url = `${serverURL}/request_manager/${id}?action=APPROVE`;
+    const url = `${serverURL}/request_management/${id}?action=APPROVE`;
     const response = await fetch(url, {method: 'PATCH'});
     if (!await handleError(response)) {
         alert(`Request was approved successfully`);
@@ -32,7 +32,7 @@ async function approveRequest(id) {
 }
 
 async function rejectRequest(id) {
-    const url = `${serverURL}/request_manager/${id}?action=REJECT`;
+    const url = `${serverURL}/request_management/${id}?action=REJECT`;
     const response = await fetch(url, {method: 'PATCH'});
     if (!await handleError(response)) {
         alert('Request was rejected successfully');

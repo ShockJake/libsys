@@ -1,4 +1,4 @@
-package com.university.libsys.web.controllers.account;
+package com.university.libsys.web.controllers.management;
 
 import com.university.libsys.backend.entities.Message;
 import com.university.libsys.backend.exceptions.MessageNotFoundException;
@@ -10,14 +10,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/messages_manager")
-public class MessageController {
+@RequestMapping("/messages_management")
+public class MessageManagementController {
 
     private final MessageService messageService;
-    private final Logger log = LoggerFactory.getLogger(MessageController.class);
+    private final Logger log = LoggerFactory.getLogger(MessageManagementController.class);
 
     @Autowired
-    public MessageController(MessageService messageService) {
+    public MessageManagementController(MessageService messageService) {
         this.messageService = messageService;
     }
 

@@ -4,8 +4,10 @@ import com.university.libsys.backend.entities.Post;
 import com.university.libsys.backend.exceptions.PostNotFoundException;
 import com.university.libsys.backend.exceptions.UserNotFoundException;
 import com.university.libsys.backend.services.File.FileService;
+import com.university.libsys.backend.services.Message.MessageService;
 import com.university.libsys.backend.services.Post.PostService;
 import com.university.libsys.backend.services.User.UserService;
+import com.university.libsys.web.util.MessageUtil;
 import com.university.libsys.web.util.ModelUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,13 +32,17 @@ public class PostsController {
     private final PostService postService;
     private final UserService userService;
     private final FileService fileService;
+    private final MessageService messageService;
     private final Logger log = LoggerFactory.getLogger(PostsController.class);
 
+    private final String savedPostMessage = "Post '%s' was added";
+
     @Autowired
-    public PostsController(PostService postService, UserService userService, FileService fileService) {
+    public PostsController(PostService postService, UserService userService, FileService fileService, MessageService messageService) {
         this.postService = postService;
         this.userService = userService;
         this.fileService = fileService;
+        this.messageService = messageService;
     }
 
     @RequestMapping("/{id}")
@@ -70,13 +76,14 @@ public class PostsController {
             ModelUtil.fillWithError(model, errorMessages);
             return "pages/create_post";
         }
-
         try {
             log.info(String.format("Received file: %s", postPhoto.getOriginalFilename()));
             postService.validatePost(post);
 
             final Post savedPost = postService.saveNewPost(post);
             fileService.save(Objects.requireNonNull(postPhoto.getOriginalFilename()), postPhoto.getInputStream());
+            messageService.saveNewMessage(MessageUtil.createMessageFromAdministration(String.format(savedPostMessage,
+                    savedPost.getPostHeader()), savedPost.getWriterID()));
 
             final List<String> messages = List.of(String.format("Post ID: %s", savedPost.getPostID()),
                     String.format("Writer: %s", userService.getUserById(savedPost.getWriterID()).getName()));

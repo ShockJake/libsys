@@ -17,6 +17,11 @@ public class PostManagerController {
         this.postService = postService;
     }
 
+    @GetMapping("/{id}")
+    public Post getPost(@PathVariable Long id) throws PostNotFoundException {
+        return postService.getPostById(id);
+    }
+
     @PatchMapping("/{id}")
     public Post updatePost(@PathVariable Long id) throws PostNotFoundException {
         return postService.updatePost(new Post()); // todo: implement this...

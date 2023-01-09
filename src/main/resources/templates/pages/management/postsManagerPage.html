@@ -9,7 +9,7 @@
     <link rel="icon" href="/svg/page_icon_new.svg">
     <link rel="stylesheet" href="/style/scrollbar_style.css">
     <script src="/scripts/animations_and_objects/menuSidebarAnimator.js"></script>
-    <!--    <script src="/scripts/initializers/"></script>-->
+    <script src="/scripts/initializers/postManagementInitializer.js" type="module"></script>
     <script src="/scripts/commonInitializer.js" type="module"></script>
 </head>
 
@@ -59,7 +59,7 @@
 </div>
 
 <!-- Main -->
-<div id="main" style="margin-bottom: 25%">
+<div id="main" style="margin-bottom: 30%">
     <link rel="stylesheet" href="/style/main/main_style.css">
     <link rel="stylesheet" href="/style/main/main_container_style.css">
     <link rel="stylesheet" href="/style/main/main_item_style.css">
@@ -91,7 +91,8 @@
                         <span class="drop-up-container">
                             <span class="button">manage</span>
                             <span class="drop-up-content">
-                                <a href="javascript:void(0)" th:id="'button_id-'+ ${post.postID}" class="update-button">Update</a>
+                                <a href="javascript:void(0)" th:id="'button_id-'+ ${post.postID}"
+                                   class="update-button">Update</a>
                                 <a href="javascript:void(0)" th:id="'delete_button_id-'+ ${post.postID}"
                                    class="delete-button">Delete</a>
                             </span>
@@ -101,6 +102,33 @@
                 </tbody>
             </table>
         </div>
+    </div>
+
+    <div id="post_management_update_form" class="modal">
+        <form class="model-content">
+            <div id="input_container">
+                <span onclick="document.getElementById('post_management_update_form').style.display='none'"
+                      class="close"
+                      title="Close">&times;</span>
+                <br>
+                <label for="post_management_update_id_input">Post ID</label>
+                <input id="post_management_update_id_input" type="text" placeholder="id" readonly>
+
+                <label for="post_management_update_header_input">Post Header</label>
+                <input id="post_management_update_header_input" type="text" placeholder="name" required>
+
+                <label for="post_management_update_text_input">Post text</label>
+                <textarea id="post_management_update_text_input" rows="10" required></textarea>
+
+                <label for="post_management_update_writer_input">Writer</label>
+                <input id="post_management_update_writer_input" type="text" readonly>
+
+                <label for="post_management_update_writerID_input" style="display: none">Writer ID</label>
+                <input id="post_management_update_writerID_input" style="display: none">
+
+                <button id="save_button" class="login-form-button" type="button">Save</button>
+            </div>
+        </form>
     </div>
 </div>
 

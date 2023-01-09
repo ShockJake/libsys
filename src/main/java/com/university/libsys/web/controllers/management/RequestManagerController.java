@@ -9,7 +9,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/request_manager")
+@RequestMapping("/request_management")
 public class RequestManagerController {
 
     private final String APPROVE_ACTION = "APPROVE";

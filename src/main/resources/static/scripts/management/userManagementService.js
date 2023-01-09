@@ -71,7 +71,7 @@ export function setDeleteEventListeners() {
     }
 }
 
-export async function updateUserRole() {
+export async function updateUserData() {
     const user = retrieveUserDetailsFromForm();
     const url = `${serverURL}/user_management/${user.userid}?name=${user.name}&login=${user.login}&userRole=${user.userRole}`;
 
@@ -94,5 +94,13 @@ async function deleteUser(user) {
     if (!await handleError(response)) {
         const deletedUser = JSON.parse(await response.text())
         alert(`User ${deletedUser.login} was deleted successfully`);
+    }
+}
+
+export async function retrieveUserFromServer(id) {
+    const url = `${serverURL}/user_management/${id}`;
+    const response = await fetch(url, {method: 'GET'});
+    if (!await handleError(response)) {
+        return JSON.parse(await response.text());
     }
 }

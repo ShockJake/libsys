@@ -13,6 +13,7 @@ import com.university.libsys.backend.utils.MessageStatus;
 import com.university.libsys.backend.utils.RequestStatus;
 import com.university.libsys.backend.utils.RequestType;
 import com.university.libsys.backend.utils.UserRole;
+import com.university.libsys.web.util.MessageUtil;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -114,6 +115,6 @@ public class LibsysRequestServiceImpl implements LibsysRequestService {
     private Message createMessageAboutRequestStatus(LibsysRequest request) {
         final String messageText = String.format("Status of request with id %s was changed to: %s",
                 request.getId(), request.getRequestStatus().name());
-        return new Message(null, messageText, request.getRequestSenderID(), 2L, MessageStatus.UNREAD);
+        return new Message(null, messageText, request.getRequestSenderID(), MessageUtil.ADMINISTRATION_ID, MessageStatus.UNREAD);
     }
 }

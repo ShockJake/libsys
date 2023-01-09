@@ -30,7 +30,7 @@ export function setEventListeners() {
 }
 
 async function markMessage(id, status) {
-    const url = `${serverURL}/messages_manager/${id}?status=${status}`;
+    const url = `${serverURL}/messages_management/${id}?status=${status}`;
     const response = await fetch(url, {method: 'PUT'});
     if (!await handleError(response)) {
         alert(`Message was marked as "${status}" successfully`);
@@ -38,7 +38,7 @@ async function markMessage(id, status) {
 }
 
 async function deleteMessage(id) {
-    const url = `${serverURL}/messages_manager/${id}`;
+    const url = `${serverURL}/messages_management/${id}`;
     const response = await fetch(url, {method: 'DELETE'});
     if (!await handleError(response)) {
         alert(`Message was deleted successfully`);

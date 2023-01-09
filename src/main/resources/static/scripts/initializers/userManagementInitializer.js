@@ -2,16 +2,12 @@ import {
     manageModal,
     setDeleteEventListeners,
     setUpdateEventListeners,
-    updateUserRole
+    updateUserData
 } from "../management/userManagementService.js";
 
 async function setSaveButtonListener() {
     const saveButton = document.getElementById('save_button');
-    const saveButtonListener = () => {
-        updateUserRole();
-    }
-
-    saveButton.addEventListener("click", saveButtonListener);
+    saveButton.addEventListener("click", updateUserData);
 }
 
 manageModal();

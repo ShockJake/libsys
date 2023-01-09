@@ -1,4 +1,4 @@
-input[type=text], select {
+input[type=text], select, textarea {
     width: 90%;
     padding: 2% 3%;
     margin: 1% 0;
@@ -9,6 +9,11 @@ input[type=text], select {
 
     font-family: Ubuntu, monospace;
     font-size: 26px;
+}
+
+textarea {
+    font-size: 18px;
+    resize: none;
 }
 
 label {
