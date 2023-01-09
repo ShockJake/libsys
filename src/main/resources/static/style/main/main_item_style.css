@@ -60,3 +60,15 @@
     border-radius: 5px;
     cursor: pointer;
 }
+
+@media (max-width: 425px) {
+    .main-item-image {
+        height: 50%;
+    }
+    .main-item-header {
+        font-size: 18px;
+    }
+    .main-item-text {
+        font-size: 14px;
+    }
+}

@@ -1,17 +1,4 @@
-async function checkAuthentication() {
-    let isAuthenticated = false;
-    await fetch('http://localhost:8080/auth')
-        .then(async response => isAuthenticated = await resolveAuthenticationStatus(response));
-    return isAuthenticated;
-}
-
-async function resolveAuthenticationStatus(response) {
-    if (response.headers.get("Content-Type") === 'application/json') {
-        const body = await response.text();
-        return body === 'true';
-    }
-    return false
-}
+import {checkAuthentication} from "../util/utils.js";
 
 function createLogoutButton(isAuthenticated) {
     const logoutButton = document.getElementById("logout_button");
