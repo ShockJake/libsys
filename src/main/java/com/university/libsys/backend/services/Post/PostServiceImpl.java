@@ -62,6 +62,7 @@ public class PostServiceImpl implements PostService {
                 post.getPostHeader(), post.getPostText(), post.getPostPhotoPath()));
         log.debug(String.format("New values: %s, %s, %s",
                 postToUpdate.getPostHeader(), postToUpdate.getPostText(), postToUpdate.getPostPhotoPath()));
+        validatePost(postToUpdate);
         updatePost(postToUpdate, post);
         return postsRepository.save(post);
     }

@@ -87,8 +87,12 @@ async function deletePost(id) {
     }
 }
 
-function updatePost() {
+async function updatePost() {
     const postToUpdate = retrieveDataFromForm();
     const url = `${serverURL}/post_management/${postToUpdate.postID}`;
-    alert("Updating post is not implemented yet, working on it...");
+    const response = await fetch(url, {method: 'PATCH', body: JSON.stringify(postToUpdate)});
+    if (!await handleError(response)) {
+        const updatedPost = JSON.parse(await response.text());
+        alert(`Post "${updatedPost.postHeader}" was updated successfully`);
+    }
 }

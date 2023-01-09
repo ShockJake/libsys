@@ -1,6 +1,7 @@
 package com.university.libsys.web.controllers;
 
 import com.university.libsys.backend.entities.Post;
+import com.university.libsys.backend.entities.User;
 import com.university.libsys.backend.exceptions.PostNotFoundException;
 import com.university.libsys.backend.exceptions.UserNotFoundException;
 import com.university.libsys.backend.services.File.FileService;
@@ -12,6 +13,7 @@ import com.university.libsys.web.util.ModelUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -45,13 +47,31 @@ public class PostsController {
         this.messageService = messageService;
     }
 
-    @RequestMapping("/{id}")
+    @GetMapping("/{id}")
     public String postPage(@PathVariable Long id, Model model) throws PostNotFoundException {
         final Post post = postService.getPostById(id);
         model.addAttribute("postHeader", post.getPostHeader());
         model.addAttribute("postText", post.getPostText());
         model.addAttribute("postPhotoPath", post.getPostPhotoPath());
         return "pages/postTemplate";
+    }
+
+    @GetMapping("/user/{id}")
+    public String userPostsPage(@PathVariable Long id, Model model) {
+        try {
+            final User user = userService.getUserById(id);
+            model.addAttribute("userLogin", user.getLogin());
+            final List<Post> posts = postService.getPostsByUserId(id);
+            model.addAttribute("posts", posts);
+        } catch (PostNotFoundException e) {
+            model.addAttribute("noPostsAvailable", "This user has no posts");
+        } catch (UserNotFoundException e) {
+            log.error(e.getMessage());
+            model.addAttribute("errorCode", HttpStatus.NOT_FOUND.value());
+            model.addAttribute("errorMessage", e.getMessage());
+            return "pages/customErrorPage";
+        }
+        return "pages/posts/postsOfUserTemplate";
     }
 
     @ModelAttribute
@@ -73,7 +93,7 @@ public class PostsController {
         if (errors.hasErrors()) {
             final String errorMessages = getAllErrors(errors);
             log.error(errorMessages);
-            ModelUtil.fillWithError(model, errorMessages);
+            model.addAttribute("error", errorMessages);
             return "pages/create_post";
         }
         try {

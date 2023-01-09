@@ -1,7 +1,7 @@
 export async function handleError(response) {
     if (response.status !== 200) {
-        const text = await response.text();
-        alert('Failure: ' + text);
+        const text = await response.json();
+        alert('Failure: ' + text.message);
         return true;
     }
     return false;

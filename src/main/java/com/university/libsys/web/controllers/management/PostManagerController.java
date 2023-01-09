@@ -23,8 +23,8 @@ public class PostManagerController {
     }
 
     @PatchMapping("/{id}")
-    public Post updatePost(@PathVariable Long id) throws PostNotFoundException {
-        return postService.updatePost(new Post()); // todo: implement this...
+    public Post updatePost(@PathVariable Long id, @RequestBody Post post) throws PostNotFoundException {
+        return postService.updatePost(post);
     }
 
     @DeleteMapping("/{id}")
