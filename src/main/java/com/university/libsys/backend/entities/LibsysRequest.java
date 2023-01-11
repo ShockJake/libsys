@@ -9,6 +9,7 @@ import org.apache.logging.log4j.core.config.plugins.validation.constraints.NotBl
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Data
@@ -18,7 +19,7 @@ import javax.persistence.Id;
 public class LibsysRequest {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @NotBlank(message = "Request must have a sender ID")
     private Long requestSenderID;

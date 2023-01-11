@@ -7,6 +7,7 @@ import com.university.libsys.backend.exceptions.UserNotFoundException;
 import com.university.libsys.backend.services.Message.MessageService;
 import com.university.libsys.backend.services.User.UserService;
 import com.university.libsys.backend.utils.UserRole;
+import com.university.libsys.web.util.MessageUtil;
 import com.university.libsys.web.util.ModelUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -59,8 +60,9 @@ public class AccountController {
     @PostMapping("/createAccount")
     public String saveUser(@Valid User user, Model model) {
         try {
-            userService.validateUser(user);
             final User addedUser = userService.saveNewUser(user);
+
+            messageService.saveNewMessage(MessageUtil.getCreatedAccountMessage(user.getUserID()));
 
             final List<String> messages = List.of(
                     String.format("Login: %s", addedUser.getLogin()),

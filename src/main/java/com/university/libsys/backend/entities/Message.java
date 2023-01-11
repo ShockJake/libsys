@@ -8,6 +8,7 @@ import org.apache.logging.log4j.core.config.plugins.validation.constraints.NotBl
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
@@ -17,7 +18,7 @@ import javax.persistence.Id;
 public class Message {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @NotBlank(message = "Message should have a text in it")
     private String text;

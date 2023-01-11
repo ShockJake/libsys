@@ -14,6 +14,10 @@ public class WebSecurityConfig {
 
     private final String[] publicPages = new String[]{"/", "/about", "/createAccount", "/infoPage", "/style/**",
             "/svg/**", "/photo/**", "/login**", "/scripts/**", "/books/**", "/libraries/**", "/selections/**"};
+
+    private final String[] administrationPages = new String[]{"/user_management/**", "/messages_management/**",
+            "/request_management/**", "/post_management/**", "/administration/**"};
+
     private final String[] ignoreCSRF = new String[]{"/createAccount", "/user_management/**",
             "/messages_management/**", "/request_management/**", "/post_management/**"};
 
@@ -21,16 +25,18 @@ public class WebSecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.antMatcher("/**")
                 .authorizeHttpRequests()
-                .antMatchers(publicPages).permitAll()
+                .antMatchers(publicPages).permitAll()                   // Permitting public pages for all users
+                .antMatchers(administrationPages).hasRole("ADMIN")      // Permitting administration pages
                 .anyRequest().authenticated()
-                .and().formLogin((form) -> form.loginPage("/login")
-                        .permitAll())
+                .and().formLogin((form) -> form.loginPage("/login")     // Configuring login process
+                        .permitAll()
+                        .defaultSuccessUrl("/account"))
                 .logout(logout -> logout
                         .logoutUrl("/logout")
                         .logoutSuccessUrl("/login?logout")
                         .invalidateHttpSession(true)
                         .deleteCookies("JSESSIONID"))
-                .cors().and().csrf().ignoringAntMatchers(ignoreCSRF);
+                .cors().and().csrf().ignoringAntMatchers(ignoreCSRF);   // Ignoring CSRF on some pages
 
         return http.build();
     }

@@ -1,15 +1,13 @@
 package com.university.libsys.backend.entities;
 
+import com.university.libsys.web.util.DateUtil;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import org.apache.logging.log4j.core.config.plugins.validation.constraints.NotBlank;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Data
 @NoArgsConstructor
@@ -18,7 +16,7 @@ import javax.persistence.Id;
 public class Post {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long postID;
     private Long writerID;
     @NotBlank(message = "Post has to have a text")
@@ -28,4 +26,10 @@ public class Post {
     @NotBlank(message = "Post has to have a unique photo path")
     @Column(unique = true)
     private String postPhotoPath;
+    @NotBlank(message = "Post has to have a date of creation")
+    private Long timestamp;
+
+    public String getDisplayDate() {
+        return DateUtil.format(timestamp);
+    }
 }

@@ -1,5 +1,6 @@
-// export const serverURL = 'http://localhost:8080';
-export const serverURL = 'http://192.168.137.1:8080';
+export const serverURL = 'http://localhost:8080';
+
+// export const serverURL = 'http://192.168.137.1:8080';
 
 async function resolveAuthenticationStatus(response) {
     if (response.headers.get("Content-Type") === 'application/json') {
@@ -27,4 +28,15 @@ export async function checkAuthentication() {
 
 export function resolveElementID(fullID) {
     return fullID.split("-")[1];
+}
+
+export function setFileSizeChecker() {
+    const uploadField = document.getElementById('post_photo_input');
+    console.log("Button was found");
+    uploadField.onchange = function () {
+        if (this.files[0].size > 4194304) {
+            alert("File is too big!");
+            this.value = "";
+        }
+    };
 }

@@ -46,10 +46,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User saveNewUser(@NotNull User userToSave) throws AlreadyExistingUserException {
-        final User user = userRepository.findUserByLogin(userToSave.getLogin());
-        if (user != null) {
+        if (userRepository.findUserByLogin(userToSave.getLogin()) != null) {
             throw new AlreadyExistingUserException(userToSave.getLogin());
         }
+        validateUser(userToSave);
         log.debug(String.format("Inserter new user - %s", userToSave.getLogin()));
         return userRepository.save(userToSave);
     }

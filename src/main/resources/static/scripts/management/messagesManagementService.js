@@ -3,7 +3,7 @@ import {handleError, serverURL, resolveElementID} from "../util/utils.js";
 export function setEventListeners() {
     const readButtons = document.getElementsByClassName("mark-read-button");
     const unreadButtons = document.getElementsByClassName("mark-unread-button");
-    const deleteButtons = document.getElementsByClassName("delete-message-button");
+    const deleteButtons = document.getElementsByClassName("delete-button");
 
     const readButtonsListener = e => {
         markMessage(resolveElementID(e.target.id), 'READ').then(

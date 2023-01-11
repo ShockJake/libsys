@@ -79,3 +79,24 @@ label {
 #save_button {
     margin-top: 2%;
 }
+
+.reject-button {
+    color: #ae6000;
+}
+
+.accept-button {
+    color: #025151;
+}
+
+.update-button {
+    color: #025151;
+}
+
+.delete-button {
+    color: darkred;
+    background-color: #e5cece;
+}
+
+.mark-read-button, .mark-unread-button {
+    color: #025151;
+}

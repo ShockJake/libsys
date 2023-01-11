@@ -14,7 +14,7 @@ public interface PostService {
 
     List<Post> getPostsByUserId(@NotNull Long id) throws PostNotFoundException, UserNotFoundException;
 
-    Post saveNewPost(@NotNull Post post);
+    Post saveNewPost(@NotNull Post post) throws UserNotFoundException;
 
     Post updatePost(@NotNull Post post) throws PostNotFoundException;
 

@@ -64,8 +64,8 @@ export function setUpdateEventListeners() {
 export function setDeleteEventListener() {
     const buttons = document.getElementsByClassName('delete-button');
     const deleteButtonListener = e => {
-        deletePost(resolveElementID(e.target.id)).then();
-        window.location.reload();
+        deletePost(resolveElementID(e.target.id))
+            .then(() => window.location.reload());
     }
 
     for (let button of buttons) {

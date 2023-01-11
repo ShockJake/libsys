@@ -9,6 +9,7 @@
     <link rel="icon" href="/svg/page_icon_new.svg">
     <link rel="stylesheet" href="/style/scrollbar_style.css">
     <script src="/scripts/commonInitializer.js" type="module"></script>
+    <script src="/scripts/initializers/uploadFileInitializer.js" type="module"></script>
     <script src="/scripts/animations_and_objects/menuSidebarAnimator.js"></script>
 </head>
 <body>
@@ -62,7 +63,7 @@
 
 <div id="main">
     <link rel="stylesheet" href="/style/main/main_style.css">
-    <div class="main-container" style="margin-bottom: 59.35%">
+    <div class="main-container" style="margin-bottom: 3%">
         <link rel="stylesheet" href="/style/main/main_container_style.css">
         <link rel="stylesheet" href="/style/login/login_form_style.css">
         <link rel="stylesheet" href="/style/post/create_post_form.css">
@@ -92,7 +93,7 @@
 
             <button class="login-form-button" id="create_post_button" type="submit">Create Post</button>
 
-            <div class="negative-message" th:if="${error} != null" th:text="${error}"></div>
+            <div class="negative-message" th:if="${error}" th:text="${error}"></div>
         </form>
     </div>
 </div>

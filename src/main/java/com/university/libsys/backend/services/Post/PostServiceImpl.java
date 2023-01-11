@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.validation.ValidationException;
+import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -48,7 +49,12 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public Post saveNewPost(@NotNull Post post) {
+    public Post saveNewPost(@NotNull Post post) throws UserNotFoundException {
+        validatePost(post);
+        final User writer = userService.getUserById(post.getWriterID());
+        writer.setPostsNumber(writer.getPostsNumber() + 1);
+        userService.updateUser(writer.getUserID(), writer);
+        post.setTimestamp(new Date().getTime());
         return postsRepository.save(post);
     }
 

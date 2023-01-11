@@ -30,9 +30,9 @@ public class MessagesDataLoader implements ApplicationRunner {
             // saving test messages for functional users
             log.warn("Message repository is empty, saving some messages");
             List<Message> messages = List.of(
-                    new Message(null, "Thank you for becoming our Administrator", 2L, MessageUtil.ADMINISTRATION_ID, MessageStatus.UNREAD),
-                    new Message(null, "Thank you for becoming our Writer", 3L, MessageUtil.ADMINISTRATION_ID, MessageStatus.UNREAD),
-                    new Message(null, "Thank you for becoming out Reader", 4L, MessageUtil.ADMINISTRATION_ID, MessageStatus.UNREAD)
+                    new Message(null, "Thank you for becoming our Administrator", 1L, MessageUtil.ADMINISTRATION_ID, MessageStatus.UNREAD),
+                    new Message(null, "Thank you for becoming our Writer", 2L, MessageUtil.ADMINISTRATION_ID, MessageStatus.UNREAD),
+                    new Message(null, "Thank you for becoming our Reader", 3L, MessageUtil.ADMINISTRATION_ID, MessageStatus.UNREAD)
             );
             messagesRepository.saveAll(messages);
         }

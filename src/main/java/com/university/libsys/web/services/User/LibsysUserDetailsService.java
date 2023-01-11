@@ -25,7 +25,8 @@ public class LibsysUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String userLogin) throws UsernameNotFoundException {
-        final User user = Optional.ofNullable(userRepository.findUserByLogin(userLogin)).orElseThrow(() -> new UsernameNotFoundException(userLogin));
+        final User user = Optional.ofNullable(userRepository.findUserByLogin(userLogin)).orElseThrow(
+                () -> new UsernameNotFoundException(userLogin));
         return org.springframework.security.core.userdetails.User
                 .withUsername(user.getLogin())
                 .password(passwordEncoder.encode(user.getPassword()))

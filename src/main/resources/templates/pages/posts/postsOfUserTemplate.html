@@ -71,7 +71,7 @@
             <h1 class="main-header" th:text="'Posts of ' + ${userLogin}"></h1>
         </div>
 
-        <div class="main-item-container" th:if="${noPostsAvailable} != null">
+        <div class="main-item-container" th:if="${noPostsAvailable}">
             <h2 class="main-item-header">Lack of posts</h2>
             <hr class="main-item-separator">
             <p class="main-item-text">Looks like this user does not have posts</p>
@@ -79,12 +79,13 @@
 
         <div th:if="${noPostsAvailable} == null" th:each="post : ${posts}" class="main-item-container">
             <div class="main-item-image-container">
-                <img th:src="'/photo/posts/' + ${post.postPhotoPath}" class="main-item-image"
-                     alt="Science-fiction books">
+                <img th:src="@{/posts/photos/{photoName}(photoName=${post.postPhotoPath})}" class="main-item-image"
+                     alt="">
             </div>
             <h2 class="main-item-header" th:text="${post.postHeader}"></h2>
             <hr class="main-item-separator">
             <p class="main-item-text" th:text="${post.postText}"></p>
+            <h4 th:text="'Created: ' + ${post.getDisplayDate()}" class="post-creation-date"></h4>
         </div>
     </div>
 </div>

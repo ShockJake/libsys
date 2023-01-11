@@ -1,4 +1,4 @@
-package com.university.libsys.web.controllers;
+package com.university.libsys.web.controllers.post;
 
 import com.university.libsys.backend.entities.Post;
 import com.university.libsys.backend.entities.User;
@@ -8,17 +8,22 @@ import com.university.libsys.backend.services.File.FileService;
 import com.university.libsys.backend.services.Message.MessageService;
 import com.university.libsys.backend.services.Post.PostService;
 import com.university.libsys.backend.services.User.UserService;
+import com.university.libsys.web.util.DateUtil;
 import com.university.libsys.web.util.MessageUtil;
 import com.university.libsys.web.util.ModelUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
@@ -37,8 +42,6 @@ public class PostsController {
     private final MessageService messageService;
     private final Logger log = LoggerFactory.getLogger(PostsController.class);
 
-    private final String savedPostMessage = "Post '%s' was added";
-
     @Autowired
     public PostsController(PostService postService, UserService userService, FileService fileService, MessageService messageService) {
         this.postService = postService;
@@ -53,7 +56,8 @@ public class PostsController {
         model.addAttribute("postHeader", post.getPostHeader());
         model.addAttribute("postText", post.getPostText());
         model.addAttribute("postPhotoPath", post.getPostPhotoPath());
-        return "pages/postTemplate";
+        model.addAttribute("postCreationDate", DateUtil.format(post.getTimestamp()));
+        return "pages/posts/postTemplate";
     }
 
     @GetMapping("/user/{id}")
@@ -98,12 +102,9 @@ public class PostsController {
         }
         try {
             log.info(String.format("Received file: %s", postPhoto.getOriginalFilename()));
-            postService.validatePost(post);
-
             final Post savedPost = postService.saveNewPost(post);
             fileService.save(Objects.requireNonNull(postPhoto.getOriginalFilename()), postPhoto.getInputStream());
-            messageService.saveNewMessage(MessageUtil.createMessageFromAdministration(String.format(savedPostMessage,
-                    savedPost.getPostHeader()), savedPost.getWriterID()));
+            messageService.saveNewMessage(MessageUtil.getCreatedPostMessage(savedPost.getWriterID(), savedPost.getPostHeader()));
 
             final List<String> messages = List.of(String.format("Post ID: %s", savedPost.getPostID()),
                     String.format("Writer: %s", userService.getUserById(savedPost.getWriterID()).getName()));
@@ -115,6 +116,22 @@ public class PostsController {
             ModelUtil.fillWithError(model, e.getMessage());
             return "pages/create_post";
         }
+    }
+
+    @GetMapping("/photos/{photoFilename}")
+    public ResponseEntity<Resource> getPostPhoto(@PathVariable String photoFilename) {
+        final String dispositionHeaderValue = String.format("attachment; filename=\"%s\"", photoFilename);
+        return ResponseEntity
+                .ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, dispositionHeaderValue)
+                .body(fileService.getPhoto(photoFilename));
+    }
+
+    @ExceptionHandler(MethodArgumentTypeMismatchException.class)
+    public String sendToCustomErrorPage(MethodArgumentTypeMismatchException ignoredE, Model model) {
+        model.addAttribute("errorCode", HttpStatus.BAD_REQUEST.value());
+        model.addAttribute("errorMessage", "You provided data with an error...");
+        return "pages/customErrorPage";
     }
 
     private String getAllErrors(Errors errors) {
