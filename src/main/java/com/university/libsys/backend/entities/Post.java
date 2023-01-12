@@ -20,6 +20,7 @@ public class Post {
     private Long postID;
     private Long writerID;
     @NotBlank(message = "Post has to have a text")
+    @Column(length = 3500)
     private String postText;
     @NotBlank(message = "Post has to have a header")
     private String postHeader;

@@ -30,7 +30,6 @@ import javax.validation.Valid;
 import javax.validation.ValidationException;
 import java.io.IOException;
 import java.util.List;
-import java.util.Objects;
 
 @Controller
 @RequestMapping("/posts")
@@ -48,6 +47,13 @@ public class PostsController {
         this.userService = userService;
         this.fileService = fileService;
         this.messageService = messageService;
+    }
+
+    @GetMapping("")
+    public String allPostsPage(Model model) {
+        final List<Post> posts = postService.getAllPosts();
+        model.addAttribute("posts", posts);
+        return "pages/posts/allPostsPageTemplate";
     }
 
     @GetMapping("/{id}")
@@ -102,18 +108,17 @@ public class PostsController {
         }
         try {
             log.info(String.format("Received file: %s", postPhoto.getOriginalFilename()));
-            final Post savedPost = postService.saveNewPost(post);
-            fileService.save(Objects.requireNonNull(postPhoto.getOriginalFilename()), postPhoto.getInputStream());
+            final Post savedPost = postService.saveNewPost(post, postPhoto);
             messageService.saveNewMessage(MessageUtil.getCreatedPostMessage(savedPost.getWriterID(), savedPost.getPostHeader()));
 
             final List<String> messages = List.of(String.format("Post ID: %s", savedPost.getPostID()),
-                    String.format("Writer: %s", userService.getUserById(savedPost.getWriterID()).getName()));
+                    String.format("Author: %s", userService.getUserById(savedPost.getWriterID()).getName()));
             ModelUtil.fillInfoModelWithArguments(model, String.format("Created post %s", savedPost.getPostHeader()), messages);
 
             return "infoPage";
         } catch (ValidationException | UserNotFoundException | IOException e) {
             log.error(e.getMessage());
-            ModelUtil.fillWithError(model, e.getMessage());
+            model.addAttribute("error", e.getMessage());
             return "pages/create_post";
         }
     }

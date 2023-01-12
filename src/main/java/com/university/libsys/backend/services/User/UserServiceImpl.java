@@ -95,5 +95,8 @@ public class UserServiceImpl implements UserService {
         if (!userToSave.getName().equals(userToUpdate.getName())) {
             userToSave.setName(userToUpdate.getName());
         }
+        if (!userToSave.getPostsNumber().equals(userToUpdate.getPostsNumber())) {
+            userToSave.setPostsNumber(userToUpdate.getPostsNumber());
+        }
     }
 }

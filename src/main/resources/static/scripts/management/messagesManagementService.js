@@ -39,9 +39,11 @@ async function markMessage(id, status) {
 
 async function deleteMessage(id) {
     const url = `${serverURL}/messages_management/${id}`;
-    const response = await fetch(url, {method: 'DELETE'});
-    if (!await handleError(response)) {
-        alert(`Message was deleted successfully`);
+    if (confirm('Are you sure you want to delete this message?')) {
+        const response = await fetch(url, {method: 'DELETE'});
+        if (!await handleError(response)) {
+            alert(`Message was deleted successfully`);
+        }
     }
 }
 

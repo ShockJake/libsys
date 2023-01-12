@@ -5,6 +5,7 @@ import com.university.libsys.backend.entities.User;
 import com.university.libsys.backend.exceptions.PostNotFoundException;
 import com.university.libsys.backend.exceptions.UserNotFoundException;
 import com.university.libsys.backend.repositories.PostsRepository;
+import com.university.libsys.backend.services.File.FileService;
 import com.university.libsys.backend.services.User.UserService;
 import com.university.libsys.backend.utils.ValidationUtil;
 import org.jetbrains.annotations.NotNull;
@@ -12,25 +13,26 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.ValidationException;
-import java.util.Date;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.io.IOException;
+import java.util.*;
 
 @Service
 public class PostServiceImpl implements PostService {
 
     private final PostsRepository postsRepository;
     private final UserService userService;
+    private final FileService fileService;
 
     private final Logger log = LoggerFactory.getLogger(PostServiceImpl.class);
 
     @Autowired
-    public PostServiceImpl(PostsRepository postsRepository, UserService userService) {
+    public PostServiceImpl(PostsRepository postsRepository, UserService userService, FileService fileService) {
         this.postsRepository = postsRepository;
         this.userService = userService;
+        this.fileService = fileService;
     }
 
     @Override
@@ -49,11 +51,10 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public Post saveNewPost(@NotNull Post post) throws UserNotFoundException {
+    public Post saveNewPost(@NotNull Post post, MultipartFile file) throws UserNotFoundException, IOException {
         validatePost(post);
-        final User writer = userService.getUserById(post.getWriterID());
-        writer.setPostsNumber(writer.getPostsNumber() + 1);
-        userService.updateUser(writer.getUserID(), writer);
+        fileService.save(Objects.requireNonNull(file.getOriginalFilename()), file.getInputStream());
+        updateUserNumberOfPosts(true, post.getWriterID());
         post.setTimestamp(new Date().getTime());
         return postsRepository.save(post);
     }
@@ -74,10 +75,12 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public Post deletePost(@NotNull Post postToDelete) throws PostNotFoundException {
+    public Post deletePost(@NotNull Post postToDelete) throws PostNotFoundException, UserNotFoundException {
         final Post post = postsRepository.findById(postToDelete.getPostID())
                 .orElseThrow(() -> new PostNotFoundException(postToDelete.getPostID()));
         postsRepository.deleteById(post.getPostID());
+        fileService.delete(post.getPostPhotoPath());
+        updateUserNumberOfPosts(false, post.getWriterID());
         log.debug(String.format("Deleted post - \"%s\"", post.getPostHeader()));
         return post;
     }
@@ -107,5 +110,17 @@ public class PostServiceImpl implements PostService {
             postToSave.setPostText(postToUpdate.getPostText());
         if (!postToSave.getPostPhotoPath().equals(postToUpdate.getPostPhotoPath()))
             postToSave.setPostPhotoPath(postToUpdate.getPostPhotoPath());
+    }
+
+    private void updateUserNumberOfPosts(boolean add, Long userID) throws UserNotFoundException {
+        final User user = userService.getUserById(userID);
+        if (add) {
+            log.info("Adding");
+            user.setPostsNumber(user.getPostsNumber() + 1);
+        } else {
+            log.info("Subtracting");
+            user.setPostsNumber(user.getPostsNumber() - 1);
+        }
+        userService.updateUser(userID, user);
     }
 }

@@ -1,17 +1,17 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <meta name="description" content="System for local library">
     <meta name="keywords" content="Library">
     <meta name="author" content="Stanislav Lysunenko">
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Book search</title>
+    <title>Posts</title>
     <link rel="icon" href="/svg/page_icon_new.svg">
     <link rel="stylesheet" href="/style/scrollbar_style.css">
-    <script src="/scripts/animations_and_objects/menuSidebarAnimator.js"></script>
     <script src="/scripts/commonInitializer.js" type="module"></script>
+    <script src="/scripts/animations_and_objects/menuSidebarAnimator.js"></script>
 </head>
+
 <body>
 <link rel="stylesheet" href="/style/body_style.css">
 
@@ -60,38 +60,42 @@
         </div>
     </div>
 </div>
+
 <div id="main">
     <link rel="stylesheet" href="/style/main/main_style.css">
-    <div class="main-container" style="margin-bottom: 20%">
+    <div class="main-container" style="margin-bottom: 59.35%">
         <link rel="stylesheet" href="/style/main/main_container_style.css">
+        <link rel="stylesheet" href="/style/main/main_item_style.css">
+
         <div class="main-header-container">
-            <h1 class="main-header">Books</h1>
+            <h1 class="main-header">Posts</h1>
         </div>
 
-        <!-- Books -->
-        <div class="main-item-container">
-            <link rel="stylesheet" href="/style/main/main_item_style.css">
-            <div class="main-item-image-container">
-                <img src="/photo/the-a-b-c-murders.jpg" class="main-item-image" alt="a-b-c murders photo">
-            </div>
-            <h2 class="main-item-header">The A-B-C Murders by Agata Christie</h2>
+        <div class="main-item-container" th:if="${posts.size()} == 0">
+            <h2 class="main-item-header">Lack of posts</h2>
             <hr class="main-item-separator">
-            <p class="main-item-text">The A.B.C. Murders is a work of detective fiction by British writer Agatha
-                Christie, featuring her characters Hercule Poirot, Arthur Hastings and Chief Inspector Japp, as they
-                contend with a series of killings by a mysterious murderer known only as "A.B.C."
-            </p>
+            <p class="main-item-text">Looks like there is no posts</p>
         </div>
 
-        <div class="main-item-container">
-            <link rel="stylesheet" href="/style/main/main_item_style.css">
-            <h2 class="main-item-header">New books will be soon</h2>
+        <div th:if="${posts.size()} != 0" th:each="post : ${posts}" class="main-item-container">
+            <div class="main-item-image-container">
+                <img th:src="@{/posts/photos/{photoName}(photoName=${post.postPhotoPath})}" class="main-item-image"
+                     alt="">
+            </div>
+            <h2 class="main-item-header" th:text="${post.postHeader}"></h2>
+            <hr class="main-item-separator">
+            <p class="main-item-text" th:text="${post.postText}"></p>
+            <h4 th:text="'&bull; Created by: '+ ${{post.writerID}} + ' - ' + ${post.getDisplayDate()}"
+                class="post-creation-date"></h4>
         </div>
     </div>
 </div>
 
-<div id="sidebar" class="side_bar_class">
+<!-- Sidebar -->
+<div id="sidebar">
     <link rel="stylesheet" href="/style/side-bar/side_bar_style.css">
-    <div id="navigation_bar" class="nav_bar_class">
+    <!-- Navigation bar -->
+    <div id="navigation_bar" class="nav-bar-class">
         <link rel="stylesheet" href="/style/side-bar/navigation_bar_style.css">
         <h1 id="navigation_bar_header">Navigation</h1>
         <ul id="navigation_bar_list">
@@ -102,7 +106,7 @@
                 <a href="/libraries" class="navigation-list-href">Libraries</a>
             </li>
             <li class="navigation-list-item">
-                <a href="/book_search" class="navigation-list-href">Books</a>
+                <a href="/books" class="navigation-list-href">Books</a>
             </li>
             <li class="navigation-list-item">
                 <a href="/selections" class="navigation-list-href">Book Selections</a>
@@ -112,24 +116,32 @@
             </li>
         </ul>
     </div>
-    <div id="help_bar" class="help_bar_class">
+
+    <!-- Help bar -->
+    <div id="help_bar" class="help-bar-class">
         <link rel="stylesheet" href="/style/side-bar/help_bar_style.css">
         <h1 id="help_bar_header">Help</h1>
         <ul id="help_bar_list">
-            <li class="help-list-item">Phone: <b>+48001112233</b></li>
-            <li class="help-list-item">E-mail: <b>libsys@mail.com</b></li>
+            <li id="ask_librarian_item" class="help-list-item">
+                <a id="ask_librarian_href" href="/ask_librarian_page">
+                    <b>Ask librarian</b>
+                </a>
+            </li>
+            <li class="help-list-item"><b>+48001112233</b></li>
+            <li class="help-list-item"><b>libsys@mail.com</b></li>
             <li class="help-list-item">
-                <img id="inst_icon" src="/svg/icons8-instagram.svg" alt="inst">
+                <img id="inst_icon" src="/svg/icons8-instagram.svg" alt="instagram">
                 <b id="inst_text"> @libsys </b>
             </li>
             <li class="help-list-item">
-                <img id="facebook_icon" src="/svg/icons8-facebook.svg" alt="inst">
+                <img id="facebook_icon" src="/svg/icons8-facebook.svg" alt="facebook">
                 <b id="facebook_text"> libsys-fb </b>
             </li>
         </ul>
     </div>
 </div>
-<div id="footer_absolute">
+
+<div id="footer_relative">
     <link rel="stylesheet" href="/style/footer/footer_style.css">
     <div class="footer_text_container">
         <span class="footer_text">&copy; Stanislav Lysunenko; Jagiellonian University</span>

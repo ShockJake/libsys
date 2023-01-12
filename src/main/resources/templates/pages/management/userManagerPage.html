@@ -93,7 +93,7 @@
                     <td th:id="'name-' + ${user.userID}" th:text="${user.name}"></td>
                     <td th:id="'userRole-' + ${user.userID}" th:text="${user.userRole.name()}"></td>
                     <td th:id="'postsNumber-' + ${user.userID}" th:text="${user.postsNumber}"></td>
-                    <td>
+                    <td class="manage-button">
                         <span class="drop-up-container">
                             <span class="button">manage</span>
                             <span class="drop-up-content">
@@ -127,6 +127,9 @@
 
                 <label for="user_management_update_login_input">User Login</label>
                 <input id="user_management_update_login_input" type="text" placeholder="login" required>
+
+                <label for="user_management_update_posts_input">Posts Number</label>
+                <input id="user_management_update_posts_input" type="text" placeholder="posts" readonly>
 
                 <label for="user_management_update_role_input">User Role</label>
                 <select id="user_management_update_role_input" required>
@@ -189,8 +192,8 @@
 <!-- Footer -->
 <div id="footer_relative">
     <link rel="stylesheet" href="/style/footer/footer_style.css">
-    <div id="footer_text_container">
-        <span id="footer_text">&copy; Stanislav Lysunenko; Jagiellonian University</span>
+    <div class="footer_text_container">
+        <span class="footer_text">&copy; Stanislav Lysunenko; Jagiellonian University</span>
     </div>
 </div>
 

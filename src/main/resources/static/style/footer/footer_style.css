@@ -35,13 +35,13 @@
     text-align: left;
 }
 
-#footer_text_container {
+.footer_text_container {
     position: absolute;
     bottom: 15px;
     left: 10px;
 }
 
-#footer_text {
+.footer_text {
     color: white;
     font-family: Ubuntu Mono, monospace;
     font-size: 18px;

@@ -25,8 +25,16 @@ public class FileServiceImpl implements FileService {
     @Override
     public void save(@NotNull String name, @NotNull InputStream inputStream) {
         try {
-            final Path filePath = Path.of(storageLocation).resolve(name).normalize();
-            Files.copy(inputStream, filePath);
+            Files.copy(inputStream, resolvePath(name));
+        } catch (IOException e) {
+            log.error(e.getMessage());
+        }
+    }
+
+    @Override
+    public void delete(@NotNull String name) {
+        try {
+            Files.deleteIfExists(resolvePath(name));
         } catch (IOException e) {
             log.error(e.getMessage());
         }
@@ -35,11 +43,14 @@ public class FileServiceImpl implements FileService {
     @Override
     public Resource getPhoto(@NotNull String name) {
         try {
-            final Path filePath = Path.of(storageLocation).resolve(name).normalize();
-            return new UrlResource(filePath.toUri());
+            return new UrlResource(resolvePath(name).toUri());
         } catch (MalformedURLException e) {
             log.error(e.getMessage());
         }
         return null; // todo: change to the always retrievable file
+    }
+
+    private Path resolvePath(String filename) {
+        return Path.of(storageLocation).resolve(filename).normalize();
     }
 }

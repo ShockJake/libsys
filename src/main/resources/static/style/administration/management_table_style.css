@@ -10,6 +10,26 @@
     border-spacing: 0;
 }
 
+#user_management_table .button {
+    position: relative;
+    display: inline-block;
+    border-radius: 5px;
+    vertical-align: center;
+    width: 7rem;
+    height: 2rem;
+    margin-left: 0;
+}
+
+@media (max-width: 500px) {
+    #user_management_table {
+        font-size: 14px;
+    }
+    #user_management_table .button {
+        font-size: 14px;
+        height: 1.5rem;
+    }
+}
+
 #user_management_table th {
     color: white;
     background-color: #025151;
@@ -19,22 +39,12 @@
     text-align: center;
 }
 
-#user_management_table tr:nth-child(even) {
-    border-radius: 5px;
+#user_management_table tr:nth-child(odd) {
+    background-color: rgba(255, 255, 255, 30%);
 }
 
 #user_management_table .post-text {
     font-size: 14px;
-}
-
-#user_management_table .button {
-    position: relative;
-    display: inline-block;
-    border-radius: 5px;
-    vertical-align: center;
-    width: 7rem;
-    height: 2rem;
-    margin-left: 0;
 }
 
 @media (max-width: 1024px) {
@@ -74,5 +84,34 @@
 
 .drop-up-container:hover .button {
     background-color: white;
+    color: #025151;
+}
+
+.manage-button {
+    width: 20%;
+}
+
+#save_button {
+    margin-top: 2%;
+}
+
+.reject-button {
+    color: #ae6000;
+}
+
+.accept-button {
+    color: #025151;
+}
+
+.update-button {
+    color: #025151;
+}
+
+.delete-button {
+    color: darkred;
+    background-color: #e5cece;
+}
+
+.mark-read-button, .mark-unread-button {
     color: #025151;
 }

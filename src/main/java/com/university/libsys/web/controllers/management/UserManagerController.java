@@ -3,7 +3,6 @@ package com.university.libsys.web.controllers.management;
 import com.university.libsys.backend.entities.User;
 import com.university.libsys.backend.exceptions.UserNotFoundException;
 import com.university.libsys.backend.services.User.UserService;
-import com.university.libsys.backend.utils.UserRole;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -17,9 +16,8 @@ public class UserManagerController {
     }
 
     @PatchMapping("/{id}")
-    public User updateUser(@PathVariable Long id, @RequestParam("name") String name, @RequestParam("login") String login, @RequestParam("userRole") String userRole) throws UserNotFoundException {
-        final User userToUpdate = getUpdatedUser(name, login, userRole);
-        return userService.updateUser(id, userToUpdate);
+    public User updateUser(@PathVariable Long id, @RequestBody User user) throws UserNotFoundException {
+        return userService.updateUser(id, user);
     }
 
     @DeleteMapping("/{id}")
@@ -30,13 +28,5 @@ public class UserManagerController {
     @GetMapping("/{id}")
     public User getUser(@PathVariable Long id) throws UserNotFoundException {
         return userService.getUserById(id);
-    }
-
-    private User getUpdatedUser(String name, String login, String userRole) {
-        final User user = new User();
-        user.setName(name);
-        user.setLogin(login);
-        user.setUserRole(UserRole.valueOf(userRole));
-        return user;
     }
 }

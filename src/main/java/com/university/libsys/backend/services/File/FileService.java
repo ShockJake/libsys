@@ -8,5 +8,7 @@ import java.io.InputStream;
 public interface FileService {
     void save(@NotNull String name, @NotNull InputStream inputStream);
 
+    void delete(@NotNull String name);
+
     Resource getPhoto(@NotNull String photoName);
 }

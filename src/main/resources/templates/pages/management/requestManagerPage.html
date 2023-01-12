@@ -160,10 +160,16 @@
 </div>
 
 <!-- Footer -->
-<div id="footer_relative">
+<div id="footer_absolute" th:if="${requests.size()} == 0">
     <link rel="stylesheet" href="/style/footer/footer_style.css">
-    <div id="footer_text_container">
-        <span id="footer_text">&copy; Stanislav Lysunenko; Jagiellonian University</span>
+    <div class="footer_text_container">
+        <span class="footer_text">&copy; Stanislav Lysunenko; Jagiellonian University</span>
+    </div>
+</div>
+<div id="footer_relative" th:if="${requests.size()} != 0">
+    <link rel="stylesheet" href="/style/footer/footer_style.css">
+    <div class="footer_text_container">
+        <span class="footer_text">&copy; Stanislav Lysunenko; Jagiellonian University</span>
     </div>
 </div>
 </body>

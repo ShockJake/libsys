@@ -8,17 +8,17 @@ input[type=text], select, textarea {
     border-radius: 5px;
 
     font-family: Ubuntu, monospace;
-    font-size: 26px;
+    font-size: 20px;
 }
 
 textarea {
-    font-size: 18px;
+    font-size: 14px;
     resize: none;
 }
 
 label {
     margin-left: 1%;
-    font-size: 26px;
+    font-size: 20px;
 }
 
 @media (max-width: 1024px) {
@@ -60,6 +60,32 @@ label {
     padding-top: 5%;
 }
 
+@media (max-width: 1500px) and (min-width: 1000px) {
+    .modal {
+        padding-top: 7%
+    }
+}
+
+@media (max-width: 1000px) and (min-width: 760px) {
+    .modal {
+        padding-top: 10%
+    }
+}
+
+@media (max-width: 760px) and (min-width: 500px) {
+    .modal {
+        padding-top: 15%;
+        width: 130%;
+    }
+}
+
+@media (max-width: 500px) {
+    .modal {
+        padding-top: 20%;
+        width: 130%;
+    }
+}
+
 .model-content {
 
     font-family: Ubuntu, monospace;
@@ -73,30 +99,8 @@ label {
 
 .model-content .login-form-button {
     padding: 1% 4%;
-    font-size: 26px;
+    font-size: 20px;
 }
 
-#save_button {
-    margin-top: 2%;
-}
 
-.reject-button {
-    color: #ae6000;
-}
 
-.accept-button {
-    color: #025151;
-}
-
-.update-button {
-    color: #025151;
-}
-
-.delete-button {
-    color: darkred;
-    background-color: #e5cece;
-}
-
-.mark-read-button, .mark-unread-button {
-    color: #025151;
-}

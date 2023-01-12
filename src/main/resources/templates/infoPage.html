@@ -41,6 +41,9 @@
         <a href="/account">
             <button class="button">Account</button>
         </a>
+        <form id="logout_form" th:action="@{/logout}" method="post">
+            <input id="logout_button" type="submit" class="button" value="Logout">
+        </form>
         <div id="tablet_bar_container">
             <link rel="stylesheet" href="/style/menu_bar/menu_bar_tablet_style.css">
             <a href="/selections">
@@ -123,8 +126,8 @@
 <!-- Footer -->
 <div id="footer_absolute">
     <link rel="stylesheet" href="/style/footer/footer_style.css">
-    <div id="footer_text_container">
-        <span id="footer_text">&copy; Stanislav Lysunenko; Jagiellonian University</span>
+    <div class="footer_text_container">
+        <span class="footer_text">&copy; Stanislav Lysunenko; Jagiellonian University</span>
     </div>
 </div>
 

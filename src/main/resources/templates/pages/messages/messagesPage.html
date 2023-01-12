@@ -87,7 +87,7 @@
                 <tr th:each="message : ${messages}">
                     <td class="post-text" th:id="'text-' + ${message.id}" th:text="${message.text}"></td>
                     <td th:id="'status-' + ${message.id}" th:text="${message.status.name()}"></td>
-                    <td>
+                    <td class="manage-button">
                         <span class="drop-up-container">
                             <span class="button">manage</span>
                             <span class="drop-up-content">
@@ -158,8 +158,8 @@
 <!-- Footer -->
 <div id="footer_absolute">
     <link rel="stylesheet" href="/style/footer/footer_style.css">
-    <div id="footer_text_container">
-        <span id="footer_text">&copy; Stanislav Lysunenko; Jagiellonian University</span>
+    <div class="footer_text_container">
+        <span class="footer_text">&copy; Stanislav Lysunenko; Jagiellonian University</span>
     </div>
 </div>
 

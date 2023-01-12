@@ -34,7 +34,7 @@ export function setFileSizeChecker() {
     const uploadField = document.getElementById('post_photo_input');
     console.log("Button was found");
     uploadField.onchange = function () {
-        if (this.files[0].size > 4194304) {
+        if (this.files[0].size > 6000000) {
             alert("File is too big!");
             this.value = "";
         }

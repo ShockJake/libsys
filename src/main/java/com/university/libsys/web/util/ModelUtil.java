@@ -10,8 +10,4 @@ public class ModelUtil {
         model.addAttribute("infoHeader", header);
         model.addAttribute("infoMessages", messages);
     }
-
-    public static void fillWithError(Model model, String errorMessage) {
-        model.addAttribute("error", errorMessage);
-    }
 }
