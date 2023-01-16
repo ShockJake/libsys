@@ -17,7 +17,7 @@ public class ValidationUtil {
                 })
                 .forEach(entry -> {
                     if (StringUtils.isEmptyOrWhitespace(entry.getValue())) {
-                        throw new ValidationException(String.format("Field (%s) cannot be blank", entry.getKey()));
+                        throw new ValidationException(String.format("%s cannot be blank", entry.getKey()));
                     }
                 });
     }

@@ -4,7 +4,9 @@ import com.university.libsys.backend.entities.User;
 import com.university.libsys.backend.exceptions.AlreadyExistingUserException;
 import com.university.libsys.backend.exceptions.UserNotFoundException;
 import com.university.libsys.backend.repositories.UserRepository;
+import com.university.libsys.backend.services.Message.MessageService;
 import com.university.libsys.backend.utils.ValidationUtil;
+import com.university.libsys.web.util.MessageUtil;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,11 +23,14 @@ import java.util.Optional;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
+    private final MessageService messageService;
+
     private final Logger log = LoggerFactory.getLogger(UserServiceImpl.class);
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository) {
+    public UserServiceImpl(UserRepository userRepository, MessageService messageService) {
         this.userRepository = userRepository;
+        this.messageService = messageService;
     }
 
     @Override
@@ -50,15 +55,15 @@ public class UserServiceImpl implements UserService {
             throw new AlreadyExistingUserException(userToSave.getLogin());
         }
         validateUser(userToSave);
-        log.debug(String.format("Inserter new user - %s", userToSave.getLogin()));
+        messageService.saveNewMessage(MessageUtil.getCreatedAccountMessage(userToSave.getUserID()));
+        log.debug(String.format("Inserted new user - %s", userToSave.getLogin()));
         return userRepository.save(userToSave);
     }
 
     @Override
-    public User deleteUser(@NotNull User userToDelete) throws UserNotFoundException {
-        Optional.ofNullable(userRepository.findUserByLogin(userToDelete.getLogin()))
-                .orElseThrow(() -> new UserNotFoundException(userToDelete.getLogin()));
-        userRepository.deleteById(userToDelete.getUserID());
+    public User deleteUser(@NotNull Long id) throws UserNotFoundException {
+        final User userToDelete = userRepository.findById(id).orElseThrow(() -> new UserNotFoundException(id));
+        userRepository.deleteById(id);
         log.debug(String.format("Deleted user - %s", userToDelete.getLogin()));
         return userToDelete;
     }

@@ -18,7 +18,7 @@ public interface UserService {
 
     User saveNewUser(@NotNull User user) throws AlreadyExistingUserException;
 
-    User deleteUser(@NotNull User user) throws UserNotFoundException;
+    User deleteUser(@NotNull Long id) throws UserNotFoundException;
 
     User updateUser(@NotNull Long id, @NotNull User userToUpdate) throws UserNotFoundException;
 

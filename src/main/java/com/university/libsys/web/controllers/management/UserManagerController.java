@@ -21,8 +21,8 @@ public class UserManagerController {
     }
 
     @DeleteMapping("/{id}")
-    public User deleteUser(@PathVariable(name = "id") Long id) throws UserNotFoundException {
-        return userService.deleteUser(userService.getUserById(id));
+    public User deleteUser(@PathVariable Long id) throws UserNotFoundException {
+        return userService.deleteUser(id);
     }
 
     @GetMapping("/{id}")

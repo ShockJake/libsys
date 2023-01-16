@@ -24,6 +24,7 @@
     #user_management_table {
         font-size: 14px;
     }
+
     #user_management_table .button {
         font-size: 14px;
         height: 1.5rem;
@@ -36,6 +37,7 @@
 }
 
 #user_management_table td {
+    padding: 1% 0;
     text-align: center;
 }
 
@@ -45,6 +47,9 @@
 
 #user_management_table .post-text {
     font-size: 14px;
+    text-align: left;
+    padding-left: 2%;
+    padding-right: 2%;
 }
 
 @media (max-width: 1024px) {

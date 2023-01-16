@@ -4,6 +4,7 @@ import com.university.libsys.backend.entities.User;
 import com.university.libsys.backend.exceptions.AlreadyExistingUserException;
 import com.university.libsys.backend.exceptions.UserNotFoundException;
 import com.university.libsys.backend.repositories.UserRepository;
+import com.university.libsys.backend.services.Message.MessageService;
 import com.university.libsys.backend.utils.UserRole;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -23,7 +24,8 @@ import static org.mockito.Mockito.doNothing;
 class UserServiceTest {
 
     private final UserRepository userRepository = Mockito.mock(UserRepository.class);
-    private final UserService userService = new UserServiceImpl(userRepository);
+    private final MessageService messageService = Mockito.mock(MessageService.class);
+    private final UserService userService = new UserServiceImpl(userRepository, messageService);
 
     @BeforeAll
     static void initialize() {
@@ -114,7 +116,7 @@ class UserServiceTest {
 
         // when
         final AtomicReference<User> user = new AtomicReference<>();
-        assertDoesNotThrow(() -> user.set(userService.deleteUser(userToDelete)));
+        assertDoesNotThrow(() -> user.set(userService.deleteUser(userToDelete.getUserID())));
 
         // then
         assertEquals(userToDelete, user.get());
@@ -128,7 +130,7 @@ class UserServiceTest {
         doNothing().when(userRepository).deleteById(userToDelete.getUserID());
 
         // when & then
-        assertThrows(UserNotFoundException.class, () -> userService.deleteUser(userToDelete));
+        assertThrows(UserNotFoundException.class, () -> userService.deleteUser(userToDelete.getUserID()));
     }
 
     @Test

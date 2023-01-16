@@ -58,6 +58,9 @@ public class LibsysRequestServiceImpl implements LibsysRequestService {
             throw new AlreadyProcessedRequestException(id);
         }
         mapRequest(requestToApprove, RequestStatus.APPROVED);
+        messageService.saveNewMessage(MessageUtil.getApprovedRequestMessage(requestToApprove.getRequestSenderID(),
+                requestToApprove.getRequestType().requestType));
+
         return requestRepository.save(requestToApprove);
     }
 
@@ -69,6 +72,9 @@ public class LibsysRequestServiceImpl implements LibsysRequestService {
             throw new AlreadyProcessedRequestException(id);
         }
         mapRequest(requestToReject, RequestStatus.REJECTED);
+        messageService.saveNewMessage(MessageUtil.getRejectRequestMessage(requestToReject.getRequestSenderID(),
+                requestToReject.getRequestType().requestType));
+
         return requestRepository.save(requestToReject);
     }
 

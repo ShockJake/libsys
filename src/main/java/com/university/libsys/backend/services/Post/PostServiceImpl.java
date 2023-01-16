@@ -6,8 +6,10 @@ import com.university.libsys.backend.exceptions.PostNotFoundException;
 import com.university.libsys.backend.exceptions.UserNotFoundException;
 import com.university.libsys.backend.repositories.PostsRepository;
 import com.university.libsys.backend.services.File.FileService;
+import com.university.libsys.backend.services.Message.MessageService;
 import com.university.libsys.backend.services.User.UserService;
 import com.university.libsys.backend.utils.ValidationUtil;
+import com.university.libsys.web.util.MessageUtil;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,14 +25,16 @@ import java.util.*;
 public class PostServiceImpl implements PostService {
 
     private final PostsRepository postsRepository;
+    private final MessageService messageService;
     private final UserService userService;
     private final FileService fileService;
 
     private final Logger log = LoggerFactory.getLogger(PostServiceImpl.class);
 
     @Autowired
-    public PostServiceImpl(PostsRepository postsRepository, UserService userService, FileService fileService) {
+    public PostServiceImpl(PostsRepository postsRepository, MessageService messageService, UserService userService, FileService fileService) {
         this.postsRepository = postsRepository;
+        this.messageService = messageService;
         this.userService = userService;
         this.fileService = fileService;
     }
@@ -56,6 +60,7 @@ public class PostServiceImpl implements PostService {
         fileService.save(Objects.requireNonNull(file.getOriginalFilename()), file.getInputStream());
         updateUserNumberOfPosts(true, post.getWriterID());
         post.setTimestamp(new Date().getTime());
+        messageService.saveNewMessage(MessageUtil.getCreatedPostMessage(post.getWriterID(), post.getPostHeader()));
         return postsRepository.save(post);
     }
 
