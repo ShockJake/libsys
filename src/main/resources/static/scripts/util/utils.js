@@ -1,5 +1,4 @@
 export const serverURL = 'http://localhost:8080';
-
 // export const serverURL = 'http://192.168.137.1:8080';
 
 async function resolveAuthenticationStatus(response) {
@@ -32,7 +31,6 @@ export function resolveElementID(fullID) {
 
 export function setFileSizeChecker() {
     const uploadField = document.getElementById('post_photo_input');
-    console.log("Button was found");
     uploadField.onchange = function () {
         if (this.files[0].size > 6000000) {
             alert("File is too big!");
@@ -40,3 +38,17 @@ export function setFileSizeChecker() {
         }
     };
 }
+
+export function setEventListenerToObjects(objectName, eventListener) {
+    const objects = document.getElementsByClassName(objectName);
+    for (const object of objects) {
+        object.addEventListener('click', eventListener);
+    }
+}
+
+export function setEventListenerToSingleObject(objectId, eventListener) {
+    const object = document.getElementById(objectId);
+    object.addEventListener("click", eventListener);
+}
+
+export const reloadWindow = () => window.location.reload();

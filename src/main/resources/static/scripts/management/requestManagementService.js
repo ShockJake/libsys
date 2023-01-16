@@ -1,26 +1,10 @@
-import {handleError, serverURL, resolveElementID} from "../util/utils.js";
+import {handleError, serverURL, resolveElementID, setEventListenerToObjects} from "../util/utils.js";
 
-export function setEventListeners() {
-    const acceptButtons = document.getElementsByClassName('accept-button');
-    const rejectButtons = document.getElementsByClassName('reject-button');
-
-    const acceptButtonListener = e => {
-        approveRequest(resolveElementID(e.target.id))
-            .then(() => window.location.reload());
-    }
-
-    const rejectButtonListener = e => {
-        rejectRequest(resolveElementID(e.target.id))
-            .then(() => window.location.reload());
-    }
-
-    for (let button of acceptButtons) {
-
-        button.addEventListener('click', acceptButtonListener);
-    }
-    for (let button of rejectButtons) {
-        button.addEventListener('click', rejectButtonListener);
-    }
+export function initializeRequestManagementService() {
+    setEventListenerToObjects('accept-button',
+        e => approveRequest(resolveElementID(e.target.id)).then(() => window.location.reload()));
+    setEventListenerToObjects('reject-button',
+        e => rejectRequest(resolveElementID(e.target.id)).then(() => window.location.reload()));
 }
 
 async function approveRequest(id) {

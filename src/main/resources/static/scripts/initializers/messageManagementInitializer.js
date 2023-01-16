@@ -1,3 +1,3 @@
-import {setEventListeners} from "../management/messagesManagementService.js";
+import {initializeMessagesManagementService} from "../management/messagesManagementService.js";
 
-setEventListeners();
+initializeMessagesManagementService();

@@ -1,7 +1,6 @@
 import {
     manageModal,
-    setDeleteEventListeners,
-    setUpdateEventListeners,
+    initializeUserManagementService,
     updateUserData
 } from "../management/userManagementService.js";
 
@@ -11,7 +10,6 @@ async function setSaveButtonListener() {
 }
 
 manageModal();
-setUpdateEventListeners();
-setDeleteEventListeners();
+initializeUserManagementService();
 setSaveButtonListener().then(() => {
 });

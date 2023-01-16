@@ -1,4 +1,4 @@
-import {handleError, serverURL} from "../util/utils.js";
+import {handleError, resolveElementID, serverURL, setEventListenerToObjects} from "../util/utils.js";
 
 export function manageModal() {
     const modal = document.getElementById('user_management_update_form');
@@ -45,34 +45,18 @@ function getUserDetailsFromRow(userId) {
     return createUser(userId, userName, userLogin, userRole, postsNumber);
 }
 
-export function setUpdateEventListeners() {
-    const buttons = document.getElementsByClassName("update-button");
-    const buttonPressedListener = e => {
-        const buttonId = e.target.id;
-        const userId = buttonId.split("-")[1];
-        const user = getUserDetailsFromRow(userId);
+export function initializeUserManagementService() {
+    setEventListenerToObjects('update-button', e => {
+        const user = getUserDetailsFromRow(resolveElementID(e.target.id));
         setUserDetailsToForm(user.userID, user.name, user.login, user.userRole, user.postsNumber);
         document.getElementById('user_management_update_form').style.display = 'block'
-    }
-
-    for (let button of buttons) {
-        button.addEventListener("click", buttonPressedListener);
-    }
-}
-
-export function setDeleteEventListeners() {
-    const buttons = document.getElementsByClassName("delete-button");
-
-    const buttonPressedListener = e => {
-        const buttonId = e.target.id;
-        const userId = buttonId.split("-")[1];
-        const user = getUserDetailsFromRow(userId);
-        deleteUser(user).then(() => window.location.reload());
-    }
-
-    for (let button of buttons) {
-        button.addEventListener("click", buttonPressedListener);
-    }
+    });
+    setEventListenerToObjects('delete-button', e => {
+        deleteUser(getUserDetailsFromRow(resolveElementID(e.target.id))).then(() => window.location.reload());
+    });
+    setEventListenerToObjects('delete-buttons', e => {
+        deleteUser(getUserDetailsFromRow(resolveElementID(e.target.id))).then(() => window.location.reload());
+    });
 }
 
 export async function updateUserData() {

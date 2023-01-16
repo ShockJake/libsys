@@ -1,3 +1,3 @@
-import {setEventListeners} from "../management/requestManagementService.js";
+import {initializeRequestManagementService} from "../management/requestManagementService.js";
 
-setEventListeners();
+initializeRequestManagementService();

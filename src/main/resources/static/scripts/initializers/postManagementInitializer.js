@@ -1,11 +1,4 @@
-import {
-    manageModal,
-    setDeleteEventListener,
-    setUpdateEventListeners,
-    setSaveEventListener
-} from "../management/postManagementService.js";
+import {manageModal, initializePostManagement} from "../management/postManagementService.js";
 
 manageModal();
-setDeleteEventListener();
-setUpdateEventListeners();
-setSaveEventListener();
+initializePostManagement();

@@ -1,39 +1,32 @@
-import {handleError, serverURL, resolveElementID} from "../util/utils.js";
+import {
+    handleError,
+    serverURL,
+    resolveElementID,
+    setEventListenerToObjects,
+    reloadWindow,
+} from "../util/utils.js";
 
-export function setEventListeners() {
-    const readButtons = document.getElementsByClassName("mark-read-button");
-    const unreadButtons = document.getElementsByClassName("mark-unread-button");
-    const deleteButtons = document.getElementsByClassName("delete-button");
-
-    const readButtonsListener = e => {
-        markMessage(resolveElementID(e.target.id), 'READ').then(
-            () => window.location.reload());
-    }
-    const unreadButtonsListener = e => {
-        markMessage(resolveElementID(e.target.id), 'UNREAD')
-            .then(() => window.location.reload());
-    }
-    const deleteButtonsListener = e => {
-        deleteMessage(resolveElementID(e.target.id))
-            .then(() => window.location.reload());
-    }
-
-    for (let button of readButtons) {
-        button.addEventListener("click", readButtonsListener);
-    }
-    for (let button of unreadButtons) {
-        button.addEventListener("click", unreadButtonsListener);
-    }
-    for (let button of deleteButtons) {
-        button.addEventListener("click", deleteButtonsListener);
-    }
+export function initializeMessagesManagementService() {
+    setEventListenerToObjects('mark-read-button', e => {
+        markMessage(resolveElementID(e.target.id), 'READ').then(reloadWindow);
+    });
+    setEventListenerToObjects('mark-unread-button', e => {
+        markMessage(resolveElementID(e.target.id), 'UNREAD').then(reloadWindow);
+    });
+    setEventListenerToObjects('delete-button', e => {
+        deleteMessage(resolveElementID(e.target.id)).then(reloadWindow);
+    });
 }
 
 async function markMessage(id, status) {
-    const url = `${serverURL}/messages_management/${id}?status=${status}`;
-    const response = await fetch(url, {method: 'PUT'});
-    if (!await handleError(response)) {
-        alert(`Message was marked as "${status}" successfully`);
+    if (document.getElementById(`status-${id}`).innerHTML === status) {
+        alert(`You have already marked this message as ${status}`);
+    } else {
+        const url = `${serverURL}/messages_management/${id}?status=${status}`;
+        const response = await fetch(url, {method: 'PUT'});
+        if (!await handleError(response)) {
+            alert(`Message was marked as "${status}" successfully`);
+        }
     }
 }
 
@@ -46,4 +39,3 @@ async function deleteMessage(id) {
         }
     }
 }
-

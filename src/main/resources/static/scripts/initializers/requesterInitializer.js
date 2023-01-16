@@ -1,3 +1,3 @@
-import {setEventListeners} from "../requester.js";
+import {initializeRequester} from "../requester.js";
 
-setEventListeners();
+initializeRequester();

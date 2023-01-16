@@ -12,7 +12,7 @@ async function requestWriterRole() {
     await doRequest('WRITER_ROLE')
 }
 
-export function setEventListeners() {
+export function initializeRequester() {
     const requestWriterRoleButton = document.getElementById('request_writer_role_button');
     const requestWriterRoleButtonListener = () => {
         requestWriterRole().then();

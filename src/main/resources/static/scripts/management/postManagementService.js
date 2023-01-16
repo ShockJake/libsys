@@ -1,4 +1,10 @@
-import {handleError, resolveElementID, serverURL} from "../util/utils.js";
+import {
+    handleError,
+    resolveElementID,
+    serverURL,
+    setEventListenerToObjects,
+    setEventListenerToSingleObject
+} from "../util/utils.js";
 import {retrieveUserFromServer} from "./userManagementService.js";
 
 async function retrievePostFromServer(id) {
@@ -52,32 +58,15 @@ export function manageModal() {
     };
 }
 
-export function setUpdateEventListeners() {
-    const buttons = document.getElementsByClassName('update-button');
-    const updateButtonListener = e => {
+export function initializePostManagement() {
+    setEventListenerToObjects('update-button', e => {
         retrievePostFromServer(resolveElementID(e.target.id)).then(r => setPostDataToForm(r));
         document.getElementById('post_management_update_form').style.display = 'block';
-    }
-
-    for (let button of buttons) {
-        button.addEventListener('click', updateButtonListener);
-    }
-}
-
-export function setDeleteEventListener() {
-    const buttons = document.getElementsByClassName('delete-button');
-    const deleteButtonListener = e => deletePost(resolveElementID(e.target.id))
-        .then(() => window.location.reload());
-
-    for (let button of buttons) {
-        button.addEventListener('click', deleteButtonListener);
-    }
-}
-
-export function setSaveEventListener() {
-    const button = document.getElementById('save_button');
-    const saveButtonListener = () => updatePost().then(() => window.location.reload());
-    button.addEventListener('click', saveButtonListener);
+    });
+    setEventListenerToObjects('delete-button',
+            e => deletePost(resolveElementID(e.target.id)).then(() => window.location.reload()));
+    setEventListenerToSingleObject('save_button',
+        () => updatePost().then(() => window.location.reload()));
 }
 
 async function deletePost(id) {
