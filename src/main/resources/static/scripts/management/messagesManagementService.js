@@ -7,15 +7,12 @@ import {
 } from "../util/utils.js";
 
 export function initializeMessagesManagementService() {
-    setEventListenerToObjects('mark-read-button', e => {
-        markMessage(resolveElementID(e.target.id), 'READ').then(reloadWindow);
-    });
-    setEventListenerToObjects('mark-unread-button', e => {
-        markMessage(resolveElementID(e.target.id), 'UNREAD').then(reloadWindow);
-    });
-    setEventListenerToObjects('delete-button', e => {
-        deleteMessage(resolveElementID(e.target.id)).then(reloadWindow);
-    });
+    setEventListenerToObjects('mark-read-button',
+            e => markMessage(resolveElementID(e.target.id), 'READ').then(reloadWindow));
+    setEventListenerToObjects('mark-unread-button',
+            e => markMessage(resolveElementID(e.target.id), 'UNREAD').then(reloadWindow));
+    setEventListenerToObjects('delete-button',
+            e => deleteMessage(resolveElementID(e.target.id)).then(reloadWindow));
 }
 
 async function markMessage(id, status) {

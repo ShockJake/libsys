@@ -47,14 +47,21 @@ public class PostsController {
 
     @GetMapping("")
     public String allPostsPage(Model model) {
-        final List<Post> posts = postService.getAllPosts();
+        final List<Post> posts = postService.getAllPostsOrderedByTime();
         model.addAttribute("posts", posts);
         return "pages/posts/allPostsPageTemplate";
     }
 
     @GetMapping("/{id}")
-    public String postPage(@PathVariable Long id, Model model) throws PostNotFoundException {
-        final Post post = postService.getPostById(id);
+    public String postPage(@PathVariable Long id, Model model) {
+        final Post post;
+        try {
+            post = postService.getPostById(id);
+        } catch (PostNotFoundException e) {
+            model.addAttribute("errorCode", HttpStatus.NOT_FOUND.value());
+            model.addAttribute("errorMessage", e.getMessage());
+            return "pages/customErrorPage";
+        }
         model.addAttribute("postHeader", post.getPostHeader());
         model.addAttribute("postText", post.getPostText());
         model.addAttribute("postPhotoPath", post.getPostPhotoPath());

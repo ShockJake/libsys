@@ -24,7 +24,6 @@ public class Post {
     private String postText;
     @NotBlank(message = "Post has to have a header")
     private String postHeader;
-    @NotBlank(message = "Post has to have a unique photo path")
     @Column(unique = true)
     private String postPhotoPath;
     @NotBlank(message = "Post has to have a date of creation")

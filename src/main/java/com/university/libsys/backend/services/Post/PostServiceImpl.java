@@ -20,6 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.validation.ValidationException;
 import java.io.IOException;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class PostServiceImpl implements PostService {
@@ -96,6 +97,13 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
+    public List<Post> getAllPostsOrderedByTime() {
+        return postsRepository.findAll().stream()
+                .sorted(Comparator.comparing(Post::getTimestamp).reversed())
+                .collect(Collectors.toList());
+    }
+
+    @Override
     public void validatePost(@NotNull Post post) throws ValidationException {
         final Map<String, String> postFields = new LinkedHashMap<>();
         postFields.put("postHeader", post.getPostHeader());
@@ -120,10 +128,8 @@ public class PostServiceImpl implements PostService {
     private void updateUserNumberOfPosts(boolean add, Long userID) throws UserNotFoundException {
         final User user = userService.getUserById(userID);
         if (add) {
-            log.info("Adding");
             user.setPostsNumber(user.getPostsNumber() + 1);
         } else {
-            log.info("Subtracting");
             user.setPostsNumber(user.getPostsNumber() - 1);
         }
         userService.updateUser(userID, user);

@@ -24,5 +24,7 @@ public interface PostService {
 
     List<Post> getAllPosts();
 
+    List<Post> getAllPostsOrderedByTime();
+
     void validatePost(@NotNull Post post) throws ValidationException;
 }

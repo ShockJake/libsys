@@ -17,7 +17,7 @@
 
 <div id="menu_bar" class="menu-bar-class">
     <link rel="stylesheet" href="/style/menu_bar/menu_bar_style.css">
-    <a id="to_index_link" href="/static" class="index-link">
+    <a id="to_index_link" href="/" class="index-link">
         <svg id="to_index_background" width="240" height="70">
             <rect height="70" width="240"/>
         </svg>
@@ -72,7 +72,9 @@
         <div class="main-item-container">
             <link rel="stylesheet" href="/style/main/main_item_style.css">
             <div class="main-item-image-container">
-                <img th:src="@{/posts/photos/{photoName}(photoName=${postPhotoPath})}" class="main-item-image" alt="Post image">
+                <img th:if="${postPhotoPath}"
+                     th:src="@{/posts/photos/{photoName}(photoName=${postPhotoPath})}"
+                     class="main-item-image" alt="Post image">
             </div>
             <h2 class="main-item-header" th:text="${postHeader}"></h2>
             <hr class="main-item-separator">
@@ -91,7 +93,7 @@
         <h1 id="navigation_bar_header">Navigation</h1>
         <ul id="navigation_bar_list">
             <li class="navigation-list-item">
-                <a href="/static" class="navigation-list-href">Main page</a>
+                <a href="/" class="navigation-list-href">Main page</a>
             </li>
             <li class="navigation-list-item">
                 <a href="/libraries" class="navigation-list-href">Libraries</a>

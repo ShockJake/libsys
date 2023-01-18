@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="/style/scrollbar_style.css">
     <script src="/scripts/commonInitializer.js" type="module"></script>
     <script src="/scripts/animations_and_objects/menuSidebarAnimator.js"></script>
+    <script src="/scripts/animations_and_objects/likeButtonAnimator.js" type="module"></script>
 </head>
 
 <body>
@@ -63,7 +64,7 @@
 
 <div id="main">
     <link rel="stylesheet" href="/style/main/main_style.css">
-    <div class="main-container" style="margin-bottom: 59.35%">
+    <div class="main-container">
         <link rel="stylesheet" href="/style/main/main_container_style.css">
         <link rel="stylesheet" href="/style/main/main_item_style.css">
 
@@ -78,15 +79,26 @@
         </div>
 
         <div th:if="${posts.size()} != 0" th:each="post : ${posts}" class="main-item-container">
-            <div class="main-item-image-container">
-                <img th:src="@{/posts/photos/{photoName}(photoName=${post.postPhotoPath})}" class="main-item-image"
-                     alt="">
-            </div>
-            <h2 class="main-item-header" th:text="${post.postHeader}"></h2>
-            <hr class="main-item-separator">
-            <p class="main-item-text" th:text="${post.postText}"></p>
-            <h4 th:text="'&bull; Created by: '+ ${{post.writerID}} + ' - ' + ${post.getDisplayDate()}"
-                class="post-creation-date"></h4>
+            <a th:href="'/posts/' + ${post.postID}" style="text-decoration: none">
+                <div class="main-item-image-container">
+                    <img th:if="${post.postPhotoPath}"
+                         th:src="@{/posts/photos/{photoName}(photoName=${post.postPhotoPath})}"
+                         class="main-item-image" alt="Post image">
+                </div>
+
+            </a>
+            <a th:href="'/posts/' + ${post.postID}" style="text-decoration: none">
+                <h2 class="main-item-header" th:text="${post.postHeader}"></h2>
+            </a>
+                <span> <img th:id="'like_button-' + ${post.postID}" class="like-button"
+                            src="/svg/heart.svg" alt="Like icon"></span>
+                <br>
+            <a th:href="'/posts/' + ${post.postID}" style="text-decoration: none">
+                <hr class="main-item-separator">
+                <p class="main-item-text" th:text="${post.postText}"></p>
+                <h4 th:text="'&bull; Created by: '+ ${{post.writerID}} + ' - ' + ${post.getDisplayDate()}"
+                    class="post-creation-date"></h4>
+            </a>
         </div>
     </div>
 </div>
