@@ -5,6 +5,7 @@ import com.university.libsys.backend.services.Post.PostService;
 import com.university.libsys.backend.services.Request.LibsysRequestService;
 import com.university.libsys.backend.services.User.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -32,8 +33,14 @@ public class AdministrationController {
     }
 
     @RequestMapping("/posts")
-    public String postsManagerPage(Model model, Authentication authentication) throws UserNotFoundException {
-        model.addAttribute("posts", postService.getAllPosts(authentication.getName()));
+    public String postsManagerPage(Model model, Authentication authentication) {
+        try {
+            model.addAttribute("posts", postService.getAllPosts(authentication.getName()));
+        } catch (UserNotFoundException e) {
+            model.addAttribute("errorCode", HttpStatus.NOT_FOUND.value());
+            model.addAttribute("errorMessage", e.getMessage());
+            return "pages/customErrorPage";
+        }
         return "pages/management/postsManagerPage";
     }
 

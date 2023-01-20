@@ -11,5 +11,4 @@ async function setSaveButtonListener() {
 
 manageModal();
 initializeUserManagementService();
-setSaveButtonListener().then(() => {
-});
+setSaveButtonListener().then();

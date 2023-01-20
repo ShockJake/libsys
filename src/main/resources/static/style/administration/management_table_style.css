@@ -92,6 +92,10 @@
     color: #025151;
 }
 
+.messages-header {
+    display: inline;
+}
+
 .manage-button {
     width: 20%;
 }
@@ -115,6 +119,15 @@
 .delete-button {
     color: darkred;
     background-color: #e5cece;
+}
+
+.delete-all-button {
+    position: relative;
+    float: right;
+    width: 20%;
+    height: 30%;
+    border-radius: 5px;
+    margin: 1%;
 }
 
 .mark-read-button, .mark-unread-button {

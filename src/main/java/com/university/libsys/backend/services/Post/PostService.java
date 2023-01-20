@@ -5,10 +5,10 @@ import com.university.libsys.backend.entities.Post;
 import com.university.libsys.backend.exceptions.PostNotFoundException;
 import com.university.libsys.backend.exceptions.UserNotFoundException;
 import org.jetbrains.annotations.NotNull;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.ValidationException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 
 public interface PostService {
@@ -17,7 +17,7 @@ public interface PostService {
 
     List<Post> getPostsByUserId(@NotNull Long id) throws PostNotFoundException, UserNotFoundException;
 
-    Post saveNewPost(@NotNull Post post, MultipartFile file) throws UserNotFoundException, IOException;
+    Post saveNewPost(@NotNull Post post, InputStream inputStream) throws UserNotFoundException, IOException;
 
     Post updatePost(@NotNull Post post) throws PostNotFoundException;
 
@@ -28,6 +28,8 @@ public interface PostService {
     LikedPosts unlikePost(@NotNull Long userID, @NotNull Long postID);
 
     List<Post> getAllPosts(String login) throws UserNotFoundException;
+
+    List<Post> getAllPosts();
 
     List<Post> getAllPostsOrderedByTime(String login) throws UserNotFoundException;
 

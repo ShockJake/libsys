@@ -1,4 +1,5 @@
 export const serverURL = 'http://localhost:8080';
+
 // export const serverURL = 'http://192.168.137.1:8080';
 
 async function resolveAuthenticationStatus(response) {
@@ -49,6 +50,12 @@ export function setEventListenerToObjects(objectName, eventListener) {
 export function setEventListenerToSingleObject(objectId, eventListener) {
     const object = document.getElementById(objectId);
     object.addEventListener("click", eventListener);
+}
+
+export function catchRedirect(response) {
+    if (response.redirected === true) {
+        window.location.href = response.url;
+    }
 }
 
 export const reloadWindow = () => window.location.reload();

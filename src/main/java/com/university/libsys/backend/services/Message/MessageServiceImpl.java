@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class MessageServiceImpl implements MessageService {
@@ -70,5 +71,12 @@ public class MessageServiceImpl implements MessageService {
         messageToUpdate.setStatus(messageStatus);
         messagesRepository.save(messageToUpdate);
         return messageToUpdate;
+    }
+
+    @Override
+    public void deleteMessagesForUser(@NotNull Long id) {
+        messagesRepository.deleteAllById(messagesRepository.findMessagesByReceiverID(id).stream().parallel()
+                .map(Message::getId)
+                .collect(Collectors.toList()));
     }
 }

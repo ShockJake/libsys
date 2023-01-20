@@ -2,11 +2,14 @@ package com.university.libsys.web.controllers.management;
 
 import com.university.libsys.backend.entities.Message;
 import com.university.libsys.backend.exceptions.MessageNotFoundException;
+import com.university.libsys.backend.exceptions.UserNotFoundException;
 import com.university.libsys.backend.services.Message.MessageService;
+import com.university.libsys.backend.services.User.UserService;
 import com.university.libsys.backend.utils.MessageStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -14,11 +17,13 @@ import org.springframework.web.bind.annotation.*;
 public class MessageManagementController {
 
     private final MessageService messageService;
+    private final UserService userService;
     private final Logger log = LoggerFactory.getLogger(MessageManagementController.class);
 
     @Autowired
-    public MessageManagementController(MessageService messageService) {
+    public MessageManagementController(MessageService messageService, UserService userService) {
         this.messageService = messageService;
+        this.userService = userService;
     }
 
     @PutMapping("/{id}")
@@ -31,5 +36,11 @@ public class MessageManagementController {
     public Message deleteMessage(@PathVariable Long id) throws MessageNotFoundException {
         log.debug(String.format("Deleting message with id = %s", id));
         return messageService.deleteMessage(id);
+    }
+
+    @DeleteMapping("/all")
+    public String deleteAllMessages(Authentication authentication) throws UserNotFoundException {
+        messageService.deleteMessagesForUser(userService.getUserByLogin(authentication.getName()).getUserID());
+        return "{ \"result\": \"true\" }";
     }
 }

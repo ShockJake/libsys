@@ -73,7 +73,8 @@
         </div>
 
         <div class="main-item-container">
-            <h2 class="main-item-header">Received Messages:</h2>
+            <h2 class="main-item-header messages-header">Received Messages:</h2>
+            <button th:if="${messages.size()} != 0" id="delete_all_messages_button" class="button delete-all-button">Delete All</button>
             <hr class="main-item-separator">
             <table id="user_management_table">
                 <thead>

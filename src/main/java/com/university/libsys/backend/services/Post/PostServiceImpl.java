@@ -18,10 +18,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.ValidationException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -62,9 +62,9 @@ public class PostServiceImpl implements PostService {
 
     @Override
     @Transactional
-    public Post saveNewPost(@NotNull Post post, MultipartFile file) throws UserNotFoundException, IOException {
+    public Post saveNewPost(@NotNull Post post, InputStream inputStream) throws UserNotFoundException, IOException {
         validatePost(post);
-        fileService.save(Objects.requireNonNull(file.getOriginalFilename()), file.getInputStream());
+        fileService.save(post.getPostPhotoPath(), inputStream);
         updateUserNumberOfPosts(true, post.getWriterID());
         post.setTimestamp(new Date().getTime());
         messageService.saveNewMessage(MessageUtil.getCreatedPostMessage(post.getWriterID(), post.getPostHeader()));
@@ -122,9 +122,14 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
+    public List<Post> getAllPosts() {
+        return postsRepository.findAll();
+    }
+
+    @Override
     public List<Post> getAllPostsOrderedByTime(String login) throws UserNotFoundException {
         final User user = userService.getUserByLogin(login);
-        final List<Post> posts = postsRepository.findAll().stream()
+        final List<Post> posts = postsRepository.findAll().stream().parallel()
                 .sorted(Comparator.comparing(Post::getTimestamp).reversed())
                 .collect(Collectors.toList());
         markLikedPosts(posts, user.getUserID());
@@ -134,7 +139,9 @@ public class PostServiceImpl implements PostService {
     @Override
     public List<Post> getLikedPosts(@NotNull Long userID) {
         final List<LikedPosts> likedPosts = likedPostRepository.findAllByLikerID(userID);
-        return postsRepository.findAllById(likedPosts.stream().map(LikedPosts::getPostID).collect(Collectors.toList()));
+        return postsRepository.findAllById(likedPosts.stream().parallel()
+                .map(LikedPosts::getPostID)
+                .collect(Collectors.toList()));
     }
 
     @Override
@@ -170,7 +177,7 @@ public class PostServiceImpl implements PostService {
     }
 
     private void markLikedPosts(List<Post> posts, Long id) {
-        List<Long> ids = likedPostRepository.findAllByLikerID(id).stream()
+        List<Long> ids = likedPostRepository.findAllByLikerID(id).stream().parallel()
                 .map(LikedPosts::getPostID)
                 .collect(Collectors.toList());
         posts.forEach(post -> {

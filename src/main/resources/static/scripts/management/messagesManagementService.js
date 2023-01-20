@@ -3,16 +3,18 @@ import {
     serverURL,
     resolveElementID,
     setEventListenerToObjects,
-    reloadWindow,
+    reloadWindow, setEventListenerToSingleObject,
 } from "../util/utils.js";
 
 export function initializeMessagesManagementService() {
     setEventListenerToObjects('mark-read-button',
-            e => markMessage(resolveElementID(e.target.id), 'READ').then(reloadWindow));
+        e => markMessage(resolveElementID(e.target.id), 'READ').then(reloadWindow));
     setEventListenerToObjects('mark-unread-button',
-            e => markMessage(resolveElementID(e.target.id), 'UNREAD').then(reloadWindow));
+        e => markMessage(resolveElementID(e.target.id), 'UNREAD').then(reloadWindow));
     setEventListenerToObjects('delete-button',
-            e => deleteMessage(resolveElementID(e.target.id)).then(reloadWindow));
+        e => deleteMessage(resolveElementID(e.target.id)).then(reloadWindow));
+    setEventListenerToSingleObject('delete_all_messages_button',
+        e => deleteAllMessages(resolveElementID(e.target.id)).then(reloadWindow));
 }
 
 async function markMessage(id, status) {
@@ -33,6 +35,16 @@ async function deleteMessage(id) {
         const response = await fetch(url, {method: 'DELETE'});
         if (!await handleError(response)) {
             alert(`Message was deleted successfully`);
+        }
+    }
+}
+
+async function deleteAllMessages() {
+    const url = `${serverURL}/messages_management/all`;
+    if (confirm('Are you sure you want to delete all messages?')) {
+        const response = await fetch(url, {method: 'DELETE'});
+        if (!await handleError(response)) {
+            alert(`All messages were deleted successfully`);
         }
     }
 }

@@ -22,4 +22,6 @@ public interface MessageService {
     Message deleteMessage(@NotNull Long id) throws MessageNotFoundException;
 
     Message updateMessageStatus(@NotNull Long id, @NotNull MessageStatus messageStatus) throws MessageNotFoundException;
+
+    void deleteMessagesForUser(@NotNull Long id);
 }

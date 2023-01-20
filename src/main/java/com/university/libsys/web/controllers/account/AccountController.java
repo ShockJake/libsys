@@ -9,6 +9,7 @@ import com.university.libsys.backend.services.User.UserService;
 import com.university.libsys.backend.utils.UserRole;
 import com.university.libsys.web.util.ModelUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -34,8 +35,15 @@ public class AccountController {
     }
 
     @GetMapping("/account")
-    public String accountPage(Model model, Authentication authentication) throws UserNotFoundException {
-        final User user = userService.getUserByLogin(authentication.getName());
+    public String accountPage(Model model, Authentication authentication) {
+        final User user;
+        try {
+            user = userService.getUserByLogin(authentication.getName());
+        } catch (UserNotFoundException e) {
+            model.addAttribute("errorCode", HttpStatus.NOT_FOUND.value());
+            model.addAttribute("errorMessage", e.getMessage());
+            return "pages/customErrorPage";
+        }
         model.addAttribute("userName", user.getName());
         model.addAttribute("userRole", user.getUserRole().name());
         model.addAttribute("userLogin", user.getLogin());
@@ -69,8 +77,15 @@ public class AccountController {
     }
 
     @GetMapping("/messages")
-    public String messagesPage(Model model, Authentication authentication) throws UserNotFoundException {
-        final User user = userService.getUserByLogin(authentication.getName());
+    public String messagesPage(Model model, Authentication authentication) {
+        final User user;
+        try {
+            user = userService.getUserByLogin(authentication.getName());
+        } catch (UserNotFoundException e) {
+            model.addAttribute("errorCode", HttpStatus.NOT_FOUND.value());
+            model.addAttribute("errorMessage", e.getMessage());
+            return "pages/customErrorPage";
+        }
         final List<Message> messages = messageService.getMessagesByReceiverID(user.getUserID());
 
         model.addAttribute("messages", messages);

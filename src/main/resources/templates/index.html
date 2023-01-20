@@ -5,11 +5,12 @@
     <meta name="keywords" content="Library">
     <meta name="author" content="Stanislav Lysunenko">
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Library System</title>
+    <title>Libsys</title>
     <link rel="icon" href="/svg/page_icon_new.svg">
     <link rel="stylesheet" href="/style/scrollbar_style.css">
-    <script src="/scripts/animations_and_objects/menuSidebarAnimator.js"></script>
     <script src="/scripts/commonInitializer.js" type="module"></script>
+    <script src="/scripts/animations_and_objects/menuSidebarAnimator.js"></script>
+    <script src="/scripts/animations_and_objects/likeButtonAnimator.js" type="module"></script>
 </head>
 
 <body>
@@ -17,8 +18,6 @@
 
 <div id="menu_bar" class="menu-bar-class">
     <link rel="stylesheet" href="/style/menu_bar/menu_bar_style.css">
-    <link rel="stylesheet" href="/style/menu_bar/menu_bar_button_style.css">
-
     <a id="to_index_link" href="/" class="index-link">
         <svg id="to_index_background" width="240" height="70">
             <rect height="70" width="240"/>
@@ -27,14 +26,19 @@
         <span id="system_name" class="menu-bar-class">LibSys</span>
     </a>
     <a id="library_search" href="/libraries">
-        <button id="library_search_button" class="button">Library Search</button>
+        <button id="library_search_button" class="button">
+            <link rel="stylesheet" href="/style/menu_bar/menu_bar_button_style.css">
+            Library Search
+        </button>
     </a>
     <a id="book_search" href="/books">
-        <button id="book_search_button" class="button">Book Search</button>
+        <button id="book_search_button" class="button">
+            <link rel="stylesheet" href="/style/menu_bar/menu_bar_button_style.css">
+            Book Search
+        </button>
     </a>
 
     <button id="menu_sidebar_button" class="button" onclick="openNav()">&#9776;</button>
-
     <div id="menu_sidebar">
         <link rel="stylesheet" href="/style/menu_bar/menu_sidebar_style.css">
         <a id="close_menu_sidebar_button" href="javascript:void(0)" class="button" onclick="closeNav()">&times;</a>
@@ -48,99 +52,63 @@
 
         <div id="tablet_bar_container">
             <link rel="stylesheet" href="/style/menu_bar/menu_bar_tablet_style.css">
-            <a id="library_search_sidebar" href="/libraries">
-                <button id="library_search_button_sidebar" class="button">Library Search</button>
+            <a href="/selections">
+                <button class="button">Selections</button>
             </a>
-            <a id="book_search_sidebar" href="/books">
-                <button id="book_search_button_sidebar" class="button">Book Search</button>
-            </a>
-            <a id="selections_search" href="/selections">
-                <button id="selections_search_button" class="button">Selections</button>
-            </a>
-            <a id="about_menu_bar" href="/about">
-                <button id="about_button" class="button">About</button>
+            <a href="/about">
+                <button class="button">About</button>
             </a>
         </div>
     </div>
 </div>
 
-<!-- Main -->
 <div id="main">
     <link rel="stylesheet" href="/style/main/main_style.css">
     <div class="main-container">
         <link rel="stylesheet" href="/style/main/main_container_style.css">
+        <link rel="stylesheet" href="/style/main/main_item_style.css">
+
         <div class="main-header-container">
-            <h1 class="main-header">NEWS</h1>
-        </div>
-        <!-- First item start -->
-        <div class="main-item-container">
-            <link rel="stylesheet" href="/style/main/main_item_style.css">
-            <div class="main-item-image-container">
-                <img src="/photo/science-fiction-books.jpg" class="main-item-image" alt="Science-fiction books image">
-            </div>
-            <h2 class="main-item-header">New science-fiction books collection</h2>
-            <hr class="main-item-separator">
-            <p class="main-item-text">Science fiction (sometimes shortened to Sci-Fi or SF) is a genre of speculative
-                fiction which typically deals with imaginative and futuristic concepts such as advanced science and
-                technology, space exploration, time travel, parallel universes, extraterrestrial life, sentient
-                artificial intelligence, cybernetics, certain forms of immortality (like mind uploading), and the
-                singularity. Science fiction predicted several existing inventions, such as the atomic bomb,
-                robots, and borazon, whose names entirely match their fictional predecessors. In addition, science
-                fiction might serve as an outlet to facilitate future scientific and technological innovations.</p>
+            <h1 class="main-header">Posts</h1>
         </div>
 
-        <!-- Second item start -->
-        <div class="main-item-container">
-            <link rel="stylesheet" href="/style/main/main_item_style.css">
-            <div class="main-item-image-container">
-                <img src="/photo/best_fantasy_adventure_books.png" class="main-item-image"
-                     alt="Fantasy adventure books image">
-            </div>
-            <h2 class="main-item-header">Best fantasy-adventure books for kids collection</h2>
+        <div class="main-item-container" th:if="${posts.size()} == 0">
+            <h2 class="main-item-header">Lack of posts</h2>
             <hr class="main-item-separator">
-            <p class="main-item-text">Are you ready to enter some magical new worlds, exploring the depths of the sea,
-                dark forests, ancient civilisations and weird and wonderful landscapes? On your travels you're sure to
-                meet some strange characters, lots of brave heroes and heroines and a few sinister creatures wrecking
-                havoc... It's time to head somewhere far, far away for roller-coaster adventures with our pick of the
-                best fantasy world books for primary school children.</p>
+            <p class="main-item-text">Looks like there is no posts</p>
         </div>
 
-        <div class="main-item-container">
-            <link rel="stylesheet" href="/style/main/main_item_style.css">
-            <div class="main-item-image-container">
-                <img src="/photo/libraries_map.png" class="main-item-image" alt="Libraries">
-            </div>
-            <h2 class="main-item-header">New libraries are opened</h2>
-        </div>
+        <div th:if="${posts.size()} != 0" th:each="post : ${posts}" class="main-item-container">
+            <a th:href="'/posts/' + ${post.postID}" style="text-decoration: none">
+                <div class="main-item-image-container">
+                    <img th:if="${post.postPhotoPath}"
+                         th:src="@{/posts/photos/{photoName}(photoName=${post.postPhotoPath})}"
+                         class="main-item-image" alt="Post image">
+                </div>
+            </a>
+            <a th:href="'/posts/' + ${post.postID}" style="text-decoration: none">
+                <h2 class="main-item-header" th:text="${post.postHeader}"></h2>
+            </a>
+            <span>
+                <img th:if="${post.isLiked} == false or ${post.isLiked} == null" th:id="'like_button-'+${post.postID}"
+                     class="like-button"
+                     src="/svg/heart.svg" alt="Like icon">
+                <img th:if="${post.isLiked} == true" th:id="'like_button-'+${post.postID}" class="like-button"
+                     src="/svg/Filled_Heart.svg" alt="Like icon">
+            </span>
+            <br>
+            <hr class="main-item-separator">
+            <a th:href="'/posts/' + ${post.postID}" style="text-decoration: none">
+                <p class="main-item-text" th:text="${post.postText}"></p>
+            </a>
 
-        <!-- Third item start -->
-        <div class="main-item-container">
-            <link rel="stylesheet" href="/style/main/main_item_style.css">
-            <div class="main-item-image-container">
-                <img src="/photo/best_psychology_books.jpg" class="main-item-image"
-                     alt="Fantasy adventure books image">
+            <div class="created">
+                <span class="post-creation-date">&bull; Created by: </span>
+                <span><a th:href="'/posts/user/' + ${{post.writerID}}" th:text="${{post.writerID}}"
+                         class="post-creation-date post-creator"></a></span>
+                <span th:text="' - ' + ${post.getDisplayDate()}" class="post-creation-date"></span>
             </div>
-            <h2 class="main-item-header">Best psychology books collection</h2>
-            <hr class="main-item-separator">
-            <p class="main-item-text">Psychology is a broad and diverse field that concentrates on studying how people,
-                including you, behave and think. It covers emotions, personality, and so much more.
-                When you understand psychology, you will understand yourself and the people around you.
-                You’ll also make better decisions, handle tough situations more easily, and get closer to reaching your
-                full potential much faster than you could have ever imagined.
-                This fascinating science will even help you understand why you and those you’re closest to act the way
-                you do and how you can change for the better.</p>
-        </div>
-        <div class="main-item-container">
-            <link rel="stylesheet" href="/style/main/main_item_style.css">
-            <div class="main-item-image-container">
-                <img src="/photo/the-a-b-c-murders.jpg" class="main-item-image" alt="a-b-c murders photo">
-            </div>
-            <h2 class="main-item-header">The A-B-C Murders by Agata Christie</h2>
-            <hr class="main-item-separator">
-            <p class="main-item-text">The A.B.C. Murders is a work of detective fiction by British writer Agatha
-                Christie, featuring her characters Hercule Poirot, Arthur Hastings and Chief Inspector Japp, as they
-                contend with a series of killings by a mysterious murderer known only as "A.B.C."
-            </p>
+
         </div>
     </div>
 </div>
@@ -176,6 +144,11 @@
         <link rel="stylesheet" href="/style/side-bar/help_bar_style.css">
         <h1 id="help_bar_header">Help</h1>
         <ul id="help_bar_list">
+            <li id="ask_librarian_item" class="help-list-item">
+                <a id="ask_librarian_href" href="/ask_librarian_page">
+                    <b>Ask librarian</b>
+                </a>
+            </li>
             <li class="help-list-item"><b>+48001112233</b></li>
             <li class="help-list-item"><b>libsys@mail.com</b></li>
             <li class="help-list-item">
@@ -190,7 +163,6 @@
     </div>
 </div>
 
-<!-- Footer -->
 <div id="footer_relative">
     <link rel="stylesheet" href="/style/footer/footer_style.css">
     <div class="footer_text_container">

@@ -47,8 +47,16 @@ public class PostsController {
     }
 
     @GetMapping("")
-    public String allPostsPage(Model model, Authentication authentication) throws UserNotFoundException {
-        final List<Post> posts = postService.getAllPostsOrderedByTime(authentication.getName());
+    public String allPostsPage(Model model, Authentication authentication) {
+        final List<Post> posts;
+        try {
+            posts = authentication == null ?
+                    postService.getAllPosts() : postService.getAllPostsOrderedByTime(authentication.getName());
+        } catch (UserNotFoundException e) {
+            model.addAttribute("errorCode", HttpStatus.NOT_FOUND.value());
+            model.addAttribute("errorMessage", e.getMessage());
+            return "pages/customErrorPage";
+        }
         model.addAttribute("posts", posts);
         return "pages/posts/allPostsPageTemplate";
     }
@@ -106,7 +114,9 @@ public class PostsController {
         post.setPostID(null);
         post.setPostPhotoPath(null);
         post.setIsLiked(false);
-        post.setWriterID(userService.getUserByLogin(authentication.getName()).getUserID());
+        if (authentication != null) {
+            post.setWriterID(userService.getUserByLogin(authentication.getName()).getUserID());
+        }
         return post;
     }
 
@@ -122,7 +132,7 @@ public class PostsController {
             return "pages/create_post";
         }
         try {
-            final Post savedPost = postService.saveNewPost(post, postPhoto);
+            final Post savedPost = postService.saveNewPost(post, postPhoto.getInputStream());
             ModelUtil.fillInfoModelWithArguments(model, String.format("Created post %s", savedPost.getPostHeader()),
                     getCreatedPostInfo(savedPost));
 
