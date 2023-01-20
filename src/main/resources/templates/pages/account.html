@@ -87,7 +87,7 @@
                     <a class="login-form-button" href="/administration/requests">Manage requests</a>
                 </div>
                 <div class="panel-item">
-                    <a class="login-form-button" href="/posts/liked_posts">Liked posts</a>
+                    <a class="login-form-button" href="/posts/liked">Liked posts</a>
                 </div>
                 <div class="panel-item" th:unless="${userRole} == 'READER'">
                     <a class="login-form-button" href="/posts/create_post">Create post</a>
@@ -96,8 +96,7 @@
                     <a class="login-form-button" href="/messages">Messages</a>
                 </div>
                 <div class="panel-item" th:if="${userRole} == 'READER'">
-                    <a class="login-form-button" id="request_writer_role_button" href="javascript:void(0)">
-                        Request Writer Role</a>
+                    <button class="login-form-button" id="request_writer_role_button">Request Writer Role</button>
                 </div>
             </div>
         </div>

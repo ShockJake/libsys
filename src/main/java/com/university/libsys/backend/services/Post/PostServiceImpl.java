@@ -1,9 +1,11 @@
 package com.university.libsys.backend.services.Post;
 
+import com.university.libsys.backend.entities.LikedPosts;
 import com.university.libsys.backend.entities.Post;
 import com.university.libsys.backend.entities.User;
 import com.university.libsys.backend.exceptions.PostNotFoundException;
 import com.university.libsys.backend.exceptions.UserNotFoundException;
+import com.university.libsys.backend.repositories.LikedPostRepository;
 import com.university.libsys.backend.repositories.PostsRepository;
 import com.university.libsys.backend.services.File.FileService;
 import com.university.libsys.backend.services.Message.MessageService;
@@ -15,6 +17,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.ValidationException;
@@ -25,6 +28,7 @@ import java.util.stream.Collectors;
 @Service
 public class PostServiceImpl implements PostService {
 
+    private final LikedPostRepository likedPostRepository;
     private final PostsRepository postsRepository;
     private final MessageService messageService;
     private final UserService userService;
@@ -33,7 +37,8 @@ public class PostServiceImpl implements PostService {
     private final Logger log = LoggerFactory.getLogger(PostServiceImpl.class);
 
     @Autowired
-    public PostServiceImpl(PostsRepository postsRepository, MessageService messageService, UserService userService, FileService fileService) {
+    public PostServiceImpl(LikedPostRepository likedPostRepository, PostsRepository postsRepository, MessageService messageService, UserService userService, FileService fileService) {
+        this.likedPostRepository = likedPostRepository;
         this.postsRepository = postsRepository;
         this.messageService = messageService;
         this.userService = userService;
@@ -56,6 +61,7 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
+    @Transactional
     public Post saveNewPost(@NotNull Post post, MultipartFile file) throws UserNotFoundException, IOException {
         validatePost(post);
         fileService.save(Objects.requireNonNull(file.getOriginalFilename()), file.getInputStream());
@@ -66,6 +72,7 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
+    @Transactional
     public Post updatePost(@NotNull Post postToUpdate) throws PostNotFoundException {
         final Post post = postsRepository.findById(postToUpdate.getPostID())
                 .orElseThrow(() -> new PostNotFoundException(postToUpdate.getPostID()));
@@ -81,6 +88,7 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
+    @Transactional
     public Post deletePost(@NotNull Post postToDelete) throws PostNotFoundException, UserNotFoundException {
         final Post post = postsRepository.findById(postToDelete.getPostID())
                 .orElseThrow(() -> new PostNotFoundException(postToDelete.getPostID()));
@@ -92,15 +100,41 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public List<Post> getAllPosts() {
-        return postsRepository.findAll();
+    @Transactional
+    public LikedPosts likePost(@NotNull Long userID, @NotNull Long postID) {
+        return likedPostRepository.save(new LikedPosts(null, userID, postID));
     }
 
     @Override
-    public List<Post> getAllPostsOrderedByTime() {
-        return postsRepository.findAll().stream()
+    @Transactional
+    public LikedPosts unlikePost(@NotNull Long userID, @NotNull Long postID) {
+        final LikedPosts likedPosts = likedPostRepository.findByLikerIDAndPostID(userID, postID);
+        likedPostRepository.deleteByPostIDAndLikerID(postID, userID);
+        return likedPosts;
+    }
+
+    @Override
+    public List<Post> getAllPosts(String login) throws UserNotFoundException {
+        final User user = userService.getUserByLogin(login);
+        final List<Post> posts = postsRepository.findAll();
+        markLikedPosts(posts, user.getUserID());
+        return posts;
+    }
+
+    @Override
+    public List<Post> getAllPostsOrderedByTime(String login) throws UserNotFoundException {
+        final User user = userService.getUserByLogin(login);
+        final List<Post> posts = postsRepository.findAll().stream()
                 .sorted(Comparator.comparing(Post::getTimestamp).reversed())
                 .collect(Collectors.toList());
+        markLikedPosts(posts, user.getUserID());
+        return posts;
+    }
+
+    @Override
+    public List<Post> getLikedPosts(@NotNull Long userID) {
+        final List<LikedPosts> likedPosts = likedPostRepository.findAllByLikerID(userID);
+        return postsRepository.findAllById(likedPosts.stream().map(LikedPosts::getPostID).collect(Collectors.toList()));
     }
 
     @Override
@@ -133,5 +167,14 @@ public class PostServiceImpl implements PostService {
             user.setPostsNumber(user.getPostsNumber() - 1);
         }
         userService.updateUser(userID, user);
+    }
+
+    private void markLikedPosts(List<Post> posts, Long id) {
+        List<Long> ids = likedPostRepository.findAllByLikerID(id).stream()
+                .map(LikedPosts::getPostID)
+                .collect(Collectors.toList());
+        posts.forEach(post -> {
+            if (ids.contains(post.getPostID())) post.setIsLiked(true);
+        });
     }
 }

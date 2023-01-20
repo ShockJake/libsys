@@ -85,14 +85,17 @@
                          th:src="@{/posts/photos/{photoName}(photoName=${post.postPhotoPath})}"
                          class="main-item-image" alt="Post image">
                 </div>
-
             </a>
             <a th:href="'/posts/' + ${post.postID}" style="text-decoration: none">
                 <h2 class="main-item-header" th:text="${post.postHeader}"></h2>
             </a>
-                <span> <img th:id="'like_button-' + ${post.postID}" class="like-button"
-                            src="/svg/heart.svg" alt="Like icon"></span>
-                <br>
+            <span>
+                <img th:if="${post.isLiked} == false or ${post.isLiked} == null" th:id="'like_button-'+${post.postID}" class="like-button"
+                     src="/svg/heart.svg" alt="Like icon">
+                <img th:if="${post.isLiked} == true" th:id="'like_button-'+${post.postID}" class="like-button"
+                     src="/svg/Filled_Heart.svg" alt="Like icon">
+            </span>
+            <br>
             <a th:href="'/posts/' + ${post.postID}" style="text-decoration: none">
                 <hr class="main-item-separator">
                 <p class="main-item-text" th:text="${post.postText}"></p>

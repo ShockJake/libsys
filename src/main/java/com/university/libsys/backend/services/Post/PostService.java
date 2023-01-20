@@ -1,5 +1,6 @@
 package com.university.libsys.backend.services.Post;
 
+import com.university.libsys.backend.entities.LikedPosts;
 import com.university.libsys.backend.entities.Post;
 import com.university.libsys.backend.exceptions.PostNotFoundException;
 import com.university.libsys.backend.exceptions.UserNotFoundException;
@@ -22,9 +23,15 @@ public interface PostService {
 
     Post deletePost(@NotNull Post post) throws PostNotFoundException, UserNotFoundException;
 
-    List<Post> getAllPosts();
+    LikedPosts likePost(@NotNull Long userID, @NotNull Long postID);
 
-    List<Post> getAllPostsOrderedByTime();
+    LikedPosts unlikePost(@NotNull Long userID, @NotNull Long postID);
+
+    List<Post> getAllPosts(String login) throws UserNotFoundException;
+
+    List<Post> getAllPostsOrderedByTime(String login) throws UserNotFoundException;
+
+    List<Post> getLikedPosts(@NotNull Long userID);
 
     void validatePost(@NotNull Post post) throws ValidationException;
 }

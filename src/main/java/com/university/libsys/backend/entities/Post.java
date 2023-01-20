@@ -28,6 +28,7 @@ public class Post {
     private String postPhotoPath;
     @NotBlank(message = "Post has to have a date of creation")
     private Long timestamp;
+    private Boolean isLiked;
 
     public String getDisplayDate() {
         return DateUtil.format(timestamp);

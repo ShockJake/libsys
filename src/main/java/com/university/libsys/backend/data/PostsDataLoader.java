@@ -29,7 +29,7 @@ public class PostsDataLoader implements ApplicationRunner {
         if (postsRepository.count() == 0) {
             log.warn("Inserting test post as there is no posts in Database");
             final Post post = new Post(null, MessageUtil.ADMINISTRATION_ID, "Super text, but not so long",
-                    "My lovely header", "1.png", new Date().getTime());
+                    "My lovely header", "1.png", new Date().getTime(), false);
             postsRepository.save(post);
         }
     }

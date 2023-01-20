@@ -18,8 +18,8 @@ public class WebSecurityConfig {
     private final String[] administrationPages = new String[]{"/user_management/**", "/messages_management/**",
             "/request_management/**", "/post_management/**", "/administration/**"};
 
-    private final String[] ignoreCSRF = new String[]{"/createAccount", "/user_management/**",
-            "/messages_management/**", "/request_management/**", "/post_management/**"};
+    private final String[] ignoreCSRF = new String[]{"/createAccount", "/user_management/**", "/posts/like/**",
+            "/messages_management/**", "/request_management/**", "/post_management/**", "/posts/unlike/**"};
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {

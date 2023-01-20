@@ -1,5 +1,6 @@
 package com.university.libsys.web.controllers.post;
 
+import com.university.libsys.backend.entities.LikedPosts;
 import com.university.libsys.backend.entities.Post;
 import com.university.libsys.backend.entities.User;
 import com.university.libsys.backend.exceptions.PostNotFoundException;
@@ -46,8 +47,8 @@ public class PostsController {
     }
 
     @GetMapping("")
-    public String allPostsPage(Model model) {
-        final List<Post> posts = postService.getAllPostsOrderedByTime();
+    public String allPostsPage(Model model, Authentication authentication) throws UserNotFoundException {
+        final List<Post> posts = postService.getAllPostsOrderedByTime(authentication.getName());
         model.addAttribute("posts", posts);
         return "pages/posts/allPostsPageTemplate";
     }
@@ -67,6 +68,18 @@ public class PostsController {
         model.addAttribute("postPhotoPath", post.getPostPhotoPath());
         model.addAttribute("postCreationDate", DateUtil.format(post.getTimestamp()));
         return "pages/posts/postTemplate";
+    }
+
+    @GetMapping("/liked")
+    public String likedPostsPage(Model model, Authentication authentication) {
+        try {
+            final User user = userService.getUserByLogin(authentication.getName());
+            model.addAttribute("posts", postService.getLikedPosts(user.getUserID()));
+            return "pages/posts/likedPostsTemplate";
+        } catch (UserNotFoundException e) {
+            log.error(e.getMessage());
+        }
+        throw new IllegalStateException();
     }
 
     @GetMapping("/user/{login}")
@@ -92,6 +105,7 @@ public class PostsController {
         final Post post = new Post();
         post.setPostID(null);
         post.setPostPhotoPath(null);
+        post.setIsLiked(false);
         post.setWriterID(userService.getUserByLogin(authentication.getName()).getUserID());
         return post;
     }
@@ -118,6 +132,30 @@ public class PostsController {
             model.addAttribute("error", e.getMessage());
             return "pages/create_post";
         }
+    }
+
+    @PostMapping("/like/{id}")
+    @ResponseBody
+    public LikedPosts likePost(Authentication authentication, @PathVariable Long id) {
+        try {
+            final User user = userService.getUserByLogin(authentication.getName());
+            return postService.likePost(user.getUserID(), id);
+        } catch (UserNotFoundException e) {
+            log.error(e.getMessage());
+        }
+        throw new IllegalStateException();
+    }
+
+    @PostMapping("/unlike/{id}")
+    @ResponseBody
+    public LikedPosts unlikePost(Authentication authentication, @PathVariable Long id) {
+        try {
+            final User user = userService.getUserByLogin(authentication.getName());
+            return postService.unlikePost(user.getUserID(), id);
+        } catch (UserNotFoundException e) {
+            log.error(e.getMessage());
+        }
+        throw new IllegalStateException();
     }
 
     @GetMapping("/photos/{photoFilename}")

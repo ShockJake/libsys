@@ -1,9 +1,11 @@
 package com.university.libsys.web.controllers;
 
+import com.university.libsys.backend.exceptions.UserNotFoundException;
 import com.university.libsys.backend.services.Post.PostService;
 import com.university.libsys.backend.services.Request.LibsysRequestService;
 import com.university.libsys.backend.services.User.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,8 +32,8 @@ public class AdministrationController {
     }
 
     @RequestMapping("/posts")
-    public String postsManagerPage(Model model) {
-        model.addAttribute("posts", postService.getAllPosts());
+    public String postsManagerPage(Model model, Authentication authentication) throws UserNotFoundException {
+        model.addAttribute("posts", postService.getAllPosts(authentication.getName()));
         return "pages/management/postsManagerPage";
     }
 
