@@ -13,6 +13,7 @@
     <version>0.0.1-SNAPSHOT</version>
     <name>libsys</name>
     <description>libsys</description>
+    <packaging>jar</packaging>
     <properties>
         <java.version>11</java.version>
     </properties>
@@ -193,7 +194,7 @@
                     <configuration>
                         <archive>
                             <manifest>
-                                <mainClass>com.university.walletuj.App</mainClass>
+                                <mainClass>com.university.libsys.LibsysApplication</mainClass>
                             </manifest>
                         </archive>
                         <descriptorRefs>

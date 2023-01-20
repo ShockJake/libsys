@@ -111,7 +111,7 @@ class UserServiceTest {
     void shouldDeleteUser() {
         // given
         final User userToDelete = getTestUser();
-        given(userRepository.findUserByLogin(userToDelete.getLogin())).willReturn(getTestUser());
+        given(userRepository.findById(userToDelete.getUserID())).willReturn(Optional.of(getTestUser()));
         doNothing().when(userRepository).deleteById(userToDelete.getUserID());
 
         // when

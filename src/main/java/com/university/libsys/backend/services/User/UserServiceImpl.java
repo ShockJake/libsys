@@ -12,6 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.validation.ValidationException;
 import java.util.LinkedHashMap;
@@ -50,6 +51,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public User saveNewUser(@NotNull User userToSave) throws AlreadyExistingUserException {
         if (userRepository.findUserByLogin(userToSave.getLogin()) != null) {
             throw new AlreadyExistingUserException(userToSave.getLogin());
@@ -61,6 +63,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public User deleteUser(@NotNull Long id) throws UserNotFoundException {
         final User userToDelete = userRepository.findById(id).orElseThrow(() -> new UserNotFoundException(id));
         userRepository.deleteById(id);
@@ -69,6 +72,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public User updateUser(@NotNull Long id, @NotNull User userToUpdate) throws UserNotFoundException {
         final User user = userRepository.findById(id)
                 .orElseThrow(() -> new UserNotFoundException(id));

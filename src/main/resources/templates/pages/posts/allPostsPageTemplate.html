@@ -90,7 +90,8 @@
                 <h2 class="main-item-header" th:text="${post.postHeader}"></h2>
             </a>
             <span>
-                <img th:if="${post.isLiked} == false or ${post.isLiked} == null" th:id="'like_button-'+${post.postID}" class="like-button"
+                <img th:if="${post.isLiked} == false or ${post.isLiked} == null" th:id="'like_button-'+${post.postID}"
+                     class="like-button"
                      src="/svg/heart.svg" alt="Like icon">
                 <img th:if="${post.isLiked} == true" th:id="'like_button-'+${post.postID}" class="like-button"
                      src="/svg/Filled_Heart.svg" alt="Like icon">
@@ -99,9 +100,13 @@
             <a th:href="'/posts/' + ${post.postID}" style="text-decoration: none">
                 <hr class="main-item-separator">
                 <p class="main-item-text" th:text="${post.postText}"></p>
-                <h4 th:text="'&bull; Created by: '+ ${{post.writerID}} + ' - ' + ${post.getDisplayDate()}"
-                    class="post-creation-date"></h4>
             </a>
+            <div class="created">
+                <span class="post-creation-date">&bull; Created by: </span>
+                <span><a th:href="'/posts/user/' + ${{post.writerID}}" th:text="${{post.writerID}}"
+                         class="post-creation-date post-creator"></a></span>
+                <span th:text="' - ' + ${post.getDisplayDate()}" class="post-creation-date"></span>
+            </div>
         </div>
     </div>
 </div>
