@@ -1,4 +1,4 @@
-import {handleError, resolveElementID, serverURL, setEventListenerToObjects} from "../util/utils.js";
+import {handleError, resolveCSRFToken, resolveElementID, serverURL, setEventListenerToObjects} from "../util/utils.js";
 
 export function manageModal() {
     const modal = document.getElementById('user_management_update_form');
@@ -65,7 +65,8 @@ export async function updateUserData() {
 
     const response = await fetch(url, {
         method: 'PATCH', body: JSON.stringify(user), headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': resolveCSRFToken().token
         }
     });
     if (!await handleError(response)) {
@@ -79,7 +80,11 @@ export async function updateUserData() {
 async function deleteUser(user) {
     const url = `${serverURL}/user_management/${user.userID}`;
     if (confirm(`Are you sure you want to delete user '${user.login}'`)) {
-        const response = await fetch(url, {method: 'DELETE'});
+        const response = await fetch(url, {
+            method: 'DELETE', headers: {
+                'X-CSRF-TOKEN': resolveCSRFToken().token
+            }
+        });
         if (!await handleError(response)) {
             const deletedUser = JSON.parse(await response.text())
             alert(`User ${deletedUser.login} was deleted successfully`);

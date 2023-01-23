@@ -65,6 +65,9 @@
         <!-- Create Account Form -->
         <div class="input-form">
             <form th:object="${user}" th:action="@{/createAccount}" method="post">
+
+                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+
                 <div class="input-group" id="login_input_container">
                     <input type="text" class="b-input" id="login_input" th:field="*{login}" name="username"/>
                     <label for="login_input" class="b-label">Login</label>

@@ -3,7 +3,7 @@ import {
     serverURL,
     resolveElementID,
     setEventListenerToObjects,
-    reloadWindow, setEventListenerToSingleObject,
+    reloadWindow, setEventListenerToSingleObject, resolveCSRFToken,
 } from "../util/utils.js";
 
 export function initializeMessagesManagementService() {
@@ -22,7 +22,11 @@ async function markMessage(id, status) {
         alert(`You have already marked this message as ${status}`);
     } else {
         const url = `${serverURL}/messages_management/${id}?status=${status}`;
-        const response = await fetch(url, {method: 'PUT'});
+        const response = await fetch(url, {
+            method: 'PUT', headers: {
+                'X-CSRF-TOKEN': resolveCSRFToken().token
+            }
+        });
         if (!await handleError(response)) {
             alert(`Message was marked as "${status}" successfully`);
         }
@@ -32,7 +36,11 @@ async function markMessage(id, status) {
 async function deleteMessage(id) {
     const url = `${serverURL}/messages_management/${id}`;
     if (confirm('Are you sure you want to delete this message?')) {
-        const response = await fetch(url, {method: 'DELETE'});
+        const response = await fetch(url, {
+            method: 'DELETE', headers: {
+                'X-CSRF-TOKEN': resolveCSRFToken().token
+            }
+        });
         if (!await handleError(response)) {
             alert(`Message was deleted successfully`);
         }
@@ -42,7 +50,11 @@ async function deleteMessage(id) {
 async function deleteAllMessages() {
     const url = `${serverURL}/messages_management/all`;
     if (confirm('Are you sure you want to delete all messages?')) {
-        const response = await fetch(url, {method: 'DELETE'});
+        const response = await fetch(url, {
+            method: 'DELETE', headers: {
+                'X-CSRF-TOKEN': resolveCSRFToken().token
+            }
+        });
         if (!await handleError(response)) {
             alert(`All messages were deleted successfully`);
         }

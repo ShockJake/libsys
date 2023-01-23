@@ -50,8 +50,8 @@ public class PostsController {
     public String allPostsPage(Model model, Authentication authentication) {
         final List<Post> posts;
         try {
-            posts = authentication == null ?
-                    postService.getAllPosts() : postService.getAllPostsOrderedByTime(authentication.getName());
+            posts = authentication == null ? postService.getAllPostsOrderedByTime() :
+                    postService.getAllPostsOrderedByTime(authentication.getName());
         } catch (UserNotFoundException e) {
             model.addAttribute("errorCode", HttpStatus.NOT_FOUND.value());
             model.addAttribute("errorMessage", e.getMessage());

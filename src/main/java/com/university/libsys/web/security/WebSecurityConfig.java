@@ -14,13 +14,12 @@ public class WebSecurityConfig {
 
     private final String[] publicPages = new String[]{"/", "/about", "/createAccount", "/infoPage", "/style/**",
             "/svg/**", "/photo/**", "/login**", "/scripts/**", "/books/**", "/libraries/**", "/selections/**",
-            "/posts/photos/**", "/posts" , "/posts/user/**", "/request_management/create_request*"};
+            "/posts/photos/**", "/posts", "/posts/user/**", "/request_management/create_request*"};
 
     private final String[] administrationPages = new String[]{"/user_management/**", "/request_management/**",
             "/post_management/**", "/administration/**"};
 
-    private final String[] ignoreCSRF = new String[]{"/createAccount", "/user_management/**", "/posts/like/**",
-            "/messages_management/**", "/request_management/**", "/post_management/**", "/posts/unlike/**"};
+    private final String[] ignoreCSRF = new String[]{"/posts/like/**", "/posts/unlike/**"};
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {

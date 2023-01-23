@@ -10,6 +10,12 @@ async function resolveAuthenticationStatus(response) {
     return false
 }
 
+export function resolveCSRFToken() {
+    const token = $("meta[name='_csrf']").attr("content");
+    const header = $("meta[name='_csrf_header']").attr("content");
+    return {token: token, header: header};
+}
+
 export async function handleError(response) {
     if (response.status !== 200) {
         const text = await response.json();

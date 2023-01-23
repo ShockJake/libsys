@@ -29,7 +29,7 @@ public interface PostService {
 
     List<Post> getAllPosts(String login) throws UserNotFoundException;
 
-    List<Post> getAllPosts();
+    List<Post> getAllPostsOrderedByTime();
 
     List<Post> getAllPostsOrderedByTime(String login) throws UserNotFoundException;
 

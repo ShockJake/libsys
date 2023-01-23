@@ -41,6 +41,24 @@
     bottom: 93%;
 }
 
+@media (max-width: 1200px) and (min-width: 768px) {
+    #post_text_label {
+        bottom: 94%;
+    }
+}
+
+@media (max-width: 600px){
+    #post_text_label {
+        bottom: 96%;
+    }
+}
+
+@media (max-width: 360px) {
+    #post_text_input {
+        margin-top: 9%;
+    }
+}
+
 #create_post_button {
     margin-top: 4%;
     padding: 3%;

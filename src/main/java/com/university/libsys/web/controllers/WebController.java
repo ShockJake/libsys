@@ -21,7 +21,7 @@ public class WebController {
         if (authentication != null) {
             model.addAttribute("posts", postService.getAllPostsOrderedByTime(authentication.getName()));
         } else {
-            model.addAttribute("posts", postService.getAllPosts());
+            model.addAttribute("posts", postService.getAllPostsOrderedByTime());
         }
         return "index";
     }

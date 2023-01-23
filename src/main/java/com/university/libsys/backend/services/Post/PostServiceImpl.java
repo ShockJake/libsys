@@ -122,8 +122,10 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public List<Post> getAllPosts() {
-        return postsRepository.findAll();
+    public List<Post> getAllPostsOrderedByTime() {
+        return postsRepository.findAll().stream().parallel()
+                .sorted(Comparator.comparing(Post::getTimestamp).reversed())
+                .collect(Collectors.toList());
     }
 
     @Override

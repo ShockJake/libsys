@@ -3,7 +3,8 @@ import {
     resolveElementID,
     serverURL,
     setEventListenerToObjects,
-    setEventListenerToSingleObject
+    setEventListenerToSingleObject,
+    resolveCSRFToken
 } from "../util/utils.js";
 import {retrieveUserFromServer} from "./userManagementService.js";
 
@@ -64,7 +65,7 @@ export function initializePostManagement() {
         document.getElementById('post_management_update_form').style.display = 'block';
     });
     setEventListenerToObjects('delete-button',
-            e => deletePost(resolveElementID(e.target.id)).then(() => window.location.reload()));
+        e => deletePost(resolveElementID(e.target.id)).then(() => window.location.reload()));
     setEventListenerToSingleObject('save_button',
         () => updatePost().then(() => window.location.reload()));
 }
@@ -72,7 +73,11 @@ export function initializePostManagement() {
 async function deletePost(id) {
     const url = `${serverURL}/post_management/${id}`;
     if (confirm('Are you sure you want to delete this post?')) {
-        const response = await fetch(url, {method: 'DELETE'});
+        const response = await fetch(url, {
+            method: 'DELETE', headers: {
+                'X-CSRF-TOKEN': resolveCSRFToken().token
+            }
+        });
         if (!await handleError(response)) {
             const deletedPost = JSON.parse(await response.text());
             alert(`Post with header "${deletedPost.postHeader}" was successfully deleted`);
@@ -85,7 +90,8 @@ async function updatePost() {
     const url = `${serverURL}/post_management/${postToUpdate.postID}`;
     const response = await fetch(url, {
         method: 'PATCH', body: JSON.stringify(postToUpdate), headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': resolveCSRFToken().token
         }
     });
     if (!await handleError(response)) {

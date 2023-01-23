@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="keywords" content="Library">
     <meta name="author" content="Stanislav Lysunenko">
+    <meta name="_csrf" th:content="${_csrf.token}">
+    <meta name="_csrf_header" th:content="${_csrf.headerName}">
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>User Manager</title>
     <link rel="icon" href="/svg/page_icon_new.svg">
@@ -11,6 +13,7 @@
     <script src="/scripts/animations_and_objects/menuSidebarAnimator.js"></script>
     <script src="/scripts/initializers/userManagementInitializer.js" type="module"></script>
     <script src="/scripts/commonInitializer.js" type="module"></script>
+    <script src="/scripts/jQuerry/jquerry-3.6.3.min.js"></script>
 </head>
 
 <body>

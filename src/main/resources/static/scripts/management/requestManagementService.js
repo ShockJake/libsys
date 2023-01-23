@@ -1,4 +1,4 @@
-import {handleError, serverURL, resolveElementID, setEventListenerToObjects} from "../util/utils.js";
+import {handleError, serverURL, resolveElementID, setEventListenerToObjects, resolveCSRFToken} from "../util/utils.js";
 
 export function initializeRequestManagementService() {
     setEventListenerToObjects('accept-button',
@@ -9,7 +9,11 @@ export function initializeRequestManagementService() {
 
 async function approveRequest(id) {
     const url = `${serverURL}/request_management/${id}?action=APPROVE`;
-    const response = await fetch(url, {method: 'PATCH'});
+    const response = await fetch(url, {
+        method: 'PATCH', headers: {
+            'X-CSRF-TOKEN': resolveCSRFToken().token
+        }
+    });
     if (!await handleError(response)) {
         alert(`Request was approved successfully`);
     }
@@ -17,7 +21,11 @@ async function approveRequest(id) {
 
 async function rejectRequest(id) {
     const url = `${serverURL}/request_management/${id}?action=REJECT`;
-    const response = await fetch(url, {method: 'PATCH'});
+    const response = await fetch(url, {
+        method: 'PATCH', headers: {
+            'X-CSRF-TOKEN': resolveCSRFToken().token
+        }
+    });
     if (!await handleError(response)) {
         alert('Request was rejected successfully');
     }

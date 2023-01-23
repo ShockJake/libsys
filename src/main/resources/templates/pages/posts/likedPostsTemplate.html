@@ -87,7 +87,9 @@
                 <h2 class="main-item-header" th:text="${post.postHeader}"></h2>
                 <hr class="main-item-separator">
                 <p class="main-item-text" th:text="${post.postText}"></p>
-                <h4 th:text="'Created: ' + ${post.getDisplayDate()}" class="post-creation-date"></h4>
+                <div class="created">
+                    <span th:text="'&bull; Created: ' + ${post.getDisplayDate()}" class="post-creation-date"></span>
+                </div>
             </a>
         </div>
     </div>
