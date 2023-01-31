@@ -14,8 +14,6 @@ public interface LibsysRequestService {
 
     List<LibsysRequest> getAllRequests();
 
-    List<LibsysRequest> getRequestsForUser(@NotNull Long id);
-
     LibsysRequest approveRequest(@NotNull Long id) throws RequestNotFoundException, UserNotFoundException, AlreadyProcessedRequestException;
 
     LibsysRequest rejectRequest(@NotNull Long id) throws RequestNotFoundException, UserNotFoundException, AlreadyProcessedRequestException;

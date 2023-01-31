@@ -46,11 +46,6 @@ public class LibsysRequestServiceImpl implements LibsysRequestService {
     }
 
     @Override
-    public List<LibsysRequest> getRequestsForUser(@NotNull Long id) {
-        return requestRepository.findLibsysRequestByRequestSenderID(id);
-    }
-
-    @Override
     public LibsysRequest approveRequest(@NotNull Long id) throws RequestNotFoundException, UserNotFoundException, AlreadyProcessedRequestException {
         final LibsysRequest requestToApprove = requestRepository.findById(id)
                 .orElseThrow(() -> new RequestNotFoundException(id));

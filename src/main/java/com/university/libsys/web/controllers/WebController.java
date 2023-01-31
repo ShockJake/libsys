@@ -51,7 +51,7 @@ public class WebController {
         return "login";
     }
 
-    @RequestMapping("/infoPage")
+    @RequestMapping("/info_page")
     public String infoPage(Model model) {
         return "/infoPage";
     }

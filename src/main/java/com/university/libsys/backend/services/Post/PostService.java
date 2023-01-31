@@ -21,7 +21,7 @@ public interface PostService {
 
     Post updatePost(@NotNull Post post) throws PostNotFoundException;
 
-    Post deletePost(@NotNull Post post) throws PostNotFoundException, UserNotFoundException;
+    Post deletePost(@NotNull Long id) throws PostNotFoundException, UserNotFoundException;
 
     LikedPosts likePost(@NotNull Long userID, @NotNull Long postID);
 

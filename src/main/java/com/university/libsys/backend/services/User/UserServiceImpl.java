@@ -57,9 +57,10 @@ public class UserServiceImpl implements UserService {
             throw new AlreadyExistingUserException(userToSave.getLogin());
         }
         validateUser(userToSave);
-        messageService.saveNewMessage(MessageUtil.getCreatedAccountMessage(userToSave.getUserID()));
+        final User savedUser = userRepository.save(userToSave);
+        messageService.saveNewMessage(MessageUtil.getCreatedAccountMessage(savedUser.getUserID()));
         log.debug(String.format("Inserted new user - %s", userToSave.getLogin()));
-        return userRepository.save(userToSave);
+        return savedUser;
     }
 
     @Override
@@ -67,6 +68,7 @@ public class UserServiceImpl implements UserService {
     public User deleteUser(@NotNull Long id) throws UserNotFoundException {
         final User userToDelete = userRepository.findById(id).orElseThrow(() -> new UserNotFoundException(id));
         userRepository.deleteById(id);
+        messageService.deleteMessagesForUser(id);
         log.debug(String.format("Deleted user - %s", userToDelete.getLogin()));
         return userToDelete;
     }

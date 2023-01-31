@@ -15,8 +15,8 @@ import java.util.Optional;
 @Service
 public class LibsysUserDetailsService implements UserDetailsService {
 
-    private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(8);
+    private final UserRepository userRepository;
 
     @Autowired
     public LibsysUserDetailsService(UserRepository userRepository) {
@@ -25,8 +25,8 @@ public class LibsysUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String userLogin) throws UsernameNotFoundException {
-        final User user = Optional.ofNullable(userRepository.findUserByLogin(userLogin)).orElseThrow(
-                () -> new UsernameNotFoundException(userLogin));
+        final User user = Optional.ofNullable(userRepository.findUserByLogin(userLogin))
+                .orElseThrow(() -> new UsernameNotFoundException(userLogin));
         return org.springframework.security.core.userdetails.User
                 .withUsername(user.getLogin())
                 .password(passwordEncoder.encode(user.getPassword()))

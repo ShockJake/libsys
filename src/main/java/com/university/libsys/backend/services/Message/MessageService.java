@@ -9,15 +9,9 @@ import java.util.List;
 
 public interface MessageService {
 
-    Message getMessageById(@NotNull Long id) throws MessageNotFoundException;
-
-    List<Message> getAllMessages();
-
-    List<Message> getMessagesBySenderID(@NotNull Long id);
-
     List<Message> getMessagesByReceiverID(@NotNull Long id);
 
-    Message saveNewMessage(@NotNull Message message);
+    void saveNewMessage(@NotNull Message message);
 
     Message deleteMessage(@NotNull Long id) throws MessageNotFoundException;
 

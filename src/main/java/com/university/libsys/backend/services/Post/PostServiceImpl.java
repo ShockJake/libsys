@@ -84,18 +84,20 @@ public class PostServiceImpl implements PostService {
                 postToUpdate.getPostHeader(), postToUpdate.getPostText(), postToUpdate.getPostPhotoPath()));
         validatePost(postToUpdate);
         updatePost(postToUpdate, post);
+        messageService.saveNewMessage(MessageUtil.getUpdatedPostMessage(post.getWriterID(), post.getPostHeader()));
         return postsRepository.save(post);
     }
 
     @Override
     @Transactional
-    public Post deletePost(@NotNull Post postToDelete) throws PostNotFoundException, UserNotFoundException {
-        final Post post = postsRepository.findById(postToDelete.getPostID())
-                .orElseThrow(() -> new PostNotFoundException(postToDelete.getPostID()));
+    public Post deletePost(@NotNull Long id) throws PostNotFoundException, UserNotFoundException {
+        final Post post = postsRepository.findById(id)
+                .orElseThrow(() -> new PostNotFoundException(id));
         postsRepository.deleteById(post.getPostID());
         fileService.delete(post.getPostPhotoPath());
         updateUserNumberOfPosts(false, post.getWriterID());
         log.debug(String.format("Deleted post - \"%s\"", post.getPostHeader()));
+        messageService.saveNewMessage(MessageUtil.getDeletedPostMessage(post.getWriterID(), post.getPostHeader()));
         return post;
     }
 

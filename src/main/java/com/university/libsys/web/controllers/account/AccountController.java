@@ -7,7 +7,6 @@ import com.university.libsys.backend.exceptions.UserNotFoundException;
 import com.university.libsys.backend.services.Message.MessageService;
 import com.university.libsys.backend.services.User.UserService;
 import com.university.libsys.backend.utils.UserRole;
-import com.university.libsys.web.util.ModelUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
@@ -68,8 +67,13 @@ public class AccountController {
     public String saveUser(@Valid User user, Model model) {
         try {
             final User addedUser = userService.saveNewUser(user);
-            ModelUtil.fillInfoModelWithArguments(model, "Account is created successfully", getInfoMessages(addedUser));
-            return "/infoPage";
+            model.addAttribute("infoHeader", "Account is created successfully");
+            model.addAttribute("infoMessages", List.of(
+                    String.format("Login: %s", addedUser.getLogin()),
+                    String.format("Name: %s", addedUser.getName()),
+                    String.format("Your role: %s", addedUser.getUserRole().name()),
+                    "Please now login into your account"));
+            return "infoPage";
         } catch (AlreadyExistingUserException | ValidationException e) {
             model.addAttribute("error", e.getMessage());
             return "/createAccount";
@@ -90,13 +94,5 @@ public class AccountController {
 
         model.addAttribute("messages", messages);
         return "pages/messages/messagesPage";
-    }
-
-    private List<String> getInfoMessages(User addedUser) {
-        return List.of(
-                String.format("Login: %s", addedUser.getLogin()),
-                String.format("Name: %s", addedUser.getName()),
-                String.format("Your role: %s", addedUser.getUserRole().name()),
-                "Please now login into your account");
     }
 }

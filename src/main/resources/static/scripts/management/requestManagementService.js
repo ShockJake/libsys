@@ -5,6 +5,8 @@ export function initializeRequestManagementService() {
         e => approveRequest(resolveElementID(e.target.id)).then(() => window.location.reload()));
     setEventListenerToObjects('reject-button',
         e => rejectRequest(resolveElementID(e.target.id)).then(() => window.location.reload()));
+    setEventListenerToObjects('delete-button',
+        e => deleteRequest(resolveElementID(e.target.id)).then(() => window.location.reload()));
 }
 
 async function approveRequest(id) {
@@ -28,5 +30,17 @@ async function rejectRequest(id) {
     });
     if (!await handleError(response)) {
         alert('Request was rejected successfully');
+    }
+}
+
+async function deleteRequest(id) {
+    const url = `${serverURL}/request_management/${id}`;
+    const response = await fetch(url, {
+        method: 'DELETE', headers: {
+            'X-CSRF-TOKEN': resolveCSRFToken().token
+        }
+    });
+    if (!await handleError(response)) {
+        alert('Request was deleted successfully');
     }
 }

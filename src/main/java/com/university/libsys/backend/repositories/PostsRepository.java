@@ -11,6 +11,4 @@ import java.util.List;
 public interface PostsRepository extends JpaRepository<Post, Long> {
 
     List<Post> findPostsByWriterID(@NotNull Long id);
-
-    Post findPostByPostHeader(@NotNull String pastHeader);
 }

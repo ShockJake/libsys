@@ -24,29 +24,14 @@ public class MessageServiceImpl implements MessageService {
     }
 
     @Override
-    public Message getMessageById(@NotNull Long id) throws MessageNotFoundException {
-        return messagesRepository.findById(id).orElseThrow(() -> new MessageNotFoundException(id));
-    }
-
-    @Override
-    public List<Message> getAllMessages() {
-        return messagesRepository.findAll();
-    }
-
-    @Override
-    public List<Message> getMessagesBySenderID(@NotNull Long id) {
-        return messagesRepository.findMessagesBySenderID(id);
-    }
-
-    @Override
     public List<Message> getMessagesByReceiverID(@NotNull Long id) {
         return messagesRepository.findMessagesByReceiverID(id);
     }
 
     @Override
-    public Message saveNewMessage(@NotNull Message message) {
+    public void saveNewMessage(@NotNull Message message) {
         log.debug(String.format("Saving new message with id = %s", message.getId()));
-        return messagesRepository.save(message);
+        messagesRepository.save(message);
     }
 
     @Override

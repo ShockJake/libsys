@@ -16,9 +16,9 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/messages_management")
 public class MessageManagementController {
 
+    private final Logger log = LoggerFactory.getLogger(MessageManagementController.class);
     private final MessageService messageService;
     private final UserService userService;
-    private final Logger log = LoggerFactory.getLogger(MessageManagementController.class);
 
     @Autowired
     public MessageManagementController(MessageService messageService, UserService userService) {

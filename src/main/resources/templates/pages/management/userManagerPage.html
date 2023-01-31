@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<html lang="en" xmlns:th="https://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <meta name="keywords" content="Library">
@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="/style/scrollbar_style.css">
     <script src="/scripts/animations_and_objects/menuSidebarAnimator.js"></script>
     <script src="/scripts/initializers/userManagementInitializer.js" type="module"></script>
-    <script src="/scripts/commonInitializer.js" type="module"></script>
+
     <script src="/scripts/jQuerry/jquerry-3.6.3.min.js"></script>
 </head>
 
@@ -40,12 +40,12 @@
     <button id="menu_sidebar_button" class="button" onclick="openNav()">&#9776;</button>
     <div id="menu_sidebar">
         <link rel="stylesheet" href="/style/menu_bar/menu_sidebar_style.css">
-        <a id="close_menu_sidebar_button" href="javascript:void(0)" class="button" onclick="closeNav()">&times;</a>
+        <button id="close_menu_sidebar_button" class="button" onclick="closeNav()">&times;</button>
 
         <a href="/account">
             <button class="button">Account</button>
         </a>
-        <form id="logout_form" th:action="@{/logout}" method="post">
+        <form id="logout_form" th:action="@{/logout}" sec:authorize="isAuthenticated()" method="post">
             <input id="logout_button" type="submit" class="button" value="Logout">
         </form>
 
@@ -100,9 +100,9 @@
                         <span class="drop-up-container">
                             <span class="button">manage</span>
                             <span class="drop-up-content">
-                                <a href="javascript:void(0)" th:id="'button_id-'+ ${user.userID}" class="update-button">Update</a>
-                                <a href="javascript:void(0)" th:id="'delete_button_id-'+ ${user.userID}"
-                                   class="delete-button">Delete</a>
+                                <button th:id="'button_id-'+ ${user.userID}" class="update-button">Update</button>
+                                <button th:id="'delete_button_id-'+ ${user.userID}"
+                                        class="delete-button">Delete</button>
                             </span>
                         </span>
                     </td>

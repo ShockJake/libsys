@@ -12,7 +12,7 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 public class WebSecurityConfig {
 
-    private final String[] publicPages = new String[]{"/", "/about", "/createAccount", "/infoPage", "/style/**",
+    private final String[] publicPages = new String[]{"/", "/about", "/createAccount", "/info_page", "/style/**",
             "/svg/**", "/photo/**", "/login**", "/scripts/**", "/books/**", "/libraries/**", "/selections/**",
             "/posts/photos/**", "/posts", "/posts/user/**", "/request_management/create_request*"};
 

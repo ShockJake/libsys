@@ -1,8 +1,12 @@
-import {handleError, serverURL} from "./util/utils.js";
+import {handleError, resolveCSRFToken, serverURL} from "./util/utils.js";
 
 async function doRequest(requestType) {
     const url = `${serverURL}/request_management/create_request?type=${requestType}`;
-    const response = await fetch(url, {method: 'POST'});
+    const response = await fetch(url, {
+        method: 'POST', headers: {
+            'X-CSRF-TOKEN': resolveCSRFToken().token
+        }
+    });
     if (!await handleError(response)) {
         alert('Writer role was successfully requested');
     }

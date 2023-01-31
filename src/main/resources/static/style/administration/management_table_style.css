@@ -73,13 +73,18 @@
     z-index: 2;
 }
 
-.drop-up-content a {
+.drop-up-content button {
     padding: 10% 20%;
     text-decoration: none;
+    border: none;
     display: block;
+    width: 100%;
+    font-weight: bold;
+    font-size: 18px;
+    font-family: Ubuntu, monospace;
 }
 
-.drop-up-content a:hover {
+.drop-up-content button:hover {
     background-color: #ccc;
 }
 
