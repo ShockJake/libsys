@@ -3,7 +3,7 @@
     font-size: 20px;
     width: 100%;
 
-    color: #025151;
+    color: #01395d;
     background-color: rgb(255, 255, 255, 80%);
 
     border-radius: 5px;
@@ -33,7 +33,7 @@
 
 #user_management_table th {
     color: white;
-    background-color: #025151;
+    background-color: #01395d;
 }
 
 #user_management_table td {
@@ -94,7 +94,7 @@
 
 .drop-up-container:hover .button {
     background-color: white;
-    color: #025151;
+    color: #01395d;
 }
 
 .messages-header {
@@ -114,11 +114,11 @@
 }
 
 .accept-button {
-    color: #025151;
+    color: #01395d;
 }
 
 .update-button {
-    color: #025151;
+    color: #01395d;
 }
 
 .delete-button {
@@ -136,5 +136,5 @@
 }
 
 .mark-read-button, .mark-unread-button {
-    color: #025151;
+    color: #01395d;
 }

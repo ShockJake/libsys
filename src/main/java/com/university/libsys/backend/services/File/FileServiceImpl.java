@@ -25,6 +25,7 @@ public class FileServiceImpl implements FileService {
     @Override
     public void save(@NotNull String name, @NotNull InputStream inputStream) {
         try {
+            log.info("Saving file with name: {}", name);
             Files.copy(inputStream, resolvePath(name));
         } catch (IOException e) {
             log.error(e.getMessage());
@@ -34,6 +35,7 @@ public class FileServiceImpl implements FileService {
     @Override
     public void delete(@NotNull String name) {
         try {
+            log.info("Deleting file with name: {}", name);
             Files.deleteIfExists(resolvePath(name));
         } catch (IOException e) {
             log.error(e.getMessage());
@@ -43,6 +45,7 @@ public class FileServiceImpl implements FileService {
     @Override
     public Resource getPhoto(@NotNull String name) {
         try {
+            log.info("Getting file with name: {}", name);
             return new UrlResource(resolvePath(name).toUri());
         } catch (MalformedURLException e) {
             log.error(e.getMessage());

@@ -14,7 +14,7 @@ public class WebSecurityConfig {
 
     private final String[] publicPages = new String[]{"/", "/about", "/createAccount", "/info_page", "/style/**",
             "/svg/**", "/photo/**", "/login**", "/scripts/**", "/books/**", "/libraries/**", "/selections/**",
-            "/posts/photos/**", "/posts", "/posts/user/**", "/request_management/create_request*"};
+            "/posts/photos/**", "/posts", "/posts/user/**", "/request_management/create_request*", "/search"};
 
     private final String[] administrationPages = new String[]{"/user_management/**", "/request_management/**",
             "/post_management/**", "/administration/**"};

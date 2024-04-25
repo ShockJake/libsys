@@ -7,10 +7,13 @@ import com.university.libsys.backend.repositories.UserRepository;
 import com.university.libsys.backend.services.Message.MessageService;
 import com.university.libsys.backend.utils.ValidationUtil;
 import com.university.libsys.web.util.MessageUtil;
+import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,7 +28,7 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final MessageService messageService;
-
+    private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(8);
     private final Logger log = LoggerFactory.getLogger(UserServiceImpl.class);
 
     @Autowired
@@ -41,12 +44,14 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User getUserByLogin(@NotNull String login) throws UserNotFoundException {
+        log.debug("Getting user by login - {}", login);
         return Optional.ofNullable(userRepository.findUserByLogin(login))
                 .orElseThrow(() -> new UserNotFoundException(login));
     }
 
     @Override
     public List<User> getAllUsers() {
+        log.debug("Getting all users");
         return userRepository.findAll();
     }
 
@@ -57,9 +62,10 @@ public class UserServiceImpl implements UserService {
             throw new AlreadyExistingUserException(userToSave.getLogin());
         }
         validateUser(userToSave);
+        userToSave.setPassword(passwordEncoder.encode(userToSave.getPassword()));
         final User savedUser = userRepository.save(userToSave);
         messageService.saveNewMessage(MessageUtil.getCreatedAccountMessage(savedUser.getUserID()));
-        log.debug(String.format("Inserted new user - %s", userToSave.getLogin()));
+        log.debug("Inserted new user - {}", userToSave.getLogin());
         return savedUser;
     }
 
@@ -69,7 +75,7 @@ public class UserServiceImpl implements UserService {
         final User userToDelete = userRepository.findById(id).orElseThrow(() -> new UserNotFoundException(id));
         userRepository.deleteById(id);
         messageService.deleteMessagesForUser(id);
-        log.debug(String.format("Deleted user - %s", userToDelete.getLogin()));
+        log.debug("Deleted user - {}", userToDelete.getLogin());
         return userToDelete;
     }
 
@@ -78,11 +84,9 @@ public class UserServiceImpl implements UserService {
     public User updateUser(@NotNull Long id, @NotNull User userToUpdate) throws UserNotFoundException {
         final User user = userRepository.findById(id)
                 .orElseThrow(() -> new UserNotFoundException(id));
-        log.debug(String.format("Updating user %s", user.getLogin()));
-        log.debug(String.format("Old values: %s, %s, %s",
-                user.getLogin(), user.getName(), user.getUserRole().name()));
-        log.debug(String.format("New values: %s, %s, %s",
-                userToUpdate.getLogin(), userToUpdate.getName(), userToUpdate.getUserRole().name()));
+        log.debug("Updating user {}", user.getLogin());
+        log.debug("Old values: {}, {}, {}", user.getLogin(), user.getName(), user.getUserRole().name());
+        log.debug("New values: {}, {}, {}", userToUpdate.getLogin(), userToUpdate.getName(), userToUpdate.getUserRole().name());
         updateUser(userToUpdate, user);
         return userRepository.save(user);
     }
@@ -97,13 +101,13 @@ public class UserServiceImpl implements UserService {
     }
 
     private void updateUser(User userToUpdate, User userToSave) {
-        if (!userToSave.getLogin().equals(userToUpdate.getLogin())) {
+        if (!StringUtils.equals(userToSave.getLogin(), userToUpdate.getLogin())) {
             userToSave.setLogin(userToUpdate.getLogin());
         }
         if (!userToSave.getUserRole().equals(userToUpdate.getUserRole())) {
             userToSave.setUserRole(userToUpdate.getUserRole());
         }
-        if (!userToSave.getName().equals(userToUpdate.getName())) {
+        if (!StringUtils.equals(userToSave.getName(), userToUpdate.getName())) {
             userToSave.setName(userToUpdate.getName());
         }
         if (!userToSave.getPostsNumber().equals(userToUpdate.getPostsNumber())) {

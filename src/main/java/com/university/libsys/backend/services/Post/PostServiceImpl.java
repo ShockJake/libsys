@@ -12,6 +12,7 @@ import com.university.libsys.backend.services.Message.MessageService;
 import com.university.libsys.backend.services.User.UserService;
 import com.university.libsys.backend.utils.ValidationUtil;
 import com.university.libsys.web.util.MessageUtil;
+import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -77,11 +78,10 @@ public class PostServiceImpl implements PostService {
         final Post post = postsRepository.findById(postToUpdate.getPostID())
                 .orElseThrow(() -> new PostNotFoundException(postToUpdate.getPostID()));
 
-        log.debug(String.format("Updating post \"%s\"", post.getPostHeader()));
-        log.debug(String.format("Old values: %s, %s, %s",
-                post.getPostHeader(), post.getPostText(), post.getPostPhotoPath()));
-        log.debug(String.format("New values: %s, %s, %s",
-                postToUpdate.getPostHeader(), postToUpdate.getPostText(), postToUpdate.getPostPhotoPath()));
+        log.debug("Updating post \"{}\"", post.getPostHeader());
+        log.debug("Old values: {}, {}, {}", post.getPostHeader(), post.getPostText(), post.getPostPhotoPath());
+        log.debug("New values: {}, {}, {}", postToUpdate.getPostHeader(), postToUpdate.getPostText(),
+                postToUpdate.getPostPhotoPath());
         validatePost(postToUpdate);
         updatePost(postToUpdate, post);
         messageService.saveNewMessage(MessageUtil.getUpdatedPostMessage(post.getWriterID(), post.getPostHeader()));
@@ -96,7 +96,7 @@ public class PostServiceImpl implements PostService {
         postsRepository.deleteById(post.getPostID());
         fileService.delete(post.getPostPhotoPath());
         updateUserNumberOfPosts(false, post.getWriterID());
-        log.debug(String.format("Deleted post - \"%s\"", post.getPostHeader()));
+        log.debug("Deleted post - \"{}\"", post.getPostHeader());
         messageService.saveNewMessage(MessageUtil.getDeletedPostMessage(post.getWriterID(), post.getPostHeader()));
         return post;
     }
@@ -149,6 +149,11 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
+    public List<Post> getPostsBySearchPrompt(@NotNull String prompt) {
+        return postsRepository.findPostsByPostHeaderContaining(prompt);
+    }
+
+    @Override
     public void validatePost(@NotNull Post post) throws ValidationException {
         final Map<String, String> postFields = new LinkedHashMap<>();
         postFields.put("postHeader", post.getPostHeader());
@@ -162,11 +167,11 @@ public class PostServiceImpl implements PostService {
     }
 
     private void updatePost(Post postToUpdate, Post postToSave) {
-        if (!postToSave.getPostHeader().equals(postToUpdate.getPostHeader()))
+        if (!StringUtils.equals(postToSave.getPostHeader(), postToUpdate.getPostHeader()))
             postToSave.setPostHeader(postToUpdate.getPostHeader());
-        if (!postToSave.getPostText().equals(postToUpdate.getPostText()))
+        if (!StringUtils.equals(postToSave.getPostText(), postToUpdate.getPostText()))
             postToSave.setPostText(postToUpdate.getPostText());
-        if (!postToSave.getPostPhotoPath().equals(postToUpdate.getPostPhotoPath()))
+        if (!StringUtils.equals(postToSave.getPostPhotoPath(), postToUpdate.getPostPhotoPath()))
             postToSave.setPostPhotoPath(postToUpdate.getPostPhotoPath());
     }
 
@@ -184,8 +189,6 @@ public class PostServiceImpl implements PostService {
         List<Long> ids = likedPostRepository.findAllByLikerID(id).stream().parallel()
                 .map(LikedPosts::getPostID)
                 .collect(Collectors.toList());
-        posts.forEach(post -> {
-            if (ids.contains(post.getPostID())) post.setIsLiked(true);
-        });
+        posts.forEach(post -> post.setIsLiked(ids.contains(post.getPostID())));
     }
 }

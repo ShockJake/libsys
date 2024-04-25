@@ -1,4 +1,4 @@
-package com.university.libsys.web.services.User;
+package com.university.libsys.web.security;
 
 import com.university.libsys.backend.entities.User;
 import com.university.libsys.backend.repositories.UserRepository;
@@ -6,16 +6,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
 @Service
 public class LibsysUserDetailsService implements UserDetailsService {
-
-    private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(8);
     private final UserRepository userRepository;
 
     @Autowired
@@ -29,7 +25,7 @@ public class LibsysUserDetailsService implements UserDetailsService {
                 .orElseThrow(() -> new UsernameNotFoundException(userLogin));
         return org.springframework.security.core.userdetails.User
                 .withUsername(user.getLogin())
-                .password(passwordEncoder.encode(user.getPassword()))
+                .password(user.getPassword())
                 .roles(user.getUserRole().name())
                 .build();
     }

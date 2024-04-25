@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface MessagesRepository extends JpaRepository<Message, Long> {
 
-    List<Message> findMessagesBySenderID(Long id);
-
     List<Message> findMessagesByReceiverID(Long id);
+
+    void deleteAllByReceiverID(Long id);
 }

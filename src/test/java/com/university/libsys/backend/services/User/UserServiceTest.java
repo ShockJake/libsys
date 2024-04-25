@@ -11,6 +11,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.validation.ValidationException;
 import java.util.Optional;
@@ -26,6 +28,8 @@ class UserServiceTest {
     private final UserRepository userRepository = Mockito.mock(UserRepository.class);
     private final MessageService messageService = Mockito.mock(MessageService.class);
     private final UserService userService = new UserServiceImpl(userRepository, messageService);
+    private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(8);
+    private final String password = passwordEncoder.encode("dummyPassword");
 
     @BeforeAll
     static void initialize() {
@@ -93,7 +97,11 @@ class UserServiceTest {
         assertDoesNotThrow(() -> user.set(userService.saveNewUser(userToSave)));
 
         // then
-        assertEquals(userToSave, user.get());
+        assertEquals(userToSave.getUserRole(), user.get().getUserRole());
+        assertEquals(userToSave.getUserID(), user.get().getUserID());
+        assertEquals(userToSave.getName(), user.get().getName());
+        assertEquals(userToSave.getLogin(), user.get().getLogin());
+        assertEquals(userToSave.getPostsNumber(), user.get().getPostsNumber());
     }
 
     @Test
@@ -172,6 +180,6 @@ class UserServiceTest {
     }
 
     private User getTestUser() {
-        return new User(1L, "testLogin", "dummyPassword", "TEST", UserRole.READER, 0);
+        return new User(1L, "testLogin", password, "TEST", UserRole.READER, 0);
     }
 }

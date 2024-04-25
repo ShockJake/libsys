@@ -5,9 +5,14 @@
     <meta name="keywords" content="Library">
     <meta name="author" content="Stanislav Lysunenko">
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="_csrf" th:content="${_csrf.token}">
+    <meta name="_csrf_header" th:content="${_csrf.headerName}">
     <title>Libsys</title>
     <link rel="icon" href="/svg/page_icon_new.svg">
     <link rel="stylesheet" href="/style/scrollbar_style.css">
+    <link rel="stylesheet" href="/style/search_bar.css">
+    <script src="/scripts/jQuerry/jquerry-3.6.3.min.js"></script>
+    <script src="/scripts/util/searchUtil.js" type="module"></script>
     <script src="/scripts/animations_and_objects/menuSidebarAnimator.js"></script>
     <script src="/scripts/animations_and_objects/likeButtonAnimator.js" type="module"></script>
 </head>
@@ -38,6 +43,7 @@
     </a>
 
     <button id="menu_sidebar_button" class="button" onclick="openNav()">&#9776;</button>
+    <input type="text" id="search_bar" placeholder="Search..."/>
     <div id="menu_sidebar">
         <link rel="stylesheet" href="/style/menu_bar/menu_sidebar_style.css">
         <button id="close_menu_sidebar_button" class="button" onclick="closeNav()">&times;</button>
@@ -161,12 +167,17 @@
     </div>
 </div>
 
-<div id="footer_relative">
+<div id="footer_relative" th:if="${posts.size()} > 2">
     <link rel="stylesheet" href="/style/footer/footer_style.css">
     <div class="footer_text_container">
         <span class="footer_text">&copy; Stanislav Lysunenko; Jagiellonian University</span>
     </div>
 </div>
-
+<div id="footer_absolute" th:if="${posts.size()} <= 2">
+    <link rel="stylesheet" href="/style/footer/footer_style.css">
+    <div class="footer_text_container">
+        <span class="footer_text">&copy; Stanislav Lysunenko; Jagiellonian University</span>
+    </div>
+</div>
 </body>
 </html>

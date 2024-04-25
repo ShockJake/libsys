@@ -15,6 +15,8 @@ import com.university.libsys.backend.utils.RequestType;
 import com.university.libsys.backend.utils.UserRole;
 import com.university.libsys.web.util.MessageUtil;
 import org.jetbrains.annotations.NotNull;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +25,7 @@ import java.util.Objects;
 
 @Service
 public class LibsysRequestServiceImpl implements LibsysRequestService {
+    private final Logger log = LoggerFactory.getLogger(LibsysRequestServiceImpl.class);
 
     private final RequestRepository requestRepository;
     private final MessageService messageService;
@@ -37,11 +40,13 @@ public class LibsysRequestServiceImpl implements LibsysRequestService {
 
     @Override
     public LibsysRequest getRequestByID(@NotNull Long id) throws RequestNotFoundException {
+        log.debug("Getting Libsys request with id: {}", id);
         return requestRepository.findById(id).orElseThrow(() -> new RequestNotFoundException(id));
     }
 
     @Override
     public List<LibsysRequest> getAllRequests() {
+        log.debug("Getting all Libsys requests");
         return requestRepository.findAll();
     }
 
@@ -85,6 +90,7 @@ public class LibsysRequestServiceImpl implements LibsysRequestService {
     public LibsysRequest createRequest(@NotNull String login, @NotNull String type) throws UserNotFoundException {
         final User user = userService.getUserByLogin(login);
         final LibsysRequest request = new LibsysRequest(null, user.getUserID(), RequestType.valueOf(type), RequestStatus.PENDING);
+        log.debug("Created Libsys request (type={}, requester_id={})", type, request.getRequestSenderID());
         return requestRepository.save(request);
     }
 
@@ -106,11 +112,15 @@ public class LibsysRequestServiceImpl implements LibsysRequestService {
         userService.updateUser(request.getRequestSenderID(), user);
         request.setRequestStatus(RequestStatus.APPROVED);
         messageService.saveNewMessage(createMessageAboutRequestStatus(request));
+        log.debug("Request was approved (id={}, type={}, requester_id={})",
+                request.getId(), request.getRequestType().name(), request.getRequestSenderID());
     }
 
     private void rejectWriterRole(LibsysRequest request) {
         request.setRequestStatus(RequestStatus.REJECTED);
         messageService.saveNewMessage(createMessageAboutRequestStatus(request));
+        log.debug("Request was rejected (id={}, type={}, requester_id={})",
+                request.getId(), request.getRequestType().name(), request.getRequestSenderID());
     }
 
     private Message createMessageAboutRequestStatus(LibsysRequest request) {

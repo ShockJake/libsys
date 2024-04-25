@@ -12,6 +12,8 @@ import org.springframework.stereotype.Component;
 
 import java.util.Date;
 
+import static com.university.libsys.web.util.MessageUtil.ADMINISTRATION_ID;
+
 @Component
 public class PostsDataLoader implements ApplicationRunner {
     private final PostsRepository postsRepository;
@@ -28,7 +30,7 @@ public class PostsDataLoader implements ApplicationRunner {
     public void run(ApplicationArguments args) throws Exception {
         if (postsRepository.count() == 0) {
             log.warn("Inserting test post as there is no posts in Database");
-            final Post post = new Post(null, MessageUtil.ADMINISTRATION_ID, "Super text, but not so long",
+            final Post post = new Post(null, ADMINISTRATION_ID, "Super text, but not so long",
                     "My lovely header", "1.png", new Date().getTime(), false);
             postsRepository.save(post);
         }

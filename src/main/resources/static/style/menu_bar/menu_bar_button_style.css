@@ -17,7 +17,7 @@
     cursor: pointer;
 
     color: white;
-    background-color: #025151;
+    background-color: #01395d;
 }
 
 @media (max-width: 768px) {
@@ -31,6 +31,6 @@
 }
 
 .button:hover {
-    color: #025151;
+    color: #01395d;
     background-color: white;
 }

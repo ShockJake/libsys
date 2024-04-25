@@ -30,29 +30,23 @@ public class MessageServiceImpl implements MessageService {
 
     @Override
     public void saveNewMessage(@NotNull Message message) {
-        log.debug(String.format("Saving new message with id = %s", message.getId()));
+        log.debug("Saving new message with id = {}", message.getId());
         messagesRepository.save(message);
     }
 
     @Override
     public Message deleteMessage(@NotNull Long id) throws MessageNotFoundException {
-        final Message messageToDelete = messagesRepository.findById(id)
-                .orElseThrow(() -> new MessageNotFoundException(id));
-
-        log.debug(String.format("Deleting message id = %s", messageToDelete.getId()));
-
+        final Message messageToDelete = messagesRepository.findById(id).orElseThrow(() -> new MessageNotFoundException(id));
+        log.debug("Deleting message id = {}", messageToDelete.getId());
         messagesRepository.delete(messageToDelete);
         return messageToDelete;
     }
 
     @Override
     public Message updateMessageStatus(@NotNull Long id, @NotNull MessageStatus messageStatus) throws MessageNotFoundException {
-        final Message messageToUpdate = messagesRepository.findById(id)
-                .orElseThrow(() -> new MessageNotFoundException(id));
-
-        log.debug(String.format("Updating message status id = %s, old value = %s, new value = %s",
-                id, messageToUpdate.getStatus().name(), messageStatus.name()));
-
+        final Message messageToUpdate = messagesRepository.findById(id).orElseThrow(() -> new MessageNotFoundException(id));
+        log.debug("Updating message status id = {}, old value = {}, new value = {}",
+                id, messageToUpdate.getStatus().name(), messageStatus.name());
         messageToUpdate.setStatus(messageStatus);
         messagesRepository.save(messageToUpdate);
         return messageToUpdate;
@@ -60,8 +54,7 @@ public class MessageServiceImpl implements MessageService {
 
     @Override
     public void deleteMessagesForUser(@NotNull Long id) {
-        messagesRepository.deleteAllById(messagesRepository.findMessagesByReceiverID(id).stream().parallel()
-                .map(Message::getId)
-                .collect(Collectors.toList()));
+        log.debug("Deleting all messages for user id = {}", id);
+        messagesRepository.deleteAllByReceiverID(id);
     }
 }

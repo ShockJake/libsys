@@ -1,8 +1,6 @@
 body {
    background-image: url("../svg/background_icons.svg");
-   background-color: rgba(15, 195, 190, 0.3);
+   background-color: #002f99c9;
    margin: 0;
    z-index: 0;
 }
-
-

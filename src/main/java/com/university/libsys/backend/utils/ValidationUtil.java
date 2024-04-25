@@ -11,7 +11,7 @@ public class ValidationUtil {
     public static void validateFields(Map<String, String> fields) throws ValidationException {
         fields.entrySet().stream().parallel()
                 .map(entry -> {
-                    String value = Optional.ofNullable(entry.getValue()).orElseThrow(() ->
+                    final String value = Optional.ofNullable(entry.getValue()).orElseThrow(() ->
                             new ValidationException(String.format("Field (%s) cannot be null", entry.getKey())));
                     return Map.entry(entry.getKey(), value);
                 })

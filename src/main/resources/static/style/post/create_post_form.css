@@ -2,7 +2,7 @@
     font-size: 24px;
     font-family: Ubuntu, monospace;
 
-    background-color: rgb(1, 89, 88, 0.6);
+    background-color: rgba(3, 87, 144, 0.6);
     border-radius: 5px;
     margin: 3%;
     padding: 3%;
@@ -68,7 +68,7 @@ input[type=file]::file-selector-button {
     border: none;
     border-radius: 5px;
     color: white;
-    background-color: #025151;
+    background-color: #01395d;
     cursor: pointer;
     transition-duration: 0.35s;
     text-decoration: none;
@@ -79,6 +79,6 @@ input[type=file]::file-selector-button {
 }
 
 input[type=file]::file-selector-button:hover {
-    color: #025151;
+    color: #01395d;
     background-color: white;
 }

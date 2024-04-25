@@ -25,10 +25,8 @@ public class MultipartFileFormatter implements Formatter<MultipartFile> {
     public @NotNull MultipartFile parse(@NotNull String text, @NotNull Locale locale) throws ParseException {
         try {
             log.debug(String.format("Looking for a file: %s", text));
-
-            Path path = Paths.get("/resources/static/photo/posts/" + text);
-            String contentType = "text/plain";
-            byte[] content = Files.readAllBytes(path);
+            final String contentType = "text/plain";
+            final byte[] content = Files.readAllBytes(Paths.get("/resources/static/photo/posts/" + text));
 
             return new MockMultipartFile(text, text, contentType, content);
         } catch (IOException e) {

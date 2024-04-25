@@ -35,5 +35,7 @@ public interface PostService {
 
     List<Post> getLikedPosts(@NotNull Long userID);
 
+    List<Post> getPostsBySearchPrompt(@NotNull String prompt);
+
     void validatePost(@NotNull Post post) throws ValidationException;
 }
